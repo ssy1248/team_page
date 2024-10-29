@@ -51,11 +51,15 @@ let memberData = null;
 let curMemberID = null;
 
 // card 클래스 클릭 시 팝업 띄우기
-$('.card').click(async function () {
-    // 해당하는 팀원 이름으로 검색
+$(document).on('click', '.card', async function () {
     let targetMemberName = $(this).find('.member-name').text();
     let member = query(membersRef, where('name', '==', targetMemberName));
-
+    popupMembercard(member);
+});
+// card 클래스 클릭 시 팝업 띄우기
+async function popupMembercard(member) {
+    // 해당하는 팀원 이름으로 검색
+    console.log("[func check] popupMembercard called");
     try {
         // 로드한 데이터 분류
         const querySnapshot = await getDocs(member);
@@ -84,12 +88,11 @@ $('.card').click(async function () {
             let myModal = new bootstrap.Modal($('#memberModal')[0]);
             myModal.show();
         });
-
-    } catch (error) {
-        console.error("[Error] cannot load data ", error);
+        console.log("[Success] popupMembercard successfully!");
+    } catch (e) {
+        console.error("[Error] cannot load data ", e);
     }
-});
-
+}
 // 데이터 기반 모달창 html 생성
 function updateMemberInfos() {
     let tempHtml = `
@@ -137,7 +140,6 @@ function updateMemberInfos() {
     $(".member-modal").empty();
     $(".member-modal").append(tempHtml);
 }
-
 //-------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------
 // 버튼 기능 : 수정하기, 저장하기
@@ -183,7 +185,6 @@ function editMemberInfos() {
     `;
     modalBody.append(tmp);
 };
-
 // 동적으로 추가되었기 때문에 이벤트 위임 형식으로 필요
 $(document).on('click', '.button-save', async function () {
     saveMemberInfos();
@@ -222,9 +223,9 @@ async function saveMemberInfos() {
         }
         // 멤버 정보 업데이트하기
         updateMemberInfos();
-        console.log("Member information updated successfully!");
+        console.log("[Success] Member information updated successfully!");
         window.location.reload();
     } catch (e) {
-        console.error("Error updating member information: ", e);
+        console.error("[Error] cannot updating member information: ", e);
     }
 };
