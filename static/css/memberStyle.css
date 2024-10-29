@@ -1,8 +1,14 @@
 /* 모달 팝업창 스타일*/
 .member-modal {
-    max-width: 50% !important;
-    max-height: 50% !important;
+    max-width:   50% !important;
+    max-height:  50% !important;
     overflow-y: auto;                       /* SCROLL 기능 */
 }
 
 
+/* 깃허브와 블로그 아이콘 */
+.icon {
+    width:  50px;
+    height: 50px;
+    margin: 50px;
+}
