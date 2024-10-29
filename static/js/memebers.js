@@ -47,6 +47,9 @@ members.forEach((member) => {
 });
 
 
+// 전역변수로서 필요한 멤버데이터 객체
+let memberData; 
+
 // card 클래스 클릭 시 팝업 띄우기
 $('.card').click(async function () {
     // 해당하는 팀원 이름으로 검색
@@ -57,18 +60,21 @@ $('.card').click(async function () {
         // 로드한 데이터 분류
         const querySnapshot = await getDocs(member);
         querySnapshot.forEach((member) => {
-            let name = member.data().name;
-            let image = member.data().image;
-            let mbti = member.data().mbti;
-            let intro = member.data().intro;
-            let interest = member.data().mbti;
-            let favGame = member.data().favGame;
-            let game_G = member.data().game_G;
-            let game_A = member.data().game_A;
-            let game_M = member.data().game_M;
-            let game_E = member.data().game_E;
-            let linkGithub = member.data().linkGithub;
-            let linkBlog = member.data().linkBlog;
+
+            memberData = {
+                name: member.data().name,
+                image: member.data().image,
+                mbti: member.data().mbti,
+                intro: member.data().intro,
+                interest: member.data().interest,
+                favGame: member.data().favGame,
+                game_G: member.data().game_G,
+                game_A: member.data().game_A,
+                game_M: member.data().game_M,
+                game_E: member.data().game_E,
+                linkGithub: member.data().linkGithub,
+                linkBlog: member.data().linkBlog
+            };
 
             // 데이터 기반 모달창 html 생성
 
@@ -79,32 +85,33 @@ $('.card').click(async function () {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h4 id="member-name">${name}</h4>
-                <img id="member-image" src="${image}" alt="FAILED TO LOAD IMG" class="img-fluid mb-3">
+                <h4 id="member-name">${memberData.name}</h4>
+                <button type="button" class="button-edit"> <img src="../static/img/icon-edit.png" alt="FAILED TO LOAD IMG" class="img-button-edit"> 수정하기 </button>
+                <img id="member-image" src="${memberData.image}" alt="FAILED TO LOAD IMG" class="img-fluid mb-3">
                 <p id="member-text">
-                    MBTI : ${mbti}
+                    MBTI : ${memberData.mbti}
                     <br>
-                    자기소개 : ${intro}
+                    자기소개 : ${memberData.intro}
                     <br>
-                    관심사 : ${interest}
+                    관심사 : ${memberData.interest}
                     <br>
-                    좋아하는 게임 : ${favGame}
+                    좋아하는 게임 : ${memberData.favGame}
                     <br><br>
                     + G A M E 키워드로 표현하기 +
                     <br>
-                    G : ${game_G}
+                    G : ${memberData.game_G}
                     <br>
-                    A : ${game_A}
+                    A : ${memberData.game_A}
                     <br>
-                    M : ${game_M}
+                    M : ${memberData.game_M}
                     <br>
-                    E : ${game_E}
+                    E : ${memberData.game_E}
                     <br><br>
                 </p>
                 <!-- GitHub, Blog 아이콘과 링크 -->
                 <div class="modal-icons">
-                    <a href="${linkGithub}" target="_blank"><img src="../static/img/github-mark.png" alt="FAILED TO LOAD GitHub Icon" class="icon"></a>
-                    <a href="${linkBlog}" target="_blank"><img src="../static/img/icon-blog.png" alt="FAILED TO LOAD Blog Icon" class="icon"></a>
+                    <a href="${memberData.linkGithub}" target="_blank"><img src="../static/img/github-mark.png" alt="FAILED TO LOAD GitHub Icon" class="icon"></a>
+                    <a href="${memberData.linkBlog}" target="_blank"><img src="../static/img/icon-blog.png" alt="FAILED TO LOAD Blog Icon" class="icon"></a>
                 </div>
             </div>
             <div class="modal-footer">
@@ -127,3 +134,54 @@ $('.card').click(async function () {
 
 
 
+//-------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------
+// 버튼 기능 : 수정하기, 저장하기
+
+
+// 동적으로 추가되었기 때문에 이벤트 위임 형식으로 필요
+$(document).on('click', '.button-edit', function () {
+    editMemberInfos(memberData);
+});
+// 수정버튼: 수정하기
+function editMemberInfos(memberData) {
+    console.log("[func check] editMemberInfos called");
+    let modalBody = $('.modal-body');
+    modalBody.empty();
+    let tmp = `
+                <h4 id="member-name"><input type="text" value="${memberData.name}"></h4>
+                <button type="button" class="button-edit"> <img src="../static/img/icon-edit.png" alt="FAILED TO LOAD IMG" class="img-button-edit"> 수정하기 </button>
+                <img id="member-image" src="${memberData.image}" alt="FAILED TO LOAD IMG" class="img-fluid mb-3"><input type="text" value="${memberData.image}">
+                <p id="member-text">
+                    MBTI : <input type="text" value="${memberData.mbti}">
+                    <br>
+                    자기소개 : <input type="text" value="${memberData.intro}">
+                    <br>
+                    관심사 : <input type="text" value="${memberData.interest}">
+                    <br>
+                    좋아하는 게임 : <input type="text" value="${memberData.favGame}">
+                    <br><br>
+                    + G A M E 키워드로 표현하기 +
+                    <br>
+                    G : <textarea rows="4" cols="30" value="${memberData.game_G}"></textarea>
+                    <br>
+                    A : <textarea rows="4" cols="30" value="${memberData.game_A}"></textarea>
+                    <br>
+                    M : <textarea rows="4" cols="30" value="${memberData.game_M}"></textarea>
+                    <br>
+                    E : <textarea rows="4" cols="30" value="${memberData.game_E}"></textarea>
+                    <br><br>
+                    Github Link : <input type="text" value="${memberData.linkGithub}">
+                    <br>
+                    Blog Link :   <input type="text" value="${memberData.linkBlog}">
+                </p>
+                <!-- GitHub, Blog 아이콘과 링크 -->
+                <div class="modal-icons">
+                </div>
+    `;
+    modalBody.append(tmp);
+};
+
+function saveMemberInfos() {
+
+};

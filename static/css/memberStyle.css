@@ -19,6 +19,17 @@
     top: 5%; 
     right: 5%;
 }
+/* 수정하기 버튼 */
+.button-edit {
+    position: absolute; 
+    top: 5%; 
+    right: 5%;
+}
+/* 수정하기 버튼 */
+.img-button-edit {
+    width: 50px;
+    height: 50px;
+}
 /* 멤버 카드 섹션*/
 .member-cards {
     align-items: center;
