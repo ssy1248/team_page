@@ -17,18 +17,66 @@
             background-color: skyblue;
         }
     </style>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyC8OlC6t8SQVKaZANQF-9X0h27gb7Vn0gI",
+            authDomain: "sparta-9f9c6.firebaseapp.com",
+            projectId: "sparta-9f9c6",
+            storageBucket: "sparta-9f9c6.appspot.com",
+            messagingSenderId: "215357385306",
+            appId: "1:215357385306:web:5bb59bde3e695427f8c663",
+            measurementId: "G-RZK2Q7334C"
+        };
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        $("#cheer_button").click(async function () {
+            let name = $(`#cheer_user_name`).val();
+            let comment = $(`#cheer_comment`).val();
+            console.log(name, comment);
+            let doc = {
+                'cheer_user_name': name,
+                'cheer_comment': comment,
+            };
+            await addDoc(collection(db, "cheer_list"), doc);
+            alert("저장 완료!");
+            window.location.reload();
+        });
+
+        let docs = await getDocs(collection(db, "cheer_list"));
+        docs.forEach((doc) => {
+            let row = doc.data();
+
+            let name = row['cheer_user_name'];
+            let comment = row['cheer_comment'];
+
+            let temp_html = `
+                <div class="row align-items-end">
+                    <div class="col-4 list-group-item">${name}</div>
+                    <div class="col-8 list-group-item">${comment}</div>
+                </div>`;
+            $(`#cheer_records`).append(temp_html);
+        });
+    </script>
 </head>
 
 <body>
     <div>
         <a class="nav justify-content-end" href="#">
-            <img src="..." alt="Home" width="30" height="24">
+            <img src="" alt="Home" width="30" height="24">
         </a>
         <span class="nav justify-content-center">방명록</span>
 
     </div>
 
-    <div class="container text-center all_comments">
+    <div class="container text-center all_comments" id="cheer_records">
         <div class="row align-items-end">
             <div class="col-4 list-group-item">닉네임</div>
             <div class="col-8 list-group-item">코멘트</div>
@@ -39,10 +87,10 @@
         </div>
     </div>
 
-    <div class="input-group mb-3">
-        <input class="input-group-text" placeholder="닉네임을 입력하세요."></input>
-        <textarea class="form-control" placeholder="응원의 한 마디를 남겨주세요!" id="floatingTextarea"></textarea>
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2">게시</button>
+    <div class="input-group mb-3" id="cheerup">
+        <input class="input-group-text" placeholder="닉네임을 입력하세요." id="cheer_user_name"></input>
+        <textarea class="form-control" placeholder="응원의 한 마디를 남겨주세요!" id="cheer_comment"></textarea>
+        <button class="btn btn-outline-secondary" type="button" id="cheer_button">게시</button>
     </div>
 </body>
 
