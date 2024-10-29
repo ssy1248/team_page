@@ -4,26 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>하던 NomDeul을 응원해주셔서 감사합니다.</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
         .justify-content-center {
             margin-bottom: 50px;
         }
+
+        .all_comments {
+            height: 300px;
+            background-color: skyblue;
+        }
     </style>
 </head>
 
 <body>
-    <!--<nav class="navbar bg-body-tertiary">
-        <div class="container-fluid">
-            <span class="justify-content-center">방명록</span>
-            <a class="navbar-brand" href="#">
-                <img src="..." alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
-            </a>
-        </div>
-
-    </nav>-->
     <div>
         <a class="nav justify-content-end" href="#">
             <img src="..." alt="Home" width="30" height="24">
@@ -31,6 +27,18 @@
         <span class="nav justify-content-center">방명록</span>
 
     </div>
+
+    <div class="container text-center all_comments">
+        <div class="row align-items-end">
+            <div class="col-4 list-group-item">닉네임</div>
+            <div class="col-8 list-group-item">코멘트</div>
+        </div>
+        <div class="row align-items-end">
+            <div class="col-4 list-group-item">닉네임</div>
+            <div class="col-8 list-group-item">코멘트</div>
+        </div>
+    </div>
+
     <div class="input-group mb-3">
         <input class="input-group-text" placeholder="닉네임을 입력하세요."></input>
         <textarea class="form-control" placeholder="응원의 한 마디를 남겨주세요!" id="floatingTextarea"></textarea>
