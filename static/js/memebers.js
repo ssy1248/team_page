@@ -25,7 +25,8 @@ const db = getFirestore(app);
 
 // js 파일 제대로 읽히는지 테스트
 console.log("test log: i am memberjs");
-
+//-------------------------------------------------------------------------------------------------------------
+// LEGACY CODE: 백엔드 없이 프론트엔드 임시 테스트용
 // 버튼 액션: 모달 띄우기
 function showModal(name, text, image) {
     console.log("func :: showModal called");
@@ -33,6 +34,8 @@ function showModal(name, text, image) {
     let myModal = new bootstrap.Modal($('#memberModal')[0]);
     myModal.show();
 };
+//-------------------------------------------------------------------------------------------------------------
+
 // 전역으로 함수 노출
 window.showModal = showModal;
 
@@ -40,28 +43,43 @@ window.showModal = showModal;
 
 
 
+//-------------------------------------------------------------------------------------------------------------
+// 전체 카드 불러오기
+
+const membersRef = collection(db, 'members');
+const members = await getDocs(membersRef);
+
+$('.member-cards').empty();
+members.forEach((member) => {
+    let name = member.data().name;
+    let image = member.data().image;
+
+    let temp_html = `           
+            <div class="member-card">
+                <div class="card">
+                    <img src="${image}" class="member-image" alt="...">
+                    <h4 class="member-name">${name}</h4>
+                </div>
+            </div>
+            `;
+    $('.member-cards').append(temp_html);
+});
 
 
 
-// firebase db의 [members]로부터 데이터 로드
-// const members = await getDocs(collection(db, "members"));
 
-
-
-
-
+// card 클래스 클릭 시 팝업 띄우기
 $('.card').click(async function () {
-
-    // const members = await getDocs(collection(db, "members"));
+    // firebase db의 [members]로부터 데이터 로드 : 쿼리:: 해당하는 팀원 이름으로 검색
     const membersRef = collection(db, 'members');
     let targetMemberName = $(this).find('.member-name').text();
-    console.log("targetMemberName : " + targetMemberName);
     let member = query(membersRef, where('name', '==', targetMemberName));
+
+    console.log("targetMemberName : " + targetMemberName);
 
     try {
         // 로드한 데이터 분류
         const querySnapshot = await getDocs(member);
-
         querySnapshot.forEach((member) => {
             let name = member.data().name;
             let image = member.data().image;
@@ -118,20 +136,19 @@ $('.card').click(async function () {
             </div>
         </div>
         `;
-            // 모달창에 올려주기
+            // html 초기화하고 붙여주기
             $(".member-modal").empty();
             $(".member-modal").append(tempHtml);
-
-
+            // 해당 내용의 모달창 띄우기
             let myModal = new bootstrap.Modal($('#memberModal')[0]);
             myModal.show();
         });
 
-
-
-
     } catch (error) {
-        console.error("Error getting documents: ", error);
+        console.error("[Error] caanot load data ", error);
     }
 
 });
+
+
+
