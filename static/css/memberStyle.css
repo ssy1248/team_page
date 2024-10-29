@@ -4,20 +4,21 @@
     max-height:  75% !important;
     overflow-y: auto;                       /* SCROLL 기능 */
 }
-
-
 /* 깃허브와 블로그 아이콘 */
 .modal-icons {
     font-size: 0;           /* 찌꺼기 제거 */
 }
-
 .icon {
     width:  50px;
     height: 50px;
     margin: 10px;
 }
-
-
+/* 홈 버튼 */
+.button-home {
+    position: absolute; 
+    top: 5%; 
+    right: 5%;
+}
 /* 멤버 카드 섹션*/
 .member-cards {
     align-items: center;
@@ -32,22 +33,19 @@
     padding: auto;
     max-width:  30%;
 }
-
-.member-image {
-    max-width:  25%;
-    height: 25%;
-}
 .member-card img {
     width: 50%;
     display: block;
     margin: 0 auto;
-    /* max-width: 100%;
-    max-height: 100%; */
     height: auto;
 }
-
-.button-home {
-    position: absolute; /* 절대 위치 설정 */
-    top: 5%; /* 상단에서 10px */
-    right: 5%; /* 오른쪽에서 10px */
+/* 전체 팀원 소개의 멤버 이미지 */
+.member-image {
+    max-width:  25%;
+    height: 25%;
+}
+/* 모달창 내의 멤버 이미지 */
+#member-image {
+    max-width:  50%;
+    height: 50%;
 }

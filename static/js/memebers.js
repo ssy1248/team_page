@@ -21,34 +21,15 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 //-------------------------------------------------------------------------------------------------------------
-
-
 // js 파일 제대로 읽히는지 테스트
 console.log("test log: i am memberjs");
-//-------------------------------------------------------------------------------------------------------------
-// LEGACY CODE: 백엔드 없이 프론트엔드 임시 테스트용
-// 버튼 액션: 모달 띄우기
-function showModal(name, text, image) {
-    console.log("func :: showModal called");
-
-    let myModal = new bootstrap.Modal($('#memberModal')[0]);
-    myModal.show();
-};
-//-------------------------------------------------------------------------------------------------------------
-
-// 전역으로 함수 노출
-window.showModal = showModal;
-
-
-
-
 
 //-------------------------------------------------------------------------------------------------------------
-// 전체 카드 불러오기
-
+// firebase db의 [members]로부터 데이터 로드
 const membersRef = collection(db, 'members');
 const members = await getDocs(membersRef);
 
+// 팀원 멤버 전체: 초기화 후 불러오기
 $('.member-cards').empty();
 members.forEach((member) => {
     let name = member.data().name;
@@ -66,17 +47,12 @@ members.forEach((member) => {
 });
 
 
-
-
 // card 클래스 클릭 시 팝업 띄우기
 $('.card').click(async function () {
-    // firebase db의 [members]로부터 데이터 로드 : 쿼리:: 해당하는 팀원 이름으로 검색
-    const membersRef = collection(db, 'members');
+    // 해당하는 팀원 이름으로 검색
     let targetMemberName = $(this).find('.member-name').text();
     let member = query(membersRef, where('name', '==', targetMemberName));
-
     console.log("targetMemberName : " + targetMemberName);
-
     try {
         // 로드한 데이터 분류
         const querySnapshot = await getDocs(member);
@@ -145,9 +121,8 @@ $('.card').click(async function () {
         });
 
     } catch (error) {
-        console.error("[Error] caanot load data ", error);
+        console.error("[Error] cannot load data ", error);
     }
-
 });
 
 
