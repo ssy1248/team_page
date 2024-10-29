@@ -1,14 +1,47 @@
 /* 모달 팝업창 스타일*/
 .member-modal {
     max-width:   50% !important;
-    max-height:  50% !important;
+    max-height:  75% !important;
     overflow-y: auto;                       /* SCROLL 기능 */
 }
 
 
 /* 깃허브와 블로그 아이콘 */
+.modal-icons {
+    font-size: 0;           /* 찌꺼기 제거 */
+}
+
 .icon {
     width:  50px;
     height: 50px;
-    margin: 50px;
+    margin: 10px;
+}
+
+
+/* 멤버 카드 섹션*/
+.member-cards {
+    align-items: center;
+    text-align: center;
+    padding:    5px;
+    margin:     5%;
+}
+/* 멤버 카드 단일 객체 */
+.member-card {
+    display: block;
+    margin: 10px auto;
+    padding: auto;
+    max-width:  30%;
+}
+
+.member-image {
+    max-width:  25%;
+    height: 25%;
+}
+.member-card img {
+    width: 50%;
+    display: block;
+    margin: 0 auto;
+    /* max-width: 100%;
+    max-height: 100%; */
+    height: auto;
 }

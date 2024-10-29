@@ -29,45 +29,35 @@
     </div>
     <!-- 멤버 카드 위치한 공간 -->
     <div class="member-cards">
-        <div class="row row-cols-3 row-cols-md-3">
-            <div class="col">
-                <div class="card h-100" onclick="openModal('손흥민', '으아악', '..');">
-                    <img src=".." class="member-image" alt="...">
-                    <div class="member-body">
-                        <h4 class="member-name">손흥민</h4>
-                    </div>
+        <div class="row row-cols-3">
+            <div class="member-card">
+                <div class="card" onclick="openModal('손흥민', '으아악', '..');">
+                    <img src="https://i.namu.wiki/i/S01N7ztOSmVofsCCpzFHlKG768k_HyqazhjCfjqgDi6RIlFsbc8idRgclyExI0_B_Do7sKED1vbV71aCDziaGQ.webp" class="member-image" alt="...">
+                    <h4 class="member-name">손흥민</h4>
                 </div>
             </div>
-            <div class="col">
-                <div class="card h-100" onclick="openModal('손흥민', '이건 꼭 먹어봐야 해요', '..');">
-                    <img src=".." class="member-image" alt="...">
-                    <div class="member-body">
-                        <h4 class="member-name">이강인</h4>
-                    </div>
+            <div class="member-card">
+                <div class="card" onclick="openModal('손흥민', '이건 꼭 먹어봐야 해요', '..');">
+                    <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMTEhUTEhIWFhUVGBUYGBcYFhcVGBgYFRgYFxUYGBUYHSggGBomHRUaIjEhJSkrLi4uGB8zODMtNygtLisBCgoKDg0OGxAQGy0mICUvLS8tLS0tLSstLS0tKy0tLS0tLS0tLS0tLS8tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLv/AABEIAQMAwgMBIgACEQEDEQH/xAAcAAABBQEBAQAAAAAAAAAAAAAAAQIDBAUGBwj/xABCEAABAwIDBgQDBQcDAQkAAAABAAIRAyEEEjEFBkFRYXEigZGhE7HwBzJCwdFSYnKSsuHxFBUjQxYzY3OCk7PC0v/EABsBAQADAQEBAQAAAAAAAAAAAAABAgQDBQYH/8QAMBEAAgIBAwIEBAUFAQAAAAAAAAECEQMSITEEQVFhcfAFEyKBQpGxwdEVMlKh4RT/2gAMAwEAAhEDEQA/APakIQrFQQhCAEIQgBCEIAQhCAEIQgBKhCAEIQgBCEIAShIlCAEIQgBCEIAQhCAahCEAIQhACEIQAhCEAITKtUNBLiABqTYDuSsj/tPhC7I3EUy7SMwPyKA2ZUNbFsYYLo9T7BcVvxvqMLTDaLgXvHOco5xxM28ivJsdvZWP3qtQm8+Mg9xEDUqCT6SpVmuEtcCOYMqRfLlDe7FU3ZmV39ZyunvIv5rsNhfa5iKcCvTbWbxLPA8D+E+F3bwpZNHuaFgbt734TGgfBqDPxpu8Lx0g6+S30IABEJUKSBEqIQgBCEIAQhCAEIQgGoQhACEIQAhCEALK3i25TwlI1KhkmzWg3ceQ6czwWjiK4Y0vdo0EnyXgu8m3qmLrPquMN+7TbrlHADrzUMlIpb1bx4jFucatQhl8tMSGgXiw+rXXImtGl9VtYnDgwPaOQ1Pp7LGxtHK5QWHYnFvJ8bidBczE/XuqtavMAnpz737pjzKYgoVpVjDuE6wfYqq0K7haYNiY+aEm3s3Elhlphw0IMH2Xp26n2kFoDMV42CB8UDxt/jH4h11txXl2EwxtJ+vrnCtUaQY6WmzvrshB9LYeu17WvY4Oa4AtcDIIOhBCkXkn2a7xGjVGGeT8GqfDP/TeeXJrjqOBvxK9bUlWgQhCkgEIQgBCEIAQhCAahCEAIQhACVIlQGBv3WyYDEGY8EA9XkNH9S8EZimz2/WPkCvc/tKpzs3EfuhrvRzV84Grfvb3VWXjwWqeMJfPL/Eet0Y+HAZe0+V/mqA5C8lagw2Vrffz1VXKi6hZlVMKdeEx68VCaK6Q0wW314+f+PZVRhhf67H5KSpiMpytnBYXibjlxCMJhwCQfvC46hW6lbLED65dipILAytEB3YT9R2UQaTfhxiw5TCzKuLB9/Xh6pKm0iLDlwQGy+s5oBBgjQg3BF9eHNfRG7uP+PhaNY6vptJ7kX95Xy5hsaXOIOjte44r6Y3KwppYGgx2oYD/ADeL/wCyIM20IQrFAQlQgEQhKgEQlQgGJUIQAhCEAIQhAc19pJjZeL/8ox3kQvl9ryvqnfV1P/RV21XBoexzBN5c4eEASJMjSV8uUaV4i8gKrLK6NPYWDLyDGnzK6OtgeBEW48lt7I2YKNHOYBgZfPUwohgnVnEudd3JcZeLNMLWyObrYJzZI9Pz7q5sfACqYNuB81rV92MQwZmuzDn/AGVjYVMB5zDxaKuukWULdmNityq2aaTg5vI69CORRX3MxAEuy6c+3p/Zd3jKjwAGyFTwmya1R0/FPYk/QCiOQSxrwPPn7nVnuc1gio3VhtI5g6QdVkbR2HWptBewtvBEaOC9w/22C02Dm2njHKU7amzhVoup1ADI16jQo8jTI+Wmj56bUhfVG5D52fhD/wCDT4zo0BfM79l1H1vg02zULnNjqDH5L6i3cbTbhaLaRljGNYDOa7BlMniZBWlNGZp1ZooQhWKChCEIAQhCAEIQgGoQhACEIQAhCEBwX2wPP+noMH4q4vwAax0k+RnyXj7cOKmIpw2MzxPWDqvavtZwefAOePvUnNcOzvA72cvH90W5q7XE3BP9Lj+XuuD2mbIrVh9Dttp4V7gGtMQB2WGzZ+JDz/zBggxlgEnh4jf0XW4d4cBPCxV3/bGv1AK4Tm1I6QitJzG7+E2gGuz4lr4+5Tc8u+JJuHuM5IFgWxqJDlrYLCAYwDUcfa3qVqvwraLJa2LLO3dcX4gk9Pmqt2XUUjd2zgcwJZaFwOO2Ti3VW/Cx3w7EOGd9Nt5AIDb24XNwvUXmHlRVtnMDsw49FKW9lLVUzn9n7JrhwIxhqMtao3OdBMVAQb63nVa9WkWyCQe3ZaGGocpVTFlJIJnnu7OyGnamJzENy5nCeOfKSB/MF6furQFOiWN0DyR0zQY9VytPY7XV61eYIyjj+yJ+S7XYlOKQtc3PeAPyXaFuf2OWTbH9y8hCVaTICEIQAhCEAIToSKAMQhCkAhCEAICUIQFXamBbWpPpOsHiJ1jkY4wYK8U2lssYTFNtkLPC8AeEmZzDpeexXuqytu7u0MWAKzTIsHNMOA5ToR3BVJxvg7YsmnZ8HmrK+R5HVdPs3EAgLmNu4f4Vaoy/hMAnUgWB9EuztpZRcrLkRrg9jod5cSG0jcAmAPMwszdnE06b4zSQZk8dFjbxYj/UMytdoRoeI0WNsfYlY1czbOdGZ3PuNJVUkW8j1ytiqbnffAm+sFZY28aVX4dScp+646Ed+aztm7q0S4VKzQajTZxMG3XktfeHBMq04MDkeR4EJXci0tjVZjxEhUq9aVg7EruLSxxu05T5LUoNJcBzIA81Gq2Q4pFzA0SWwPvPJgcBcnN1PHoumw9EMaGjgI78yocHggy5OZ0RMQAOg4K2teOFbsx5J6tkIlQhdTkCEIQAlCRKFAFQhCAjQhCkAlCRKgBCEIAQhCA89+0fZ5DxVAs4X7i3yhcrsymHBzXdx5L1jefBtq4aqHfha54PItBP6jzXjtOpkesuaO5swSuI7aezntPxKdTK02c0MBg8wU7Z2y21D48ZVb/KB8loU6kjmCrGG2Uxx5LmpeJojKgq7r0nAH/WVybWaQPfKtHZe7LmDM7F13D8LHFkecNkq/s7Z7GaBX6lSyiUiJTb2MalRa1zo4mSefD8lr7Bp56w5N8Xpp7rGxJgrp90GjK88ZF/VThVyOeZ1E6BCELcYAQhCAEIQgBOCanBQAQhCAjQhCkCwhCEAIQhACxN8N5aWz8M6vVudGMBg1HnRo5DiTwAV7bG16OFpmriKgYxom+p6NaLuPQL53+03ev/AHCuHtDm0qbctNjokTd7iASA4mOJs0KCaEf9o20sViabX4gspvqsBpUw1jMjnAOaTGZwidSVqVq3iIOi43dCgHYkE/ga547iAP6l0uNf4lwys14FSNrBYqDHBbmExUcdVxmHqmOymbtKLSs7RppPuekYHFg8U3aO0msFyuFw20ahswlaWD2c55l5J7qrQ0pdzUwr3VXTEN+ah3l32r7NFI0adN7apdnDw6fAG5cpa4R946zotfDUcoAXN787BdjGMYx4a9hLhIJBkQRIuO99FbHJRlbOeWOqNI6Xc77VqOMqNpVaRovcQ0OzBzC4/dBMAtk2GuouvQ18pYXCOohzXGHtc4EtOhaYsfJfSG5W8LcbhadUEfEADarRq2oLG3AGJHQrejz2jdQhCkgEIShAInBCFABCEICNCEKQKhUNrbXo4Zuaq8CdGi7nfwt1PfRcFvZvjWc3LRPwmmbg+M9M34f/AE3suc8ijya+m6LLn/tW3idxtjeChhv+8fLuDG+J3mNG+cLgNub/ANd78lGKTL3F6hj942GvAT1XNVKxe2RqD59fNZFStDwSO/yWaWaT4PoMPwnDiScvqfnx+RX3rxr6gOd7nOMGXEk6jiTJXL1nSF0m3KEmen9ly5tbkuuGVqjzPi2JxyKXbgn2Bi/hVpOjgWnzII9wulxL5MrjHi63tkYzMMp1CnIu5gwy7GxhXqzh8AHOlV6TFo4J7mkELO2a0rOh2bh2MAstqgAsfBOm5WvQd2XNsVRaWFvDtAUWGpxEhvVxs3yn2lbFbEAAkleW72bdFZ/hPgbOX946F3bgPPmrY4a5eRSc9ETJxFTmZPHqeK6L7P8AatTD4prqR+8HBwN2uaGl0OHQgFcZ8Xmux3UwRpsFdwvUacg5MNs3nw6Ac1tyT0xOfRdO8+ZR7cv0Patkb30asB//ABO6mWHs/h5wuiBXitHRdFu5terRbZ2ZknwHQdjq36suMM/+R6nWfB4r6sL+z/Z/yekJQs3ZW2qVezTDxqw69x+0Oy0wtCafB4OSEoPTJUwQhCkoCEIQEFWq1oLnEADUkwFyO8G+GUFmGF9M5Gn8LT8z6LB2ltWpVJdUdPJujR2CxKlQlZZ532Ppuj+Dxj9WXd+Hb/pA2q6rVLqji5+pJMkx1Pkp8VTzR0M8xbgU3Bsiesc5VghZm2z24xUdkYzAWEt4D35KvtNrXNkag35x9QtjE0pvyWPiKBB6ef1CIs1sVqVwGuHY9Dw+S53buByODx90+E9+C6ehUggG4mUu19nfEpPaO7THEXAPyldIS0yMXWdN87C49+3qefu1U+GcWmQm1sO9joqNLT1GvYix8k7T8Lv5T84W20z4/wCXNOqd+h1ezq+ZoWth6pHBc5uzWPxA1wIY7WREW1C7F2Db+Fw91jyUnR6WDp801ellnA4rhC0nYqBJNh5AdVnYWg2RLh7/AKLk969vuc40srqdNtvEIL+pItl5DzPIVjHW6GfHkxq3F/kP3m3jNSWMJ+HxPF/To359teRe4vKs/Dz3BkFWqGHu1rBLnEAdyt0YqKpHluTky1utsD49UB/3GjM4c/2WefHoCu2xjpcflwA0tyUuAwYw9AM/EbkjiSL+VoUVWnEE6kT66LHlnqZ9d8N6ZYIb8vn35E1ESFdwxyNJPUrPw13ABWtp1YAYO58tFRGyat0Op1SfFoQbRIg8II0XXbs71uLcmIvBgVAP6gNe4/uuKwRkddFpCGNPSSVeMnHdGXqumx5o6ZL08UeqU3hwBaQQdCLg+acvJ9lbZr0SDTcYJJLDdh8v0grvNh7yMrw1wyVDwmQf4T+R91phlUj5zq/hmXB9S3XvsbiEIXU848Pr4g5HEclSo4ngfl+irbMxYLBmvo0z3A+RUVc5Hls6H/C82j9AUlVo3KFX6upxVHNYeCxsEjlfyWsxjXXB1UUWtPcmkFMdSBUb8IQdU5tOOKgGJtDBFjrfdOh/JWdnVTof78Z/JaNahmgE25aT5qWhSAFhH1xUkcFI0CfwtI5HTvxgqV2FGgEdo9lYaNOfzUjWoTdGdWwAcLzaYNrT1hT03sAlzXekx08irUJ9IQSPP6+uKlFJMr5mEeGR5FBwkh1mkkR4miAOMKyQJ0hOCkrexh1N3qNy6kJ50xkPbwwT7pdi7Ip06udrSHCbucSQOQHDut5AKtqfFnJ4sblq0q/Gijjq145W+UqoDKvVsJOh9VHhaHjAI0voqndNJF3B4XJcnh6cT9dFm4mpJceZt+XyWjiakUwDq4R+qyaoMTGhjz5IRDfdmnsulDc546fqosbiCbaC3+UmFeSAJkC39/07Kria154BAl9VsvZw0aXsnAnLIMEEEEWvKqUXSJOh+gpcU8hrWg3cfb6hA12Oxob5VQ1oNNrjAkybmLmyFwTq5k3PslV/nS8TF/S+nf4f1OQoVS1pabZhLT1+h7Lb2i/MxlUf9RrZ6OHH5jyXP4miRblMfMLc2G8VcLlOrSR1B1HzVX4nbC3egzXVCDadI0V3B4oh8zpCqYlpD4d3nn1VrZOFzy933Z9YtFtAjOkL1UdSa0iyKRkplQZYA8k5hgKh2rYUiTHBSlMYEpQgGhOQgKSBQkafZKUmWyAcdUpTag0T2OQgGuTgo3BK1ykgkCcmJQ5SVaK7cNJubX91BjD8NsWnt6kedh2V+pzWVtAmZN2kRP7PIHoeflyUF478kmDgMnkPO+mnD9VnViST9XNtO61fhBtIzYcD6R+ayMScjJMSf1/woZeO7Nii2IHARyuq7HZ3F06GB8gVLiamVsT4tB1Kg2eySI0Zx5n6lQPMvtwwhCxqmPqEkg2kxZCmiKZiQHjS5E+lin7uvyPqM4Og+eh/JZeFx2XXgZ8jqrbXAVQWmzgY7G4VmuxnhOLaki3jKecOIOhgdvxLSwwhtNo5jTkLhZLnESJ09ZPP1Cv4N92dJ+SozRFqzXL5d7KRpVWm73KstUFybMnNUbU+VJUclTA715JwKkqKnBNCAgHOKRvJJKQoKJFHUqBok6WGhOpgWHdPao8QLD+Kn/W1WW7OeSTjBtdkMGOaP2v/AG6n/wCU841n738j/wBFCabG02xTaXZW/hGpA1OnuJS7ODXN8TGfxZGgHvrHnrBU1tZk/wDRLUourfqWsPiWvkNMxE2I101TMU3jFjYhV8GAKlSOn/yVR+Su1LhQzThm5RUn73Iq96cco06LA2s6S0DWR8xbpoteuSAQOIt3HDzWS9mao14MgkevL65KjZpgqLeOqy4gXIsO5GqfXdkphg1i8dblRU6wa11V3Gcvvf64BQYZ5cS5x19PrRCSx9cUKYM+o/ukUWSeeOp5T9XCY2sWkNJsDLSeHQ9FdqMjwnQ3afyVSo78LhIXezyJQ08GvRMgEcTfur+EdBH1zXO4LECm+JOV8DmJ4Hotym6CubRrxTsm2vtI0qfh+86wPLiXd/1C0Btagxoio2ABABkxwsLrI2jgfjNbDoLZjiL6/JO2du6wXqOLtLDwjz4n2V0sendmfJLrFnfy4pxaVNvZePn7RoM3hzHLQpOeeth3427wrlHD133q1Mg/Yp29X6+inw7GsENaABwAgKwCqua/CjRHp8j3yzvyWy/l/di0KLWDwgDrxPc6lShMzJSVU0KKSpDghIE0uQUODkKMOSgqCaHtdBRX0nsfQgz+fkkUdV8Nvzb/AFNVo8nHOrxy9GO+OX28JaYBEw9pPGIg6g8PZJTmk0gZBxc57iABJgCBfjxGqp0qgYMkVDmDchYCS5oa3Q8CDP3uBHBVxinNYWVW1TUdOWQHAn8IaW+EEameR4K78jzotbOV3T38PL79v9F3BV81WoQLQ0cjILxHrJ8wrrhxCydjsyvqXmzZ1Ikvqk3NyZn9StQuXOXJ6HTJ/LV+f6kGIiL9j52WJgq7Gtqkk+F7j2guHvM91q7QxDWtJdpr6XXFZXvtdocczj3vA5/XJQjtN1xya7cR8V37osBMiIsFuYenABPDQclj7OpCwHDTl37rVZUkwNBrGkjgobLRTrct5j09P7IUHxeh90KCxxFC7TTdqNFWr8jrz4K3jqRBzNVLEOkeKQef6hdkedPbYpAE1GtIi8rqZsuawLv+UNmRMrowVM+xz6TdSfmWKFS60sO+312WIXKzQqEcVzaN8Jm4yorDXrEo4lXadbiqnVOzSaU8KnTqqzSfKBolUdU2TyVFWNlNkCNKcE1oTnjioJHZlBj3wyZiCzXlnb+SkBUGLxPw2l0TBaOP4nBto76KY8nPKlolb7MiOJpmm1rnQQG3bUpgggaghyr4TEsZ96sajubnNsOQAdZPbtQkB2QZfCD4pMvZnEWgiCJM8+V46e0s0TSaB4y43IAZE/g6kXi7eoV3HYxRlHUnqV+j9/cn2Q8E1XD9r83OGnR6u1Kqz8HtBpaDlDQSZA4EEj8kuMY/8IkcCucuTdhSUFXu9zn968YXPZTvEFxvEmQAOvH2T8K1zmgvIaLangLR0UG8dM/HplwiWkW52TcLh5MXNrcFbakUjanJ+f7I0H438FKY4vvJ7fqruz6LmwOffThxsoMFhgPFwFh1+itjDsgSeKqdknyyUUOqFVdtNgMXt2QlDUczWNljYlCF0iYM/BtYDB0xg/iBgz/6prM3HL8F7ss8pv6JRqlQrT5KdNw/X9kIzVSPKRCoakNaVoMOiEKGXgW6R+vVXcAbFCFU7FoptXT0QhB3CkFI0WQhAxoHzTS0EkESLG99DI+SVCEDHYZmuRswROUaGZHufVZu0GjMDlEzrlE+sdEISyNMa4M/EOK2tgVC5pDjIGiEIHwZe+LADSIF835OSYCkIJi8H5FCFDLY+X77F+k0FwEWgKvtF5LyCbCICEKUJFOEIQrHE//Z" class="member-image" alt="...">
+                    <h4 class="member-name">이강인</h4>
                 </div>
             </div>
-            <div class="col">
-                <div class="card h-100" onclick="openModal('손흥민', '이건 꼭 먹어봐야 해요', '..');">
+            <div class="member-card">
+                <div class="card" onclick="openModal('손흥민', '이건 꼭 먹어봐야 해요', '..');">
                     <img src=".." class="member-image" alt="...">
-                    <div class="member-body">
-                        <h4 class="member-name">황희찬</h4>
-                    </div>
+                    <h4 class="member-name">황희찬</h4>
                 </div>
             </div>
-            <div class="col">
-                <div class="card h-100" onclick="openModal('손흥민', '이건 꼭 먹어봐야 해요', '..');">
+            <div class="member-card">
+                <div class="card" onclick="openModal('손흥민', '이건 꼭 먹어봐야 해요', '..');">
                     <img src=".." class="member-image" alt="...">
-                    <div class="member-body">
-                        <h4 class="member-name">마틴 외데고르</h4>
-                    </div>
+                    <h4 class="member-name">마틴 외데고르</h4>
                 </div>
             </div>
-            <div class="col">
-                <div class="card h-100" onclick="openModal('손흥민', '이건 꼭 먹어봐야 해요', '..');">
+            <div class="member-card">
+                <div class="card" onclick="openModal('손흥민', '이건 꼭 먹어봐야 해요', '..');">
                     <img src=".." class="member-image" alt="...">
-                    <div class="member-body">
-                        <h4 class="member-name">주드 벨링엄</h4>
-                    </div>
+                    <h4 class="member-name">주드 벨링엄</h4>
                 </div>
             </div>
         </div>
@@ -103,16 +93,15 @@
                         <br>
                         E :
                         <br><br>
-                        <!-- GitHub, Blog 아이콘과 링크 -->
+                    </p>
+                    <!-- GitHub, Blog 아이콘과 링크 -->
+                    <div class="modal-icons">
                         <a href="https://github.com/" target="_blank">
                             <img src="../static/img/github-mark.png" alt="FAILED TO LOAD GitHub Icon" class="icon">
-                        </a>
-                        <br>
-                        <a href="https://velog.io" target="_blank">
+                        </a><a href="https://velog.io" target="_blank">
                             <img src="../static/img/icon-blog.png" alt="FAILED TO LOAD Blog Icon" class="icon">
                         </a>
-                    </p>
-
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
