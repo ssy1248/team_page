@@ -65,34 +65,56 @@
 
         .card {
             display: flex;
-            /* Flexbox로 설정 */
-            outline: auto;
+            flex-direction: row;
             margin: 20px;
-            /* 카드 간격 */
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
         }
 
         .card-body {
             display: flex;
             flex-direction: column;
-            /* 세로 방향으로 정렬 */
             align-items: center;
             /* 가운데 정렬 */
             justify-content: center;
-            padding: 10px;
-            /* 여백 추가 */
+            /* 수직 가운데 정렬 */
+            padding: 20px;
+            width: 60%;
             color: black;
-            /* 텍스트 색상 */
+            text-align: center;
+            /* 텍스트 중앙 정렬 */
         }
 
         .button-body {
             display: flex;
             flex-direction: column;
-            /* 세로 방향으로 정렬 */
             align-items: center;
-            /* 가운데 정렬 */
             justify-content: center;
-            padding: 10px;
-            /* 여백 추가 */
+            padding: 20px;
+            width: 40%;
+        }
+
+        .card-img-top {
+            /* 일정한 이미지 크기 설정 */
+            width: 600px;
+            height: 400px;
+            object-fit: cover;
+            /* 이미지가 고정 크기 내에 꽉 차게 */
+            display: block;
+        }
+
+        /* 버튼 크기와 간격 조정 */
+        .button-body button {
+            margin: 10px 0;
+            width: 100%;
+        }
+
+        .card-title,
+        .card-text,
+        .card-people,
+        .card-date {
+            margin: 5px 0;
         }
 
         /* 선택된 카드에 빨간 테두리 */
@@ -154,8 +176,6 @@
         <button type="button" id="recentSortButton">최신 순으로 정렬</button>
     </div>
 
-    
-
     <div class="modal">
         <div class="modal_popup">
             <h3>게임 등록</h3>
@@ -182,7 +202,7 @@
         </div>
     </div>
 
-    <div id="card" class="row row-cols-1 row-cols-md-1 g-8">
+    <div id="card" class="row row-cols-1 row-cols-md-1 g-100">
 
     </div>
 
@@ -194,7 +214,7 @@
         // 임시 firebase 
         // Firebase SDK 모듈 import (중복 제거)
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getFirestore, collection, doc, updateDoc, addDoc, getDocs, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getFirestore, collection, doc, updateDoc, addDoc, getDocs, orderBy, query, serverTimestamp, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
         // Firebase 구성 정보 설정
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -243,10 +263,22 @@
         });
 
         // 게임 삭제 버튼 클릭 시 선택된 카드 삭제
-        $('#deleteGameButton').click(function () {
-            //삭제 시 firebase에서도 삭제 - 추후 추가
-            $('.card.selected').remove(); // 선택된 카드만 삭제
+        $('#deleteGameButton').click(async function () {
+            //https://firebase.google.com/docs/firestore/manage-data/delete-data?hl=ko -> 참고
+            // each -> 선택된 요소들에 대해 하나씩 순차적으로 함수를 실행할 수 있게 합니다.
+            $('.card.selected').each(async function () {
+                const cardId = $(this).data('id'); // 선택된 카드의 data-id에서 docId를 추출
+
+                // Firestore에서 해당 문서 삭제
+                const docRef = doc(db, "games", cardId);
+                await deleteDoc(docRef); // Firestore에서 문서 삭제
+
+                // 화면에서 카드 삭제
+                $(this).remove();
+            });
         });
+
+        //싫어요 10?개 이상 받으면 자동 삭제? -> update처럼 사용할 방식을 못찾겠다
 
         // Firestore에 좋아요 카운트 업데이트 함수
         //https://firebase.google.com/docs/database/admin/save-data?hl=ko#node.js 참고
@@ -284,7 +316,7 @@
                     <div class="col">
                         <div class="card" data-id="${docId}" style="width: auto; height: auto;">
                             <img src="${row.image}"
-                                class="card-img-top" alt="..." style="width: 50%; height: auto;">
+                                class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h3 class="card-title">게임 이름 : ${row.title}</h3>
                                 <p class="card-text">게임 소개 : ${row.comment}</p>
@@ -320,7 +352,7 @@
                     <div class="col">
                         <div class="card" data-id="${docId}" style="width: auto; height: auto;">
                             <img src="${row.image}"
-                                class="card-img-top" alt="..." style="width: 50%; height: auto;">
+                                class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h3 class="card-title">게임 이름 : ${row.title}</h3>
                                 <p class="card-text">게임 소개 : ${row.comment}</p>
@@ -351,7 +383,7 @@
                 'comment': comment,
                 'people': people,
                 createdAt: serverTimestamp(),
-                likeCount : 0,
+                likeCount: 0,
             };
             await addDoc(collection(db, "games"), doc);
             alert('저장 완료!');
@@ -370,7 +402,7 @@
             $('#postingbox').toggle();
         });
 
-        $('#close_btn').click(function(){
+        $('#close_btn').click(function () {
             modal.classList.remove('on');
         });
 
@@ -408,7 +440,7 @@
             <div class="col">
                 <div class="card" data-id="${docId}" style="width: auto; height: auto;">
                     <img src="${image}"
-                        class="card-img-top" alt="..." style="width: 50%; height: auto;">
+                        class="card-img-top" alt="...">
                     <div class="card-body">
                         <h3 class="card-title">게임 이름 : ${title}</h3>
                         <p class="card-text">게임 소개 : ${comment}</p>
