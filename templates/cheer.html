@@ -14,8 +14,12 @@
         }
 
         .all_comments {
-            height: 300px;
+            height: 500px;
             background-color: skyblue;
+        }
+
+        .cheer-date {
+            font-size: xx-small;
         }
     </style>
     <script type="module">
@@ -41,13 +45,38 @@
         $("#cheer_button").click(async function () {
             let name = $(`#cheer_user_name`).val();
             let comment = $(`#cheer_comment`).val();
-            console.log(name, comment);
-            let doc = {
-                'cheer_user_name': name,
-                'cheer_comment': comment,
-            };
-            await addDoc(collection(db, "cheer_list"), doc);
-            alert("저장 완료!");
+            let time = new Date();
+            let year = time.getFullYear();
+            let month = time.getMonth();
+            let date = time.getDate();
+            let day = time.getDay();
+            let week = ['일', '월', '화', '수', '목', '금', '토'];
+
+            let hours = time.getHours();
+            let minutes = time.getMinutes();
+            let seconds = time.getSeconds();
+            //작성 날짜 계산
+            let now = `${year}년 ${month + 1}월 ${date}일 ${week[day]}요일 ` +
+                `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+            console.log(name, comment, now);
+
+            //공란이 있으면 저장 안 함.
+            if (name == "") {
+                alert("닉네임을 입력해주세요!");
+            }
+            else if (comment == "") {
+                alert("응원을 적어주세요!");
+            }
+            else {
+                let doc = {
+                    'cheer_date': now,
+                    'cheer_user_name': name,
+                    'cheer_comment': comment
+                };
+                await addDoc(collection(db, "cheer_list"), doc);
+                alert("저장 완료!");
+            }
+
             window.location.reload();
         });
 
@@ -55,12 +84,14 @@
         docs.forEach((doc) => {
             let row = doc.data();
 
+            let date = row['cheer_date'];
             let name = row['cheer_user_name'];
             let comment = row['cheer_comment'];
 
             let temp_html = `
                 <div class="row align-items-end">
-                    <div class="col-4 list-group-item">${name}</div>
+                    <div class="col list-group-item cheer-date">${date}</div>
+                    <div class="col list-group-item">${name}</div>
                     <div class="col-8 list-group-item">${comment}</div>
                 </div>`;
             $(`#cheer_records`).append(temp_html);
@@ -77,6 +108,14 @@
         <span class="nav justify-content-center">방명록</span>
 
     </div>
+
+    <!--정렬 버튼-->
+    <button>
+        최신순
+    </button>
+    <button>
+        오래된순
+    </button>
 
     <!--방명록 보여주는 공간-->
     <div class="container text-center all_comments" id="cheer_records">
