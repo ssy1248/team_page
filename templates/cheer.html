@@ -42,12 +42,23 @@
             let name = $(`#cheer_user_name`).val();
             let comment = $(`#cheer_comment`).val();
             console.log(name, comment);
-            let doc = {
-                'cheer_user_name': name,
-                'cheer_comment': comment,
-            };
-            await addDoc(collection(db, "cheer_list"), doc);
-            alert("저장 완료!");
+
+            //공란이 있으면 저장 안 함.
+            if (name == "") {
+                alert("닉네임을 입력해주세요!");
+            }
+            else if (comment == "") {
+                alert("응원을 적어주세요!");
+            }
+            else {
+                let doc = {
+                    'cheer_user_name': name,
+                    'cheer_comment': comment,
+                };
+                await addDoc(collection(db, "cheer_list"), doc);
+                alert("저장 완료!");
+            }
+
             window.location.reload();
         });
 
