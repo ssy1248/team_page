@@ -103,7 +103,7 @@ function updateMemberInfos() {
         </div>
         <div class="modal-body">
             <h4 id="member-name">${memberData.name}</h4>
-            <button type="button" class="button-edit button-basic"> <img src="../static/img/icon-edit.png" alt="FAILED TO LOAD IMG" class="img-button-edit"> 수정하기 </button>
+            <button type="button" class="button-edit button-basic"> <img src="../static/img/icon-edit.png" alt="FAILED TO LOAD IMG" class="img-button-edit"> 수정 </button>
             <img id="member-image" src="${memberData.image}" alt="FAILED TO LOAD IMG" class="img-fluid mb-3">
             <p id="member-text">
                 MBTI : ${memberData.mbti}
@@ -154,7 +154,7 @@ function editMemberInfos() {
     modalBody.empty();
     let tmp = `
                 <h4 id="member-name"><input type="text" value="${memberData.name}" class="edited-name"></h4>
-                <button type="button" class="button-save button-basic"> <img src="../static/img/icon-save.png" alt="FAILED TO LOAD IMG" class="img-button-save"> 저장하기 </button>
+                <button type="button" class="button-save button-basic"> <img src="../static/img/icon-save.png" alt="FAILED TO LOAD IMG" class="img-button-save"> 저장 </button>
                 <img id="member-image" src="${memberData.image}" alt="FAILED TO LOAD IMG" class="img-fluid mb-3"><input type="text" value="${memberData.image}" class="edited-image">
                 <p id="member-text">
                     MBTI : <input type="text" value="${memberData.mbti}" class="edited-mbti">
