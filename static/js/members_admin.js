@@ -171,6 +171,14 @@ async function enrollMemberInfos() {
             'linkGithub': $('.edited-linkGithub').val(),
             'linkBlog': $('.edited-linkBlog').val()
         };
+        // 예외 처리: 작성하지 않은 필드
+        const hasEmpty = Object.values(newMember).some(value => value.trim() === '');
+        if (hasEmpty) {
+            console.log("[Error] 작성하지 않은 필드가 존재.");
+            alert('작성하지 않은 필드가 존재!');
+            return;
+        }
+
         // 새 멤버 데이터 추가
         await addDoc(collection(db, "members"), newMember);
         alert('새 팀원 등록완료');
@@ -198,6 +206,18 @@ function generateRandomID(){
 // ======================================================================================================================
 // ======================================================================================================================
 
+
+
+$(document).on('click', '.card', function (event) {
+    if (!$(event.target).is('button') && !$(event.target).is('img')) { // 클릭된 요소가 버튼이 아닌 경우에만 실행
+        //selected 클래스 추가
+        $(this).toggleClass('selected');
+        //카드가 선택이 되면 아웃라인을 설정 아닐 시 기본 아웃라인을 보여줌
+        $(this).css('outline', $(this).hasClass('selected') ? '2px solid red' : 'auto');
+    }
+});
+
+
 // 어드민 기능 : 멤버카드 삭제
 $(document).on('click', '.button-admin-delete', async function () {
     console.log("[btn check] button-admin-create pressed");
@@ -205,5 +225,7 @@ $(document).on('click', '.button-admin-delete', async function () {
 });
 
 function deleteMemberCard() {
+    // 뷰에서 삭제
+    //$('.card.selected').remove();
 
 };

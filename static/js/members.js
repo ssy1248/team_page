@@ -64,9 +64,8 @@ async function popupMembercard(member) {
         // 로드한 데이터 분류
         const querySnapshot = await getDocs(member);
         querySnapshot.forEach((member) => {
-            // 현재 선택된 멤버의 고유id값 기억
-            curMemberID = member.data().id;
-            console.log("curMemberID : " + curMemberID);
+            // 현재 선택된 멤버 문서 id 값 기억
+            curMemberID = member.id;
             // 멤버의 정보 기억
             memberData = {
                 name: member.data().name,
@@ -193,34 +192,24 @@ $(document).on('click', '.button-save', async function () {
 async function saveMemberInfos() {
     console.log("[func check] saveMemberInfos called");
     console.log("[func check] curMemberID : " + curMemberID);
-    let member = query(membersRef, where('id', '==', curMemberID));
+    let curMember = doc(db, 'members', curMemberID);
     try {
-        const querySnapshot = await getDocs(member);
-
-        if (!querySnapshot.empty) {
-            const memberDoc = querySnapshot.docs[0];
-            const memberDocRef = memberDoc.ref; // 해당 문서의 참조
-            // 새 데이터로 문서 업데이트
-            memberData = {
-                id: curMemberID,
-                name: $('.edited-name').val(),
-                image: $('.edited-image').val(),
-                mbti: $('.edited-mbti').val(),
-                intro: $('.edited-intro').val(),
-                interest: $('.edited-interest').val(),
-                favGame: $('.edited-favGame').val(),
-                game_G: $('.edited-game_G').val(),
-                game_A: $('.edited-game_A').val(),
-                game_M: $('.edited-game_M').val(),
-                game_E: $('.edited-game_E').val(),
-                linkGithub: $('.edited-linkGithub').val(),
-                linkBlog: $('.edited-linkBlog').val()
-            };
-            await updateDoc(memberDocRef, memberData);
-        }
-        else {
-            console.error("[Error] cannot find member.");
-        }
+        memberData = {
+            id: curMemberID,
+            name: $('.edited-name').val(),
+            image: $('.edited-image').val(),
+            mbti: $('.edited-mbti').val(),
+            intro: $('.edited-intro').val(),
+            interest: $('.edited-interest').val(),
+            favGame: $('.edited-favGame').val(),
+            game_G: $('.edited-game_G').val(),
+            game_A: $('.edited-game_A').val(),
+            game_M: $('.edited-game_M').val(),
+            game_E: $('.edited-game_E').val(),
+            linkGithub: $('.edited-linkGithub').val(),
+            linkBlog: $('.edited-linkBlog').val()
+        };
+        await updateDoc(curMember, memberData);
         // 멤버 정보 업데이트하기
         updateMemberInfos();
         console.log("[Success] Member information updated successfully!");
