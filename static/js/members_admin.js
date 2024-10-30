@@ -7,7 +7,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 import { collection, query, where } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-import { doc, addDoc, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+import { doc, addDoc, getDocs, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -22,6 +22,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+const membersRef = collection(db, 'members');
 const adminRef = collection(db, 'admin');
 const adminDocs = await getDocs(adminRef);
 // ======================================================================================================================
@@ -203,26 +204,77 @@ function generateRandomID(){
 
 // ======================================================================================================================
 // ======================================================================================================================
-
+let ids = [];
 
 // 카드 선택으로 select
 $(document).on('click', '.card', function (event) {
-    if (!$(event.target).is('button') && !$(event.target).is('img')) { // 클릭된 요소가 버튼이 아닌 경우에만 실행
+    console.log("[check] .card selection checked");
+    if (!$(event.target).is('button') && !$(event.target).is('img')) { // 클릭된 요소가 버튼이 아닌 경우에만 실행           
         $(this).toggleClass('selected');
-        //카드가 선택이 되면 아웃라인을 설정 아닐 시 기본 아웃라인을 보여줌
-        $(this).css('outline', $(this).hasClass('selected') ? '2px solid red' : 'auto');
+        $(this).css('outline', $(this).hasClass('selected') ? '4px solid yellow' : '0px auto');
     }
+    ids = getSelectedMembersID();
 });
 
 
-// 어드민 기능 : 멤버카드 삭제
+// 어드민 기능 : 현재 선택된 멤버들 기준으로 멤버카드 삭제
 $(document).on('click', '.button-admin-delete', async function () {
-    console.log("[btn check] button-admin-create pressed");
-    deleteMemberCard();
+    console.log("[btn check] button-admin-delete pressed");
+    try {
+        const selectedCards = $('.card.selected');
+        console.log("selecteds : " + selectedCards.length);
+        const deletePromises = [];
+        for (const card of selectedCards) {
+            let selectedMemberName = $(card).closest('.member-card').find('.member-name').text();
+            let selectedMember = query(membersRef, where('name', '==', selectedMemberName));
+            const querySnapshot = await getDocs(selectedMember);
+            querySnapshot.forEach((member) => {
+                deletePromises.push(deleteDoc(doc(db, "members", member.id)));
+            });
+        }
+        await Promise.all(deletePromises);
+        window.location.reload();
+    } catch (e) {
+        console.error("[Error] cannot bring doc IDs : " + e);
+    }
+
+    //deleteMemberCard();
 });
 
-function deleteMemberCard() {
-    // 뷰에서 삭제
-    //$('.card.selected').remove();
-
+//==============================================================
+//==============================================================
+//==============================================================
+// 에러 많은 레거시 코드는 이후 공부를 위해 잠시 백업
+async function deleteMemberCard() {
+    for (const id of ids) {
+        await deleteMemberData(id); // 각 ID에 대해 삭제 실행
+    }
 };
+// db로부터 현재 선택된 멤버 문서id 들 배열로 가져오기
+async function getSelectedMembersID(){
+    console.log("[func check] getSelectedMembersID");
+    try {
+        // 리턴값으로 할 id값 배열
+        const selectedCards = $('.card.selected');
+        console.log("selecteds : " + selectedCards.length);
+        const promises = [];
+        const tmpIDs = [];
+        for (const card of selectedCards) {
+            let selectedMemberName = $(card).closest('.member-card').find('.member-name').text();
+            let selectedMember = query(membersRef, where('name', '==', selectedMemberName));
+            const querySnapshot = await getDocs(selectedMember);
+            querySnapshot.forEach((member) => {
+                //promises.push(deleteDoc(doc(db, "members", member.id)));
+                promises.push(tmpIDs.push(member.id));
+            });
+        }
+        await Promise.all(promises);
+        return tmpIDs;
+    } catch (e) {
+        console.error("[Error] cannot bring doc IDs : " + e);
+    }
+}
+//==============================================================
+//==============================================================
+//==============================================================
+
