@@ -1,7 +1,7 @@
 /* 어드민 키 입력해야하는 창 공간 */
 .admin-access {
-    position: absolute; 
-    top: 7.5%; 
+    position: absolute;
+    top: 7.5%;
     right: 22.5%;
 }
 
@@ -13,7 +13,8 @@
 .admin-toast {
     display: none;
     opacity: 0;
-    transition: opacity 0.5s ease;          /* 애니메이션 효과 */
+    transition: opacity 0.5s ease;
+    /* 애니메이션 효과 */
     position: fixed;
     width: 40%;
     top: 10%;
@@ -22,13 +23,29 @@
     background-color: grey;
     color: red;
     padding: 10px 10px;
-    border-radius: 10px; 
-    z-index: 1000; /* z-order 맨 앞으로 */
+    border-radius: 10px;
+    z-index: 1000;
+    /* z-order 맨 앞으로 */
     text-align: center;
 }
+
 /* 토스트 메시지 드러내기 */
 .admin-toast.showToast {
     display: block;
     opacity: 1;
     transform: translateY(0);
 }
+
+/* =============================================================================== */
+/* =============================================================================== */
+/* =============================================================================== */
+/* 어드민 조작 바 */
+.admin-controller-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+ .button-admin-controller {
+    margin: 5px;
+} 
