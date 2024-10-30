@@ -155,9 +155,7 @@ $(document).on('click', '.button-enroll', async function () {
 async function enrollMemberInfos() {
     console.log("[func check] enrollMemberInfos called");
     try {
-        let newID = generateRandomID();
         let newMember = {
-            'id': newID,
             'name': $('.edited-name').val(),
             'image': $('.edited-image').val(),
             'mbti': $('.edited-mbti').val(),
@@ -207,10 +205,9 @@ function generateRandomID(){
 // ======================================================================================================================
 
 
-
+// 카드 선택으로 select
 $(document).on('click', '.card', function (event) {
     if (!$(event.target).is('button') && !$(event.target).is('img')) { // 클릭된 요소가 버튼이 아닌 경우에만 실행
-        //selected 클래스 추가
         $(this).toggleClass('selected');
         //카드가 선택이 되면 아웃라인을 설정 아닐 시 기본 아웃라인을 보여줌
         $(this).css('outline', $(this).hasClass('selected') ? '2px solid red' : 'auto');

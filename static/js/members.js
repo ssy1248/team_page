@@ -39,6 +39,8 @@ members.forEach((member) => {
                 <div class="card">
                     <img src="${image}" class="member-image" alt="...">
                     <h4 class="member-name">${name}</h4>
+                    <button class="button-view button-small"><img src="../static/img/icon-view.png" alt="FAILED TO LOAD View Icon"
+                    class="icon"></button>                
                 </div>
             </div>
             `;
@@ -51,8 +53,8 @@ let memberData = null;
 let curMemberID = null;
 
 // card 클래스 클릭 시 팝업 띄우기
-$(document).on('click', '.card', async function () {
-    let targetMemberName = $(this).find('.member-name').text();
+$(document).on('click', '.button-view', async function () {
+    let targetMemberName = $(this).closest('.member-card').find('.member-name').text();
     let member = query(membersRef, where('name', '==', targetMemberName));
     popupMembercard(member);
 });
