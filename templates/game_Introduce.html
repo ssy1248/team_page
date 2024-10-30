@@ -65,34 +65,56 @@
 
         .card {
             display: flex;
-            /* Flexbox로 설정 */
-            outline: auto;
+            flex-direction: row;
             margin: 20px;
-            /* 카드 간격 */
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
         }
 
         .card-body {
             display: flex;
             flex-direction: column;
-            /* 세로 방향으로 정렬 */
             align-items: center;
             /* 가운데 정렬 */
             justify-content: center;
-            padding: 10px;
-            /* 여백 추가 */
+            /* 수직 가운데 정렬 */
+            padding: 20px;
+            width: 60%;
             color: black;
-            /* 텍스트 색상 */
+            text-align: center;
+            /* 텍스트 중앙 정렬 */
         }
 
         .button-body {
             display: flex;
             flex-direction: column;
-            /* 세로 방향으로 정렬 */
             align-items: center;
-            /* 가운데 정렬 */
             justify-content: center;
-            padding: 10px;
-            /* 여백 추가 */
+            padding: 20px;
+            width: 40%;
+        }
+
+        .card-img-top {
+            /* 일정한 이미지 크기 설정 */
+            width: 600px;
+            height: 400px;
+            object-fit: cover;
+            /* 이미지가 고정 크기 내에 꽉 차게 */
+            display: block;
+        }
+
+        /* 버튼 크기와 간격 조정 */
+        .button-body button {
+            margin: 10px 0;
+            width: 100%;
+        }
+
+        .card-title,
+        .card-text,
+        .card-people,
+        .card-date {
+            margin: 5px 0;
         }
 
         /* 선택된 카드에 빨간 테두리 */
@@ -242,10 +264,20 @@
             await updateDislikeCount(cardId, dislikeCounts[cardId]); // Firestore에 업데이트
         });
 
-        // 게임 삭제 버튼 클릭 시 선택된 카드 삭제
-        $('#deleteGameButton').click(function () {
-            //삭제 시 firebase에서도 삭제 - 추후 추가
-            $('.card.selected').remove(); // 선택된 카드만 삭제
+       // 게임 삭제 버튼 클릭 시 선택된 카드 삭제
+       $('#deleteGameButton').click(async function () {
+            //https://firebase.google.com/docs/firestore/manage-data/delete-data?hl=ko -> 참고
+            // each -> 선택된 요소들에 대해 하나씩 순차적으로 함수를 실행할 수 있게 합니다.
+            $('.card.selected').each(async function () {
+                const cardId = $(this).data('id'); // 선택된 카드의 data-id에서 docId를 추출
+
+                // Firestore에서 해당 문서 삭제
+                const docRef = doc(db, "games", cardId);
+                await deleteDoc(docRef); // Firestore에서 문서 삭제
+
+                // 화면에서 카드 삭제
+                $(this).remove();
+            });
         });
 
         // Firestore에 좋아요 카운트 업데이트 함수
