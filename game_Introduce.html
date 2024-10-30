@@ -23,6 +23,19 @@
             justify-content: center;
         }
 
+        header {
+            height: auto;
+            /* 자동 높이 조정 */
+        }
+
+        #login_btn {
+            padding: 0.375rem 0.75rem;
+            /* 버튼 패딩 조정 */
+            font-size: 1rem;
+            /* 버튼 글자 크기 조정 */
+            margin-left: auto;
+        }
+
         .buttonGroup {
             display: flex;
             flex-direction: row;
@@ -123,7 +136,7 @@
         }
 
         /*모달 팝업 영역 스타일링*/
-        .modal {
+        .modal, .modal2, .modal_three {
             /*팝업 배경*/
             display: none;
             /*평소에는 보이지 않도록*/
@@ -135,8 +148,9 @@
             overflow: hidden;
             background: rgba(0, 0, 0, 0.5);
         }
-
-        .modal .modal_popup {
+        .modal .modal_popup,
+        .modal2 .modal2_popup,
+        .modal_three .modal_three_popup {
             /*팝업*/
             position: absolute;
             top: 50%;
@@ -147,7 +161,12 @@
             border-radius: 20px;
         }
 
-        .modal .modal_popup .close_btn {
+        .modal2 .modal2_popup .close2_btn,
+        .modal2 .modal2_popup .upload2_btn,
+        .modal .modal_popup .close_btn,
+        .modal .modal_popup .upload_btn,
+        .modal_three .modal_three_popup .close3_btn,
+        .modal_three .modal_three_popup .login_sel_btn {
             display: block;
             padding: 10px 20px;
             background-color: rgb(116, 0, 0);
@@ -158,6 +177,8 @@
             transition: box-shadow 0.2s;
         }
 
+        .modal2.on,
+        .modal_three.on,
         .modal.on {
             display: block;
         }
@@ -165,6 +186,17 @@
 </head>
 
 <body>
+    <header class="p-3 text-bg-dark">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-end">
+                <!-- 로그인 버튼 그룹 -->
+                <div class="login_button_group d-flex">
+                    <button type="button" id="login_btn">Login</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
     <div class="myTitle">
         <h1>게임 소개</h1>
     </div>
@@ -172,6 +204,7 @@
     <div class="buttonGroup">
         <button type="button" id="addGameButton">게임 올리기</button>
         <button type="button" id="deleteGameButton">게임 삭제</button>
+        <button type="button" id="changeButton">게임 수정</button>
         <button type="button" id="likeSortButton">좋아요 순으로 정렬</button>
         <button type="button" id="recentSortButton">최신 순으로 정렬</button>
     </div>
@@ -179,26 +212,64 @@
     <div class="modal">
         <div class="modal_popup">
             <h3>게임 등록</h3>
-            <div class="myPostingBox" id="postingbox">
-                <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="image" placeholder="Game Image">
-                    <label for="floatingInput">게임 이미지</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="title" placeholder="게임 이름">
-                    <label for="floatingInput">게임 이름</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="comment" placeholder="게임 간단 소개">
-                    <label for="floatingInput">게임 간단 소개</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="people" placeholder="추천인">
-                    <label for="floatingInput">추천인</label>
-                </div>
-                <button id="postingbtn" type="button" class="btn btn-primary">올리기</button>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="image" placeholder="Game Image">
+                <label for="floatingInput">게임 이미지</label>
             </div>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="title" placeholder="게임 이름">
+                <label for="floatingInput">게임 이름</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="comment" placeholder="게임 간단 소개">
+                <label for="floatingInput">게임 간단 소개</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="people" placeholder="추천인">
+                <label for="floatingInput">추천인</label>
+            </div>
+            <button id="postingbtn" type="button" class="upload_btn">올리기</button>
             <button type="button" id="close_btn">닫기</button>
+        </div>
+    </div>
+
+    <div class="modal_three">
+        <div class="modal_three_popup">
+            <h3>로그인</h3>
+            <div class="form-floating mb-3">
+                <label for="floatingInput">ID</label>
+                <input type="email" class="form-control" id="id" placeholder="ID">
+            </div>
+            <div class="form-floating mb-3">
+                <label for="floatingInput">PW</label>
+                <input type="email" class="form-control" id="pw" placeholder="PW">
+            </div>
+            <button id="postingbtn" type="button" id="login_sel_btn">로그인</button>
+            <button type="button" id="close3_btn">닫기</button>
+        </div>
+    </div>
+
+    <div class="modal2">
+        <div class="modal2_popup">
+            <h3>게임 수정</h3>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="image" placeholder="Game Image">
+                <label for="floatingInput">게임 이미지</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="title" placeholder="게임 이름">
+                <label for="floatingInput">게임 이름</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="comment" placeholder="게임 간단 소개">
+                <label for="floatingInput">게임 간단 소개</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="people" placeholder="추천인">
+                <label for="floatingInput">추천인</label>
+            </div>
+            <button id="postingbtn" type="button" class="change_btn">수정</button>
+            <button type="button" id="close2_btn">닫기</button>
         </div>
     </div>
 
@@ -207,6 +278,9 @@
     </div>
 
     <script type="module">
+        let adminId = "admin";
+        let adminPw = "1111";
+
         // 좋아요, 싫어요 카운트를 저장할 객체
         let likeCounts = {};
         let dislikeCounts = {};
@@ -214,7 +288,7 @@
         // 임시 firebase 
         // Firebase SDK 모듈 import (중복 제거)
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getFirestore, collection, doc, updateDoc, addDoc, getDocs, orderBy, query, serverTimestamp, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getFirestore, collection, doc, updateDoc, addDoc, getDocs, orderBy, query, serverTimestamp, deleteDoc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
         // Firebase 구성 정보 설정
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -232,6 +306,26 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        // UUID 생성 함수
+        function generateUniqueId() {
+            return 'xxxx-xxxx-4xxx-yxxx-xxxx'.replace(/[xy]/g, function (c) {
+                const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        //만약 Admin이 접속하여 할때는 제한 해제
+        // 클라이언트의 고유 ID 생성 및 저장
+        //https://www.daleseo.com/nanoid/ -> 참고
+        if (!localStorage.getItem('clientUniqueId')) {
+            localStorage.setItem('clientUniqueId', generateUniqueId());
+        }
+        const clientUniqueId = localStorage.getItem('clientUniqueId');
+        console.log(clientUniqueId);
+
+        // 좋아요, 싫어요 제한 횟수 저장 객체
+        let actionLimits = JSON.parse(localStorage.getItem('actionLimits')) || {};
+
         // 카드 선택 기능 - https://velog.io/@leejpsd/document.on%EA%B3%BC-document.ready
         //https://developer.mozilla.org/ko/docs/Learn/CSS/Building_blocks/Selectors/Attribute_selectors
         $(document).on('click', '.card', function (event) {
@@ -248,19 +342,68 @@
             // 카드 ID를 기반으로 좋아요 카운트를 관리 -> https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes(참고)
             //https://www.codeconcisely.com/posts/javascript-data-attributes/(참고)
             const cardId = $(this).closest('.card').data('id'); // 클릭한 카드의 data-id 추출
+            actionLimits[cardId] = actionLimits[cardId] || { likes: 0, dislikes: 0 };
             //|| 사용한 이유는 likeCounts[cardId]가 초기에 undefined 이면 오류가 나오기에 undefined일시 초기값을 0으로 설정
-            likeCounts[cardId] = (likeCounts[cardId] || 0) + 1; // 좋아요 카운트 증가
-            $(this).text(`좋아요 (${likeCounts[cardId]})`); // 버튼에 카운트 표시
-            await updateLikeCount(cardId, likeCounts[cardId]); // Firestore에 업데이트
+            if (actionLimits[cardId].likes < 5) {  // 좋아요 5회 제한
+                actionLimits[cardId].likes++;
+                likeCounts[cardId] = (likeCounts[cardId] || 0) + 1;
+                $(this).text(`좋아요 (${likeCounts[cardId]})`);
+                await updateLikeCount(cardId, likeCounts[cardId]);
+                localStorage.setItem('actionLimits', JSON.stringify(actionLimits));
+            } else {
+                alert('더 이상 좋아요를 누를 수 없습니다.');
+            }
         });
 
         // 싫어요 버튼 클릭 시 카운트 증가
         $(document).on('click', '.badbtn', async function () {
-            const cardId = $(this).closest('.card').data('id'); // 클릭한 카드의 data-id 추출
-            dislikeCounts[cardId] = (dislikeCounts[cardId] || 0) + 1; // 싫어요 카운트 증가
-            $(this).text(`싫어요 (${dislikeCounts[cardId]})`); // 버튼에 카운트 표시
-            await updateDislikeCount(cardId, dislikeCounts[cardId]); // Firestore에 업데이트
+            const cardId = $(this).closest('.card').data('id');
+            actionLimits[cardId] = actionLimits[cardId] || { likes: 0, dislikes: 0 };
+
+            if (actionLimits[cardId].dislikes < 5) {  // 싫어요 5회 제한
+                actionLimits[cardId].dislikes++;
+                dislikeCounts[cardId] = (dislikeCounts[cardId] || 0) + 1;
+                $(this).text(`싫어요 (${dislikeCounts[cardId]})`);
+                await updateDislikeCount(cardId, dislikeCounts[cardId]);
+                localStorage.setItem('actionLimits', JSON.stringify(actionLimits));
+            } else {
+                alert('더 이상 싫어요를 누를 수 없습니다.');
+            }
         });
+
+        const modal_three = document.querySelector('.modal_three');
+        const modalThreeOpen = document.querySelector('.login_btn');
+        const modalThreeClose = document.querySelector('.close3_btn');
+
+        $('#login_btn').click(function () {
+            modal_three.classList.add('on');
+        });
+
+        $('#close3_btn').click(function () {
+            modal_three.classList.remove('on');
+        });
+
+        $('#login_sel_btn').click(function(){
+            console.log('로그인 성공 여부 확인');
+        });
+
+        // Firestore에서 문서 삭제 및 화면에서 카드 삭제 함수
+        async function deleteSelectedCard(cardId) {
+            try {
+                const docRef = doc(db, "games", cardId);
+
+                // Firestore에서 문서 삭제
+                await deleteDoc(docRef);
+
+                // 화면에서 해당 카드 제거
+                $(`.card[data-id="${cardId}"]`).remove();
+
+                console.log(`Card with ID ${cardId} deleted successfully`);
+            }
+            catch (error) {
+                console.error("Error deleting document:", error);
+            }
+        }
 
         // 게임 삭제 버튼 클릭 시 선택된 카드 삭제
         $('#deleteGameButton').click(async function () {
@@ -268,17 +411,9 @@
             // each -> 선택된 요소들에 대해 하나씩 순차적으로 함수를 실행할 수 있게 합니다.
             $('.card.selected').each(async function () {
                 const cardId = $(this).data('id'); // 선택된 카드의 data-id에서 docId를 추출
-
-                // Firestore에서 해당 문서 삭제
-                const docRef = doc(db, "games", cardId);
-                await deleteDoc(docRef); // Firestore에서 문서 삭제
-
-                // 화면에서 카드 삭제
-                $(this).remove();
+                await deleteSelectedCard(cardId);
             });
         });
-
-        //싫어요 10?개 이상 받으면 자동 삭제? -> update처럼 사용할 방식을 못찾겠다
 
         // Firestore에 좋아요 카운트 업데이트 함수
         //https://firebase.google.com/docs/database/admin/save-data?hl=ko#node.js 참고
@@ -287,11 +422,89 @@
             await updateDoc(docRef, { likeCount: newCount });
         }
 
-        // Firestore에 싫어요 카운트 업데이트 함수
+        // Firestore에 싫어요 카운트 업데이트 함수 || 싫어요 10?개 이상 받으면 자동 삭제?
         async function updateDislikeCount(cardId, newCount) {
             const docRef = doc(db, "games", cardId);  // doc 함수로 특정 문서를 지정
             await updateDoc(docRef, { dislikeCount: newCount });
+
+            // 싫어요 10개 이상일 때 삭제 함수 호출
+            if (newCount >= 10) {
+                await deleteSelectedCard(cardId);
+            }
         }
+
+        const modal2 = document.querySelector('.modal2');
+        const modalOpen2 = document.querySelector('.changeButton');
+        const modalClose2 = document.querySelector('.close2_btn');
+
+        $('#close2_btn').click(function () {
+            modal2.classList.remove('on');
+        });
+
+        //데이터 베이스 수정 -> AI 도움
+        $('#changeButton').click(async function () {
+            const selectedCard = $('.card.selected'); // 선택된 카드 요소
+            if (selectedCard.length === 0) {
+                alert("수정할 카드를 선택해주세요.");
+                return;
+            }
+
+            const cardId = selectedCard.data('id'); // 선택된 카드의 data-id에서 카드 ID 추출
+
+            if (!cardId) {
+                alert("카드 ID가 잘못되었습니다.");
+                return;
+            }
+
+            // Firestore에서 해당 카드 데이터 가져오기
+            const docRef = doc(db, "games", cardId);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const cardData = docSnap.data();
+
+                // 모달 내 입력 필드에 데이터 채우기
+                $('.modal2').find('#image').val(cardData.image || '');
+                $('.modal2').find('#title').val(cardData.title || '');
+                $('.modal2').find('#comment').val(cardData.comment || '');
+                $('.modal2').find('#people').val(cardData.people || '');
+
+                // 수정 모달 열기
+                $('.modal2').addClass('on');
+
+                // 수정 버튼 클릭 시 데이터 업데이트
+                $('.change_btn').off('click').on('click', async function () {
+                    // undefined가 아닌 값만 포함하도록 필터링
+                    const updatedData = {};
+                    const imageVal = $('.modal2').find('#image').val();
+                    const titleVal = $('.modal2').find('#title').val();
+                    const commentVal = $('.modal2').find('#comment').val();
+                    const peopleVal = $('.modal2').find('#people').val();
+
+                    if (imageVal !== undefined && imageVal !== '')
+                        updatedData.image = imageVal;
+                    if (titleVal !== undefined && titleVal !== '')
+                        updatedData.title = titleVal;
+                    if (commentVal !== undefined && commentVal !== '')
+                        updatedData.comment = commentVal;
+                    if (peopleVal !== undefined && peopleVal !== '')
+                        updatedData.people = peopleVal;
+
+                    // Firestore에 업데이트
+                    try {
+                        await updateDoc(docRef, updatedData);
+                        alert("카드 정보가 업데이트되었습니다.");
+                        $('.modal2').removeClass('on');
+                        window.location.reload(); // 페이지 새로고침하여 업데이트된 데이터 반영
+                    } catch (error) {
+                        console.error("Error updating document:", error);
+                        alert("문서 업데이트 중 오류가 발생했습니다.");
+                    }
+                });
+            } else {
+                alert("선택한 카드 정보를 가져올 수 없습니다.");
+            }
+        });
 
         //좋아요 순으로 정렬
         $('#likeSortButton').click(async function () {
@@ -369,41 +582,61 @@
             });
         });
 
-        //firebase 에 게임 추가 데이터 값 저장
-        $('#postingbtn').click(async function () {
-            let image = $('#image').val(); //게임 이미지
-            let title = $('#title').val(); //게임 이름
-            let comment = $('#comment').val(); //게임 소개
-            let people = $('#people').val(); //게임 추천인
+        // Firebase에 문서 추가할 때 count 관리
+        async function incrementAndAddDocument() {
+            const counterRef = doc(db, "counters", "gameCount");
 
-            let doc =
-            {
-                'image': image,
-                'title': title,
-                'comment': comment,
-                'people': people,
+            // Firestore에서 count 가져오기 및 증가
+            let count = 0;
+            try {
+                const counterDoc = await getDoc(counterRef);
+                if (counterDoc.exists()) {
+                    count = counterDoc.data().count;
+                }
+            } catch (error) {
+                console.error("Error fetching count:", error);
+            }
+
+            // count 증가 및 Firestore에 업데이트
+            count++;
+            await setDoc(counterRef, { count: count }, { merge: true });
+
+            // 게임 문서에 추가할 데이터
+            const gameDoc = {
+                image: $('#image').val(),
+                title: $('#title').val(),
+                comment: $('#comment').val(),
+                people: $('#people').val(),
                 createdAt: serverTimestamp(),
                 likeCount: 0,
+                count: count // count 필드 추가
             };
-            await addDoc(collection(db, "games"), doc);
-            alert('저장 완료!');
+
+            // Firestore에 새로운 문서 추가
+            await addDoc(collection(db, "games"), gameDoc);
+
+            alert("저장 완료!");
             window.location.reload();
-        })
+        }
+
+        //firebase 에 게임 추가 데이터 값 저장
+        $('#postingbtn').click(async function () {
+            await incrementAndAddDocument();
+        });
 
         // 모달 사용을 위한 버튼 & 팝업 창 찾기
-        const modal = document.querySelector('.modal');
-        const modalOpen = document.querySelector('.addGameButton');
-        const modalClose = document.querySelector('.close_btn');
+        const modal1 = document.querySelector('.modal');
+        const modalOpen1 = document.querySelector('.addGameButton');
+        const modalClose1 = document.querySelector('.close_btn');
 
         //모달을 이용해서
         //https://velog.io/@seungmimi/javascript%EB%AA%A8%EB%8B%AC-%ED%8C%9D%EC%97%85-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0
         $('#addGameButton').click(async function () {
-            modal.classList.add('on');
-            $('#postingbox').toggle();
+            modal1.classList.add('on');
         });
 
         $('#close_btn').click(function () {
-            modal.classList.remove('on');
+            modal1.classList.remove('on');
         });
 
         //게임 이미지 클릭 하면 링크
@@ -457,5 +690,4 @@
         });
     </script>
 </body>
-
 </html>
