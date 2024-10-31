@@ -24,9 +24,8 @@
 .button-small {
     border: none;       /* 테두리 제거 */
     border-radius: 10px; /* 둥근 사각형 */
-    width:  50px;
-    height: 50px;
     box-sizing: border-box;
+    align-items: center;
 }
 /* 어드민 버튼 */
 .button-admin, .button-exit-admin {
@@ -61,20 +60,27 @@
 }
 /* 멤버 카드 단일 객체 */
 .member-card {
+    /* display: block;
+    margin: 10px auto;
+    padding: auto;
+    max-width:  30%; */
+}
+
+
+.card {
     display: block;
     margin: 10px auto;
     padding: auto;
     max-width:  30%;
 }
-.member-card img {
-    width: 50%;
-    display: block;
-    margin: 0 auto;
-    height: auto;
-}
+
+
 /* 전체 팀원 소개의 멤버 이미지 */
 .member-image {
+    display: block;
+    margin: 0 auto;
     max-width:  25%;
+    width: 25%;
     height: 25%;
 }
 /* 모달창 내의 멤버 이미지 */

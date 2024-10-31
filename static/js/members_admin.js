@@ -30,9 +30,6 @@ const adminDocs = await getDocs(adminRef);
 
 // ======================================================================================================================
 // ======================================================================================================================
-// member.js로부터 가져와서 사용할 function 존재
-import { loadAllMembers } from './members.js';
-
 
 // ======================================================================================================================
 // ======================================================================================================================
@@ -62,7 +59,7 @@ function toggleAdminSpace() {
 $(document).on('click', '.button-admin-key-enter', async function () {
     console.log("[btn check] button-admin-key-enter pressed");
     // locked된 상황
-    if (isLocked)  
+    if (isLocked)
         return;
     // 어드민 키값이 일치하게 되면, 어드민 모드 진입 / 불일치 시에는 틀렸음 알려주기
     let input = $('.admin-access-input').val();
@@ -79,7 +76,7 @@ $(document).on('click', '.button-admin-key-enter', async function () {
         availableTrialCnt--;
         showToast("ACCESS DENIED", 'red');
         // 잔여 시도횟수 없으면 락 걸기
-        if (availableTrialCnt <= 0) 
+        if (availableTrialCnt <= 0)
             lockAdminAccess();
     }
     // 어드민 키 입력창 값 비우기
@@ -121,11 +118,11 @@ let isLocked = false;
 let timeout;
 let remainTime;
 // 시도가능 횟수 다시 부여
-function resetTrialCnt(){
+function resetTrialCnt() {
     availableTrialCnt = adminAccessTrialConstraint;
 }
 // 시도 가능횟수 초과 시 락 걸기
-function lockAdminAccess(){
+function lockAdminAccess() {
     isLocked = true;
     remainTime = lockTime;
     timeout = setInterval(function () {
@@ -166,22 +163,24 @@ function exitAdminMode() {
     $('.only-admin').toggle();
     // 어드민 모드 세션 저장
     sessionStorage.setItem('admin-mode', 'false');
+    // 선택 초기화
+    initSelects();
 };
 
 // admin과 관련하여 새로고침할 때 세션 정보를 위해
-$(document).ready(function() {
+$(document).ready(function () {
     // 세션에 admin-mode가 되어 있으면 어드민으로
     const wasAdminMode = sessionStorage.getItem('admin-mode') === 'true';
-    if (wasAdminMode){
+    if (wasAdminMode) {
         enterAdminMode();
-    }   
+    }
 });
 
 // home 버튼 눌렀을 때 세션 admin 모드 탈출
 $(".button-home").click(async function () {
     exitAdminMode();
     $(location).attr('href', '../main_home.html');
- });
+});
 
 
 // ======================================================================================================================
@@ -288,7 +287,7 @@ async function enrollMemberInfos() {
 // ======================================================================================================================
 // id 생성 위한 난수 코드 생성
 
-function generateRandomID(){
+function generateRandomID() {
     const pool = '0123456789abcdefghijklmnopqrstuvwxyz';
     let result = '';
     const len = 8;  // 8자리로 생성
@@ -307,18 +306,35 @@ $(document).on('click', '.card', function (event) {
     // 단, admin-mode에서만 가능하므로,
     if (!($('body').hasClass('admin-mode'))) return;
     // 카드 내 버튼 누르는 게 아닐 때, <<< view 버튼을 눌러서 카드 선택말고 카드 들여다보기 해야하므로
-    if (!$(event.target).is('button')) {       
+    if (!$(event.target).is('button')) {
         $(this).toggleClass('selected');
         $(this).css('outline', $(this).hasClass('selected') ? '4px solid yellow' : '0px auto');
     }
 });
+
+// 선택된 카드들 선택없이 초기화 
+function initSelects(){
+    let cards = $('.card');
+    cards.each(function () {
+        if ($(this).hasClass('selected')) {
+            $(this).toggleClass('selected');
+        }
+        $(this).css('outline','0px auto');
+    });
+}
+
 
 // 어드민 기능 : 현재 선택된 멤버들 기준으로 멤버카드 삭제
 $(document).on('click', '.button-admin-delete', async function () {
     console.log("[btn check] button-admin-delete pressed");
     try {
         const selectedCards = $('.card.selected');
-        console.log("selecteds : " + selectedCards.length);
+        if (selectedCards.length == 0){
+            alert("선택된 카드가 없습니다.");
+            return;
+        }
+
+
         const myPromises = [];
         for (const card of selectedCards) {
             let selectedMemberName = $(card).closest('.member-card').find('.member-name').text();
@@ -335,6 +351,81 @@ $(document).on('click', '.button-admin-delete', async function () {
         console.error("[Error] cannot bring doc IDs : " + e);
     }
 });
+
+
+
+//==============================================================
+//==============================================================
+//==============================================================
+
+// 삭제 시 드래그앤드랍
+
+$(document).on('click', '.card', function (event) {
+    if (!$(event.target).is('button')) {
+        //DragNdrop();
+    }
+});
+
+function DragNdrop() {
+
+    let isDragging = false;
+    let curCard = null;
+    let previewCard = null;
+    let offset = { x: 0, y: 0 };
+
+    // 마우스 버튼이 눌릴 때
+    $('.card').on('mousedown', function (event) {
+        isDragging = true;
+        curCard = $(this);
+
+        // 마우스 클릭 위치와 카드의 위치 오프셋 계산
+        offset.x = event.clientX - curCard.offset().left;
+        offset.y = event.clientY - curCard.offset().top;
+
+        // 카드의 클론 생성 및 스타일 설정
+        previewCard = curCard.clone().css({
+            position: 'absolute',
+            left: curCard.offset().left,
+            top: curCard.offset().top,
+            opacity: 0.7,
+            zIndex: 1005,
+        }).appendTo('body'); // 클론을 body에 추가
+
+        curCard.addClass('onDrag'); // 원래 카드에 드래그 스타일 추가
+    });
+
+    // 마우스가 움직일 때
+    $(document).on('mousemove', function (event) {
+        if (isDragging && previewCard) {
+            previewCard.css({
+                left: event.clientX - offset.x,
+                top: event.clientY - offset.y,
+            });
+        }
+    });
+
+    // 마우스 버튼이 떼어질 때
+    $(document).on('mouseup', function () {
+        if (isDragging) {
+            isDragging = false;
+            curCard.removeClass('onDrag'); // 원래 카드에서 드래그 스타일 제거
+            previewCard.remove(); // 클론 카드 제거
+            curCard = null; // 현재 카드 초기화
+            previewCard = null; // 클론 카드 초기화
+        }
+    });
+
+
+};
+
+
+//==============================================================
+//==============================================================
+//==============================================================
+
+
+
+
 
 //==============================================================
 //==============================================================

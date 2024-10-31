@@ -65,10 +65,21 @@ body {
 }
 
 body.admin-mode {
-    background-color: rgba(255, 255, 0, 0.2); /* 노란색 배경 */
-    transition: background-color 0.3s ease; /* 부드러운 전환 효과 */
+    background-color: rgba(200, 200, 200, 1);
+    transition: background-color 1.0s ease;
     -webkit-user-select: auto;
     -moz-user-select: auto;
     -ms-user-select: auto;
     user-select: auto;
+}
+
+
+
+/* ============================================================================================== */
+/* ============================================================================================== */
+/* 카드 드래그 앤 드롭 기능 */
+.card.onDrag {
+    opacity: 0.5;
+    cursor: grabbing;
+    z-index: 1002;
 }
