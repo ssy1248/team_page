@@ -40,6 +40,7 @@
         const db = getFirestore(app);
 
         //응원과 응원한 사람을 저장할 db 이름: cheer_list
+        const fireDBName = "cheer_list";
         $("#cheer_button").click(async function () {
             let name = $(`#cheer_user_name`).val();
             let comment = $(`#cheer_comment`).val();
@@ -58,7 +59,7 @@
                     'cheer_user_name': name,
                     'cheer_comment': comment
                 };
-                await addDoc(collection(db, "cheer_list"), doc);
+                await addDoc(collection(db, fireDBName), doc);
                 alert("저장 완료!");
             }
 
@@ -67,7 +68,7 @@
 
         //방명록 전개
         //정렬 버튼 누를 때마다 이 짓 반복하는데 함수로 묶을 수 없나?
-        let docs = await getDocs(collection(db, "cheer_list"));
+        let docs = await getDocs(collection(db, fireDBName));
         docs.forEach((doc) => {
             let row = doc.data();
 
@@ -86,8 +87,8 @@
 
         //버튼 하나로 최신순, 역순으로 정렬
         $('#recentSortButton').click(async function () {
-            const sortingQuery = query(collection(db, "cheer_list"), orderBy("createdAt", "desc"));
-            const reverseSortingQuery = query(collection(db, "cheer_list"), orderBy("createdAt"));
+            const sortingQuery = query(collection(db, fireDBName), orderBy("createdAt", "desc"));
+            const reverseSortingQuery = query(collection(db, fireDBName), orderBy("createdAt"));
             //버튼을 누를 때마다 버튼 이름이 교차로 변경
             let querySnapshot;
             let buttonName = document.getElementById('recentSortButton')
@@ -145,6 +146,7 @@
     <!--응원 입력 칸-->
     <div class="input-group mb-3" id="cheerup">
         <input class="input-group-text" placeholder="닉네임을 입력하세요." id="cheer_user_name"></input>
+        <input type="password" class="input-group-text" placeholder="암호를 입력하세요." id="cheer_user_password"></input>
         <textarea class="form-control" placeholder="응원의 한 마디를 남겨주세요!" id="cheer_comment"></textarea>
         <button class="btn btn-outline-secondary" type="button" id="cheer_button">게시</button>
     </div>
