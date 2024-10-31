@@ -3,21 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Who We are</title>
+    <title>Home_Modify</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-    <link href="static/css/homestyle.css" rel="stylesheet">   
+    <link href="../static/css/homestyle.css" rel="stylesheet">   
 </header>
 
 </head>
   <body>
     <!-- Home page 처음 -->
     <div class="banner">
-        <h1>하던 No(m)de(ul)</h1>
-        <!-- <img src="static/img/rollimg.gif" class="bannerimg"> -->
+      <p>- Modify Page -</p>
+      <h1>하던 No(m)de(ul)</h1>
       <p>스파르타 코딩 클럽 Node.js 7기 1조</p>
         <div class="bannerbtn">
             <button class="custom-btn btn-16" id="two">팀 소개</button>
@@ -25,31 +25,29 @@
     </div>
     </div>
 
-    <!-- '우리 팀은..' 누르면 뜨는 Modal 팝업창-->
+    <!-- '우리 팀은..' 누르면 뜨는 Modal 팝업창 -->
     <div id="modal-container">
         <div class="modal-background">
           <div class="modal">
             <button id="closebtn" type="button" class="btn-close" aria-label="Close" style="float:right;"></button>
             <h2 style="font-size: 25px;">우리 팀을 소개합니다</h2>
-            <div class="loginbtn">
-              <button style="float:inline-end;" type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">페이지 수정</button>
-            </div>
+            <button id="savebtn" style="float:inline-end;" type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Save</button>
             <hr>
             <div class="explaincard1">
               <div class="card border-dark mb-3" style="max-width: auto; height:300px;">
                 <div class="card-header">팀 이름 설명</div>
-                <div class="card-body" style="margin-top:80px;">
+                <div class="card-body" style="margin-bottom: 10px;">
                   <h5 class="card-title"></h5>
-                  <p class="content" style="font-size:25px;">하던 No(m)de(ul)은 코딩을 '하던' 놈들 Node.js의 Node를 늘려서 '놈'들로 만들었습니다.</p>
+                  <textarea name="" id="inputtext" cols="30" style="font-size:25px; width: 100%; height:100%; display:flex;text-align: center;">수정할 내용을 입력하세요</textarea>
                 </div>
               </div>
             </div>
             <div class="explaincard2">
               <div class="card border-dark mb-3" style="max-width: auto; height:300px;">
                 <div class="card-header">팀 Notion 링크</div>
-                <div class="card-body" style="margin-top:40px;">
+                <div class="card-body" style="margin-top:80px;">
                   <h5 class="card-title">▼▼▼▼5조의 notion 링크▼▼▼▼</h5>
-                  <a href="https://teamsparta.notion.site/No-m-de-ul-1-1252dc3ef51481b9abe6cb3d5696d723">
+                  <a id="link" href="https://teamsparta.notion.site/No-m-de-ul-1-1252dc3ef51481b9abe6cb3d5696d723">
                     <img id="linkimage" src="https://i.namu.wiki/i/FT_lY0lj2ZCMofO1Qx6hWk2IixWIWCyOCUXKKWcwNzWZtzaAxvXjfp_8hN96A485KZhI1MePYc8Ysk4kphbUcQ.svg" alt="">
                   </a>
                 </div>
@@ -60,7 +58,7 @@
                 <div class="card-header">팀 로고</div>
                 <div class="card-body">
                   <h5 class="card-title"></h5>
-                  <img id="logoimage" src="static/img/rollimg.gif" alt="" style="width:200px;">
+                  <img id="logoimage" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/1280px-Node.js_logo.svg.png" alt="" style="width:200px;">
                 </div>
               </div>
             </div>
@@ -68,34 +66,8 @@
         </div>
       </div>
 
-    <!-- 팀 소개 안에 있는 Modal -->
-      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">페이지 수정</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="mb-3">
-                  <label for="recipient-text" class="col-form-label">ID:</label>
-                  <input type="text" class="form-control" id="username" required maxlength="15">
-                </div>
-                <div class="mb-3">
-                  <label for="recipient-text" class="col-form-label">PW:</label>
-                  <input type="password" class="form-control" id="password" required maxlength="15">
-                </div>
-                <p id="login-message" class="error hidden">Invalid username or password</p>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" id="submitbtn">Submit</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <!-- Save 버튼 누르고 재확인 Modal 창 -->
+
 
     <!-- 카드형 메뉴 2 x 2 -->
     <div class="menucard">
@@ -134,6 +106,6 @@
     <!-- Home page 끝 -->
 
     <!-- JS 불러오기 -->
-    <script type="module" src="static/js/home.js"></script>
+    <script type="module" src="../static/js/home_modify.js"></script>
   </body>
 </html>
