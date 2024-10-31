@@ -317,7 +317,10 @@ $(document).on('click', '.card', function (event) {
     if (!$(event.target).is('button')) {
         $(this).toggleClass('selected');
         $(this).css('outline', $(this).hasClass('selected') ? '4px solid yellow' : '0px auto');
-    }
+    }    
+
+    // 몇 개 선택되었는지 가시화
+    //$('.text-info-number-selected').text(" " + $(this).hasClass('selected').length + "개 선택됨");
 });
 
 // 선택된 카드들 선택없이 초기화 
