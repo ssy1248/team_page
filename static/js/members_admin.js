@@ -28,6 +28,17 @@ const adminDocs = await getDocs(adminRef);
 // ======================================================================================================================
 // ======================================================================================================================
 
+// ======================================================================================================================
+// ======================================================================================================================
+// member.js로부터 가져와서 사용할 function 존재
+import { loadAllMembers } from './members.js';
+
+
+// ======================================================================================================================
+// ======================================================================================================================
+
+
+
 let isAdminBtnClicked = false;
 // 어드민 모드 버튼
 $(document).on('click', '.button-admin', function () {
@@ -96,14 +107,35 @@ async function checkAdminKey(input) {
 // ======================================================================================================================
 // admin 모드 진입
 function enterAdminMode() {
-    $('body').toggleClass('admin-mode'); // admin-mode 클래스 추가/제거
+    // 어드민 모드가 켜지면, body의 태그에 admin mode 추가, 그리고 only-admin 클래스 관리
+    $('body').toggleClass('admin-mode');
     $('.only-admin').toggle();
+    // 어드민 모드 세션 저장
+    sessionStorage.setItem('admin-mode', 'true'); // 어드민 모드 상태 저장
 };
 // admin 모드 탈출
 function exitAdminMode() {
-    $('body').toggleClass('admin-mode'); // admin-mode 클래스 추가/제거
+    $('body').toggleClass('admin-mode');
     $('.only-admin').toggle();
+    // 어드민 모드 세션 저장
+    sessionStorage.setItem('admin-mode', 'false');
 };
+
+// admin과 관련하여 새로고침할 때 세션 정보를 위해
+$(document).ready(function() {
+    // 세션에 admin-mode가 되어 있으면 어드민으로
+    const wasAdminMode = sessionStorage.getItem('admin-mode') === 'true';
+    if (wasAdminMode){
+        enterAdminMode();
+    }   
+});
+
+// home 버튼 눌렀을 때 세션 admin 모드 탈출
+$(".button-home").click(async function () {
+    exitAdminMode();
+    $(location).attr('href', '../main_home.html');
+ });
+
 
 // ======================================================================================================================
 // ======================================================================================================================
@@ -221,19 +253,16 @@ function generateRandomID(){
 
 // ======================================================================================================================
 // ======================================================================================================================
-let ids = [];
 // 카드 선택으로 select
 $(document).on('click', '.card', function (event) {
     console.log("[check] .card selection checked");
     // 단, admin-mode에서만 가능하므로,
     if (!($('body').hasClass('admin-mode'))) return;
-
-
-    if (!$(event.target).is('button') && !$(event.target).is('img')) { // 클릭된 요소가 버튼이 아닌 경우에만 실행           
+    // 카드 내 버튼 누르는 게 아닐 때, <<< view 버튼을 눌러서 카드 선택말고 카드 들여다보기 해야하므로
+    if (!$(event.target).is('button')) {       
         $(this).toggleClass('selected');
         $(this).css('outline', $(this).hasClass('selected') ? '4px solid yellow' : '0px auto');
     }
-    ids = getSelectedMembersID();
 });
 
 // 어드민 기능 : 현재 선택된 멤버들 기준으로 멤버카드 삭제
@@ -242,17 +271,18 @@ $(document).on('click', '.button-admin-delete', async function () {
     try {
         const selectedCards = $('.card.selected');
         console.log("selecteds : " + selectedCards.length);
-        const deletePromises = [];
+        const myPromises = [];
         for (const card of selectedCards) {
             let selectedMemberName = $(card).closest('.member-card').find('.member-name').text();
             let selectedMember = query(membersRef, where('name', '==', selectedMemberName));
             const querySnapshot = await getDocs(selectedMember);
             querySnapshot.forEach((member) => {
-                deletePromises.push(deleteDoc(doc(db, "members", member.id)));
+                myPromises.push(deleteDoc(doc(db, "members", member.id)));
             });
         }
-        await Promise.all(deletePromises);
+        await Promise.all(myPromises);
         window.location.reload();
+        /* RELOAD로 새로고침하면 어드민 모드 탈출 해버리니까 이에 대한 대책 필요. */
     } catch (e) {
         console.error("[Error] cannot bring doc IDs : " + e);
     }
@@ -262,6 +292,7 @@ $(document).on('click', '.button-admin-delete', async function () {
 //==============================================================
 //==============================================================
 // 에러 많은 레거시 코드는 이후 공부를 위해 잠시 백업
+/*
 async function deleteMemberCard() {
     for (const id of ids) {
         await deleteMemberData(id); // 각 ID에 대해 삭제 실행
@@ -291,6 +322,7 @@ async function getSelectedMembersID(){
         console.error("[Error] cannot bring doc IDs : " + e);
     }
 }
+*/
 //==============================================================
 //==============================================================
 //==============================================================

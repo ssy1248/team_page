@@ -29,24 +29,27 @@ const membersRef = collection(db, 'members');
 const members = await getDocs(membersRef);
 
 // 팀원 멤버 전체: 초기화 후 불러오기
-$('.member-cards').empty();
-members.forEach((member) => {
-    let name = member.data().name;
-    let image = member.data().image;
+loadAllMembers();
+export function loadAllMembers() {
+    $('.member-cards').empty();
+    members.forEach((member) => {
+        let name = member.data().name;
+        let image = member.data().image;
 
-    let temp_html = `           
-            <div class="member-card">
-                <div class="card">
-                    <img src="${image}" class="member-image" alt="...">
-                    <h4 class="member-name">${name}</h4>
-                    <button class="button-view button-small"><img src="../static/img/icon-view.png" alt="FAILED TO LOAD View Icon"
-                    class="icon"></button>                
+        let temp_html = `           
+                <div class="member-card">
+                    <div class="card">
+                        <img src="${image}" class="member-image" alt="...">
+                        <h4 class="member-name">${name}</h4>
+                        <button class="button-view button-small"><img src="../static/img/icon-view.png" alt="FAILED TO LOAD View Icon"
+                        class="icon"></button>                
+                    </div>
                 </div>
-            </div>
-            `;
-    $('.member-cards').append(temp_html);
-});
+                `;
+        $('.member-cards').append(temp_html);
+    });
 
+}
 
 // 전역변수로서 필요한 멤버데이터 객체
 let memberData = null;
