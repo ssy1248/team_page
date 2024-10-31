@@ -65,6 +65,8 @@
             window.location.reload();
         });
 
+        //방명록 전개
+        //정렬 버튼 누를 때마다 이 짓 반복하는데 함수로 묶을 수 없나?
         let docs = await getDocs(collection(db, "cheer_list"));
         docs.forEach((doc) => {
             let row = doc.data();
@@ -105,6 +107,7 @@
                 let row = doc.data();
 
                 // Firestore의 Timestamp를 Date 형식으로 변환 / 디폴트 값을 2024-10-29로 설정했으나 정렬을 눌렀을 때 firebase에 값이 없는 상황이 생김 그래서 firebase에서 강제로 값을 넣어놓은 상태
+                //근데 왜 디폴트 값을 줘도 정렬할 땐 사라지지?
                 let date = row.createdAt ? row.createdAt.toDate().toLocaleString() : new Date("2024-10-29").toLocaleString();
                 let name = row['cheer_user_name'];
                 let comment = row['cheer_comment'];
@@ -128,7 +131,6 @@
                 src="../static/img/icon-home.png" alt="FAILED TO LOAD Home Icon" class="icon" width="30"
                 height="24" /></a>
         <span class="nav justify-content-center">방명록</span>
-
     </div>
 
     <!--정렬 버튼-->
