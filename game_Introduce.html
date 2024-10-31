@@ -136,7 +136,9 @@
         }
 
         /*모달 팝업 영역 스타일링*/
-        .modal, .modal2, .modal_three {
+        .modal,
+        .modal2,
+        .modal_three {
             /*팝업 배경*/
             display: none;
             /*평소에는 보이지 않도록*/
@@ -148,6 +150,7 @@
             overflow: hidden;
             background: rgba(0, 0, 0, 0.5);
         }
+
         .modal .modal_popup,
         .modal2 .modal2_popup,
         .modal_three .modal_three_popup {
@@ -242,9 +245,9 @@
             </div>
             <div class="form-floating mb-3">
                 <label for="floatingInput">PW</label>
-                <input type="email" class="form-control" id="pw" placeholder="PW">
+                <input type="password" class="form-control" id="pw" placeholder="PW">
             </div>
-            <button id="postingbtn" type="button" id="login_sel_btn">로그인</button>
+            <button type="button" id="modal_login_btn">로그인</button>
             <button type="button" id="close3_btn">닫기</button>
         </div>
     </div>
@@ -280,6 +283,7 @@
     <script type="module">
         let adminId = "admin";
         let adminPw = "1111";
+        let isAdmin = JSON.parse(localStorage.getItem('isAdmin')) || false; // Admin 권한 확인용 변수 (초기값: 저장된 값)
 
         // 좋아요, 싫어요 카운트를 저장할 객체
         let likeCounts = {};
@@ -341,10 +345,10 @@
         $(document).on('click', '.goodbtn', async function () {
             // 카드 ID를 기반으로 좋아요 카운트를 관리 -> https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes(참고)
             //https://www.codeconcisely.com/posts/javascript-data-attributes/(참고)
-            const cardId = $(this).closest('.card').data('id'); // 클릭한 카드의 data-id 추출
+            const cardId = $(this).closest('.card').data('id');
             actionLimits[cardId] = actionLimits[cardId] || { likes: 0, dislikes: 0 };
             //|| 사용한 이유는 likeCounts[cardId]가 초기에 undefined 이면 오류가 나오기에 undefined일시 초기값을 0으로 설정
-            if (actionLimits[cardId].likes < 5) {  // 좋아요 5회 제한
+            if (isAdmin || actionLimits[cardId].likes < 5) { // Admin일 경우 제한 없음
                 actionLimits[cardId].likes++;
                 likeCounts[cardId] = (likeCounts[cardId] || 0) + 1;
                 $(this).text(`좋아요 (${likeCounts[cardId]})`);
@@ -360,7 +364,7 @@
             const cardId = $(this).closest('.card').data('id');
             actionLimits[cardId] = actionLimits[cardId] || { likes: 0, dislikes: 0 };
 
-            if (actionLimits[cardId].dislikes < 5) {  // 싫어요 5회 제한
+            if (isAdmin || actionLimits[cardId].dislikes < 5) { // Admin일 경우 제한 없음
                 actionLimits[cardId].dislikes++;
                 dislikeCounts[cardId] = (dislikeCounts[cardId] || 0) + 1;
                 $(this).text(`싫어요 (${dislikeCounts[cardId]})`);
@@ -371,36 +375,77 @@
             }
         });
 
+        // 로그인 모달 관련 요소 참조
         const modal_three = document.querySelector('.modal_three');
-        const modalThreeOpen = document.querySelector('.login_btn');
+        const loginBtn = document.getElementById('login_btn');
         const modalThreeClose = document.querySelector('.close3_btn');
 
-        $('#login_btn').click(function () {
+        // 로그아웃 버튼 생성 및 기본 숨기기
+        const logoutBtn = document.createElement('button');
+        logoutBtn.textContent = "Logout";
+        logoutBtn.id = "logout_btn";
+        loginBtn.parentNode.appendChild(logoutBtn); // 로그인 버튼의 부모 요소에 로그아웃 버튼 추가
+
+        // 로그인 상태 확인 후 버튼 상태 업데이트
+        function updateLoginState() {
+            if (isAdmin) {
+                loginBtn.style.display = "none"; // 로그인 버튼 숨기기
+                logoutBtn.style.display = "inline-block"; // 로그아웃 버튼 표시
+            } else {
+                loginBtn.style.display = "inline-block";
+                logoutBtn.style.display = "none";
+            }
+        }
+
+        //윈도우 새로고침 시 로그인을 유지하고 싶지만 튄다
+        window.addEventListener('load', ()=>{
+            updateLoginState(); // 페이지 로드 시 로그인 상태 확인
+        }); 
+
+        // 로그인 버튼 클릭 시 로그인 모달 표시
+        loginBtn.addEventListener('click', () => {
             modal_three.classList.add('on');
         });
 
-        $('#close3_btn').click(function () {
+        // 닫기 버튼 클릭 시 로그인 모달 숨기기
+        document.getElementById('close3_btn').addEventListener('click', () => {
             modal_three.classList.remove('on');
         });
 
-        $('#login_sel_btn').click(function(){
-            console.log('로그인 성공 여부 확인');
+        //로그인 처리
+        $('#modal_login_btn').click(function () {
+            let id = document.getElementById('id').value;
+            let pw = document.getElementById('pw').value;
+
+            if (id === adminId && pw === adminPw) {
+                isAdmin = true; // Admin 권한 부여
+                localStorage.setItem('isAdmin', JSON.stringify(isAdmin));
+                alert("로그인 성공");
+                modal_three.classList.remove('on');
+                loginBtn.style.display = "none"; // 로그인 버튼 숨기기
+                logoutBtn.style.display = "inline-block"; // 로그아웃 버튼 표시
+            } else {
+                alert("로그인 실패");
+            }
+        });
+
+        // 로그아웃 처리
+        logoutBtn.addEventListener('click', () => {
+            isAdmin = false; // Admin 권한 해제
+            localStorage.setItem('isAdmin', JSON.stringify(isAdmin));
+            loginBtn.style.display = "inline-block"; // 로그인 버튼 표시
+            logoutBtn.style.display = "none"; // 로그아웃 버튼 숨기기
+            alert("로그아웃 되었습니다.");
         });
 
         // Firestore에서 문서 삭제 및 화면에서 카드 삭제 함수
         async function deleteSelectedCard(cardId) {
             try {
                 const docRef = doc(db, "games", cardId);
-
-                // Firestore에서 문서 삭제
                 await deleteDoc(docRef);
-
-                // 화면에서 해당 카드 제거
                 $(`.card[data-id="${cardId}"]`).remove();
-
                 console.log(`Card with ID ${cardId} deleted successfully`);
-            }
-            catch (error) {
+            } catch (error) {
                 console.error("Error deleting document:", error);
             }
         }
@@ -409,6 +454,11 @@
         $('#deleteGameButton').click(async function () {
             //https://firebase.google.com/docs/firestore/manage-data/delete-data?hl=ko -> 참고
             // each -> 선택된 요소들에 대해 하나씩 순차적으로 함수를 실행할 수 있게 합니다.
+            if (!isAdmin) {
+                alert("삭제 권한이 없습니다.");
+                return;
+            }
+
             $('.card.selected').each(async function () {
                 const cardId = $(this).data('id'); // 선택된 카드의 data-id에서 docId를 추출
                 await deleteSelectedCard(cardId);
@@ -418,16 +468,15 @@
         // Firestore에 좋아요 카운트 업데이트 함수
         //https://firebase.google.com/docs/database/admin/save-data?hl=ko#node.js 참고
         async function updateLikeCount(cardId, newCount) {
-            const docRef = doc(db, "games", cardId);  // doc 함수로 특정 문서를 지정
+            const docRef = doc(db, "games", cardId);
             await updateDoc(docRef, { likeCount: newCount });
         }
 
         // Firestore에 싫어요 카운트 업데이트 함수 || 싫어요 10?개 이상 받으면 자동 삭제?
         async function updateDislikeCount(cardId, newCount) {
-            const docRef = doc(db, "games", cardId);  // doc 함수로 특정 문서를 지정
+            const docRef = doc(db, "games", cardId);
             await updateDoc(docRef, { dislikeCount: newCount });
 
-            // 싫어요 10개 이상일 때 삭제 함수 호출
             if (newCount >= 10) {
                 await deleteSelectedCard(cardId);
             }
@@ -443,6 +492,11 @@
 
         //데이터 베이스 수정 -> AI 도움
         $('#changeButton').click(async function () {
+            if (!isAdmin) {
+                alert("수정 권한이 없습니다.");
+                return;
+            }
+
             const selectedCard = $('.card.selected'); // 선택된 카드 요소
             if (selectedCard.length === 0) {
                 alert("수정할 카드를 선택해주세요.");
@@ -690,4 +744,5 @@
         });
     </script>
 </body>
+
 </html>
