@@ -29,30 +29,35 @@ const membersRef = collection(db, 'members');
 const members = await getDocs(membersRef);
 
 // 팀원 멤버 전체: 초기화 후 불러오기
-$('.member-cards').empty();
-members.forEach((member) => {
-    let name = member.data().name;
-    let image = member.data().image;
+loadAllMembers();
+export function loadAllMembers() {
+    $('.member-cards').empty();
+    members.forEach((member) => {
+        let name = member.data().name;
+        let image = member.data().image;
 
-    let temp_html = `           
-            <div class="member-card">
-                <div class="card">
-                    <img src="${image}" class="member-image" alt="...">
-                    <h4 class="member-name">${name}</h4>
+        let temp_html = `           
+                <div class="member-card">
+                    <div class="card">
+                        <img src="${image}" class="member-image" alt="...">
+                        <h4 class="member-name">${name}</h4>
+                        <button class="button-view button-small" title="Press to view Member Card"><img src="../static/img/icon-view.png" alt="FAILED TO LOAD View Icon"
+                        class="icon"></button>                
+                    </div>
                 </div>
-            </div>
-            `;
-    $('.member-cards').append(temp_html);
-});
+                `;
+        $('.member-cards').append(temp_html);
+    });
 
+}
 
 // 전역변수로서 필요한 멤버데이터 객체
 let memberData = null;
 let curMemberID = null;
 
 // card 클래스 클릭 시 팝업 띄우기
-$(document).on('click', '.card', async function () {
-    let targetMemberName = $(this).find('.member-name').text();
+$(document).on('click', '.button-view', async function () {
+    let targetMemberName = $(this).closest('.member-card').find('.member-name').text();
     let member = query(membersRef, where('name', '==', targetMemberName));
     popupMembercard(member);
 });
@@ -64,9 +69,8 @@ async function popupMembercard(member) {
         // 로드한 데이터 분류
         const querySnapshot = await getDocs(member);
         querySnapshot.forEach((member) => {
-            // 현재 선택된 멤버의 고유id값 기억
-            curMemberID = member.data().id;
-            console.log("curMemberID : " + curMemberID);
+            // 현재 선택된 멤버 문서 id 값 기억
+            curMemberID = member.id;
             // 멤버의 정보 기억
             memberData = {
                 name: member.data().name,
@@ -95,7 +99,7 @@ async function popupMembercard(member) {
 }
 // 데이터 기반 모달창 html 생성
 function updateMemberInfos() {
-    let tempHtml = `
+    let tempHtml_sub1 = `
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="modal-label">멤버 정보</h5>
@@ -103,7 +107,12 @@ function updateMemberInfos() {
         </div>
         <div class="modal-body">
             <h4 id="member-name">${memberData.name}</h4>
-            <button type="button" class="button-edit"> <img src="../static/img/icon-edit.png" alt="FAILED TO LOAD IMG" class="img-button-edit"> 수정하기 </button>
+    `;
+    // admin mode냐에 따라 수정 버튼 삽입 결정
+    let tempHtml_sub2 = ($('body').hasClass('admin-mode') ? `
+        <button type="button" class="button-edit button-basic"> <img src="../static/img/icon-edit.png" alt="FAILED TO LOAD IMG" class="img-button-edit"> 수정 </button>
+    ` : ``);
+    let tempHtml_sub3 = `
             <img id="member-image" src="${memberData.image}" alt="FAILED TO LOAD IMG" class="img-fluid mb-3">
             <p id="member-text">
                 MBTI : ${memberData.mbti}
@@ -127,8 +136,8 @@ function updateMemberInfos() {
             </p>
             <!-- GitHub, Blog 아이콘과 링크 -->
             <div class="modal-icons">
-                <a href="${memberData.linkGithub}" target="_blank"><img src="../static/img/github-mark.png" alt="FAILED TO LOAD GitHub Icon" class="icon"></a>
-                <a href="${memberData.linkBlog}" target="_blank"><img src="../static/img/icon-blog.png" alt="FAILED TO LOAD Blog Icon" class="icon"></a>
+                <button class="button-link button-basic" data-link="${memberData.linkGithub}"><img src="../static/img/github-mark.png" alt="FAILED TO LOAD GitHub Icon" class="icon"></button>
+                <button class="button-link button-basic" data-link="${memberData.linkBlog}"><img src="../static/img/icon-blog.png" alt="FAILED TO LOAD Blog Icon" class="icon"></button>
             </div>
         </div>
         <div class="modal-footer">
@@ -136,6 +145,9 @@ function updateMemberInfos() {
         </div>
     </div>
     `;
+
+    let tempHtml = tempHtml_sub1 + tempHtml_sub2 + tempHtml_sub3;
+
     // html 초기화하고 붙여주기
     $(".member-modal").empty();
     $(".member-modal").append(tempHtml);
@@ -154,7 +166,7 @@ function editMemberInfos() {
     modalBody.empty();
     let tmp = `
                 <h4 id="member-name"><input type="text" value="${memberData.name}" class="edited-name"></h4>
-                <button type="button" class="button-save"> <img src="../static/img/icon-save.png" alt="FAILED TO LOAD IMG" class="img-button-save"> 저장하기 </button>
+                <button type="button" class="button-save button-basic"> <img src="../static/img/icon-save.png" alt="FAILED TO LOAD IMG" class="img-button-save"> 저장 </button>
                 <img id="member-image" src="${memberData.image}" alt="FAILED TO LOAD IMG" class="img-fluid mb-3"><input type="text" value="${memberData.image}" class="edited-image">
                 <p id="member-text">
                     MBTI : <input type="text" value="${memberData.mbti}" class="edited-mbti">
@@ -193,34 +205,24 @@ $(document).on('click', '.button-save', async function () {
 async function saveMemberInfos() {
     console.log("[func check] saveMemberInfos called");
     console.log("[func check] curMemberID : " + curMemberID);
-    let member = query(membersRef, where('id', '==', curMemberID));
+    let curMember = doc(db, 'members', curMemberID);
     try {
-        const querySnapshot = await getDocs(member);
-
-        if (!querySnapshot.empty) {
-            const memberDoc = querySnapshot.docs[0];
-            const memberDocRef = memberDoc.ref; // 해당 문서의 참조
-            // 새 데이터로 문서 업데이트
-            memberData = {
-                id: curMemberID,
-                name: $('.edited-name').val(),
-                image: $('.edited-image').val(),
-                mbti: $('.edited-mbti').val(),
-                intro: $('.edited-intro').val(),
-                interest: $('.edited-interest').val(),
-                favGame: $('.edited-favGame').val(),
-                game_G: $('.edited-game_G').val(),
-                game_A: $('.edited-game_A').val(),
-                game_M: $('.edited-game_M').val(),
-                game_E: $('.edited-game_E').val(),
-                linkGithub: $('.edited-linkGithub').val(),
-                linkBlog: $('.edited-linkBlog').val()
-            };
-            await updateDoc(memberDocRef, memberData);
-        }
-        else {
-            console.error("[Error] cannot find member.");
-        }
+        memberData = {
+            id: curMemberID,
+            name: $('.edited-name').val(),
+            image: $('.edited-image').val(),
+            mbti: $('.edited-mbti').val(),
+            intro: $('.edited-intro').val(),
+            interest: $('.edited-interest').val(),
+            favGame: $('.edited-favGame').val(),
+            game_G: $('.edited-game_G').val(),
+            game_A: $('.edited-game_A').val(),
+            game_M: $('.edited-game_M').val(),
+            game_E: $('.edited-game_E').val(),
+            linkGithub: $('.edited-linkGithub').val(),
+            linkBlog: $('.edited-linkBlog').val()
+        };
+        await updateDoc(curMember, memberData);
         // 멤버 정보 업데이트하기
         updateMemberInfos();
         console.log("[Success] Member information updated successfully!");
