@@ -19,14 +19,12 @@
         }
 
         .cheer-date {
-            font-size: xx-small;
+            font-size: small;
         }
     </style>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getFirestore, collection, doc, updateDoc, addDoc, getDocs, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC8OlC6t8SQVKaZANQF-9X0h27gb7Vn0gI",
@@ -45,8 +43,8 @@
         $("#cheer_button").click(async function () {
             let name = $(`#cheer_user_name`).val();
             let comment = $(`#cheer_comment`).val();
-            let time = new Date();
-            let year = time.getFullYear();
+            //let date = new Date().toLocaleString();
+            /*let year = time.getFullYear();
             let month = time.getMonth();
             let date = time.getDate();
             let day = time.getDay();
@@ -57,8 +55,8 @@
             let seconds = time.getSeconds();
             //작성 날짜 계산
             let now = `${year}년 ${month + 1}월 ${date}일 ${week[day]}요일 ` +
-                `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
-            console.log(name, comment, now);
+                `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;*/
+            console.log(name, comment);
 
             //공란이 있으면 저장 안 함.
             if (name == "") {
@@ -69,7 +67,7 @@
             }
             else {
                 let doc = {
-                    'cheer_date': now,
+                    createdAt: serverTimestamp(),
                     'cheer_user_name': name,
                     'cheer_comment': comment
                 };
@@ -84,7 +82,7 @@
         docs.forEach((doc) => {
             let row = doc.data();
 
-            let date = row['cheer_date'];
+            let date = row.createdAt ? row.createdAt.toDate().toLocaleString() : new Date("2024-10-29").toLocaleString();
             let name = row['cheer_user_name'];
             let comment = row['cheer_comment'];
 
