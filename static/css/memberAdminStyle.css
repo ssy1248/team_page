@@ -16,16 +16,17 @@
     transition: opacity 0.5s ease;
     /* 애니메이션 효과 */
     position: fixed;
-    width: 40%;
+    width: 30%;
     top: 10%;
-    left: 30%;
+    left: 35%;
     transform: translateX(-50%);
-    background-color: grey;
-    color: red;
+    background-color: rgb(221, 221, 221);
     padding: 10px 10px;
     border-radius: 10px;
     z-index: 1000;
     /* z-order 맨 앞으로 */
+    font-weight: bold;
+    font-size: 24px;
     text-align: center;
 }
 

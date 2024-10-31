@@ -62,17 +62,13 @@ function toggleAdminSpace() {
 $(document).on('click', '.button-admin-key-enter', async function () {
     console.log("[btn check] button-admin-key-enter pressed");
     // locked된 상황
-    if (isLocked){
+    if (isLocked)  
         return;
-    }
-
-
-
     // 어드민 키값이 일치하게 되면, 어드민 모드 진입 / 불일치 시에는 틀렸음 알려주기
     let input = $('.admin-access-input').val();
     let isKeyMatched = await checkAdminKey(input);
     if (isKeyMatched) {
-        showToast(":: ADMIN KEY MATCHED ::");
+        showToast(":: ADMIN KEY MATCHED ::", 'blue');
         $('.button-admin').css('filter', 'brightness(1.0)');
         toggleAdminSpace();
         resetTrialCnt();
@@ -81,7 +77,7 @@ $(document).on('click', '.button-admin-key-enter', async function () {
     else {
         // 틀리면 시도 횟수 차감
         availableTrialCnt--;
-        showToast("ACCESS DENIED");
+        showToast("ACCESS DENIED", 'red');
         // 잔여 시도횟수 없으면 락 걸기
         if (availableTrialCnt <= 0) 
             lockAdminAccess();
@@ -90,14 +86,15 @@ $(document).on('click', '.button-admin-key-enter', async function () {
     $('.admin-access-input').val('');
 });
 // 토스트 메시지 띄우기
-function showToast(message, flag) {
+function showToast(message, color = 'black') {
     console.log("[func check] showToast called");
-    $('.admin-toast').text(message); // 메시지 설정
-    $('.admin-toast').addClass('showToast'); // 토스트 메시지 보이기
+    $('.admin-toast').text(message);
+    $('.admin-toast').css('color', color);
+    $('.admin-toast').addClass('showToast');
     // 일정 시간 후 토스트 메시지 숨기기
     setTimeout(() => {
         $('.admin-toast').removeClass('showToast');
-    }, 1500); // 3초 후 사라짐
+    }, 1000);
 };
 
 // firebase에서 어드민 키 확인하기
@@ -118,11 +115,11 @@ async function checkAdminKey(input) {
 
 // 어드민 키 입력 횟수 제한의 위한 추가 구현부
 const adminAccessTrialConstraint = 3;       // 틀릴 기회
+const lockTime = 10 * 1000;
 let availableTrialCnt = adminAccessTrialConstraint;
 let isLocked = false;
-let lockTime = 3 * 1000; // 
-let timeout; // 타이머를 위한 변수
-let remainingTime; // 남은 시간을 위한 변수
+let timeout;
+let remainTime;
 // 시도가능 횟수 다시 부여
 function resetTrialCnt(){
     availableTrialCnt = adminAccessTrialConstraint;
@@ -130,12 +127,12 @@ function resetTrialCnt(){
 // 시도 가능횟수 초과 시 락 걸기
 function lockAdminAccess(){
     isLocked = true;
-    remainingTime = lockTime;
+    remainTime = lockTime;
     timeout = setInterval(function () {
-        remainingTime -= 1000; // 매 초마다 1초 감소
-        let secs = Math.floor(remainingTime / 1000);
+        remainTime -= 1000;
+        let secs = Math.floor(remainTime / 1000);
         $('.text-info-admin-access').html("시도횟수 초과로 잠겨있습니다.<br>" + secs + "초 후에 다시 시도하세요.");
-        if (remainingTime <= 0) {
+        if (remainTime <= 0) {
             clearInterval(timeout); // 타이머 정지
             isLocked = false; // 잠금 해제
             availableTrialCnt = adminAccessTrialConstraint;
@@ -194,6 +191,7 @@ $(".button-home").click(async function () {
 $(document).on('click', '.button-exit-admin', function () {
     console.log("[btn check] button-exit-admin pressed");
     // 플래그 변수를 통해 버튼 눌린거 비주얼화
+    showToast("Return to GuestMode");
     exitAdminMode();
 });
 
