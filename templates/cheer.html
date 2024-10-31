@@ -82,35 +82,21 @@
             $(`#cheer_records`).append(temp_html);
         });
 
-        //최신 순으로 정렬 - 등록 날짜 순으로 정렬
+        //버튼 하나로 최신순, 역순으로 정렬
         $('#recentSortButton').click(async function () {
             const sortingQuery = query(collection(db, "cheer_list"), orderBy("createdAt", "desc"));
-            const querySnapshot = await getDocs(sortingQuery);
-
-            $('#cheer_records').empty();
-
-            // Firestore에서 가져온 정렬된 데이터를 화면에 추가
-            querySnapshot.forEach((doc) => {
-                let row = doc.data();
-
-                // Firestore의 Timestamp를 Date 형식으로 변환 / 디폴트 값을 2024-10-29로 설정했으나 정렬을 눌렀을 때 firebase에 값이 없는 상황이 생김 그래서 firebase에서 강제로 값을 넣어놓은 상태
-                let date = row.createdAt ? row.createdAt.toDate().toLocaleString() : new Date("2024-10-29").toLocaleString();
-                let name = row['cheer_user_name'];
-                let comment = row['cheer_comment'];
-
-                let temp_html = `
-                <div class="row align-items-end">
-                    <div class="col list-group-item cheer-date">${date}</div>
-                    <div class="col list-group-item">${name}</div>
-                    <div class="col-8 list-group-item">${comment}</div>
-                </div>`;
-                $(`#cheer_records`).append(temp_html);
-            });
-        });
-
-        $('#outdatedSortButton').click(async function () {
-            const sortingQuery = query(collection(db, "cheer_list"), orderBy("createdAt"));
-            const querySnapshot = await getDocs(sortingQuery);
+            const reverseSortingQuery = query(collection(db, "cheer_list"), orderBy("createdAt"));
+            //버튼을 누를 때마다 버튼 이름이 교차로 변경
+            let querySnapshot;
+            let buttonName = document.getElementById('recentSortButton')
+            if (buttonName.innerText == '최신순') {
+                querySnapshot = await getDocs(sortingQuery);
+                buttonName.innerText = '오래된순';
+            }
+            else {
+                querySnapshot = await getDocs(reverseSortingQuery);
+                buttonName.innerText = '최신순';
+            }
 
             $('#cheer_records').empty();
 
@@ -148,9 +134,6 @@
     <!--정렬 버튼-->
     <button id="recentSortButton">
         최신순
-    </button>
-    <button id="outdatedSortButton">
-        오래된순
     </button>
 
     <!--방명록 보여주는 공간-->
