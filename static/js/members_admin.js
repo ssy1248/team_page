@@ -61,15 +61,30 @@ function toggleAdminSpace() {
 // 어드민 키값 제출 버튼
 $(document).on('click', '.button-admin-key-enter', async function () {
     console.log("[btn check] button-admin-key-enter pressed");
+    // locked된 상황
+    if (isLocked){
+        return;
+    }
+
+
+
     // 어드민 키값이 일치하게 되면, 어드민 모드 진입 / 불일치 시에는 틀렸음 알려주기
     let input = $('.admin-access-input').val();
     let isKeyMatched = await checkAdminKey(input);
     if (isKeyMatched) {
-        showToast("correct");
+        showToast(":: ADMIN KEY MATCHED ::");
+        $('.button-admin').css('filter', 'brightness(1.0)');
+        toggleAdminSpace();
+        resetTrialCnt();
         enterAdminMode();
     }
     else {
-        showToast("wrong");
+        // 틀리면 시도 횟수 차감
+        availableTrialCnt--;
+        showToast("ACCESS DENIED");
+        // 잔여 시도횟수 없으면 락 걸기
+        if (availableTrialCnt <= 0) 
+            lockAdminAccess();
     }
     // 어드민 키 입력창 값 비우기
     $('.admin-access-input').val('');
@@ -79,7 +94,6 @@ function showToast(message, flag) {
     console.log("[func check] showToast called");
     $('.admin-toast').text(message); // 메시지 설정
     $('.admin-toast').addClass('showToast'); // 토스트 메시지 보이기
-
     // 일정 시간 후 토스트 메시지 숨기기
     setTimeout(() => {
         $('.admin-toast').removeClass('showToast');
@@ -97,6 +111,42 @@ async function checkAdminKey(input) {
         return false;
     }
 };
+
+
+// ======================================================================================================================
+// ======================================================================================================================
+
+// 어드민 키 입력 횟수 제한의 위한 추가 구현부
+const adminAccessTrialConstraint = 3;       // 틀릴 기회
+let availableTrialCnt = adminAccessTrialConstraint;
+let isLocked = false;
+let lockTime = 3 * 1000; // 
+let timeout; // 타이머를 위한 변수
+let remainingTime; // 남은 시간을 위한 변수
+// 시도가능 횟수 다시 부여
+function resetTrialCnt(){
+    availableTrialCnt = adminAccessTrialConstraint;
+}
+// 시도 가능횟수 초과 시 락 걸기
+function lockAdminAccess(){
+    isLocked = true;
+    remainingTime = lockTime;
+    timeout = setInterval(function () {
+        remainingTime -= 1000; // 매 초마다 1초 감소
+        let secs = Math.floor(remainingTime / 1000);
+        $('.text-info-admin-access').html("시도횟수 초과로 잠겨있습니다.<br>" + secs + "초 후에 다시 시도하세요.");
+        if (remainingTime <= 0) {
+            clearInterval(timeout); // 타이머 정지
+            isLocked = false; // 잠금 해제
+            availableTrialCnt = adminAccessTrialConstraint;
+            $('.text-info-admin-access').text("");
+        }
+    }, 1000);
+}
+// ======================================================================================================================
+// ======================================================================================================================
+
+
 
 // ======================================================================================================================
 // ======================================================================================================================
@@ -162,31 +212,31 @@ function createMemberCard() {
     let modalBody = $('.modal-body');
     modalBody.empty();
     let tmp = `
-                <h4 id="member-name"><input type="text" placehoder="팀원 이름" class="edited-name"></h4>
+                <h4 id="member-name"><input type="text" placeholder="팀원 이름" class="edited-name"></h4>
                 <button type="button" class="button-enroll button-basic"> <img src="../static/img/icon-enroll.png" alt="FAILED TO LOAD IMG" class="img-button-enroll">등록</button>
-                <img id="member-image" src="" alt="FAILED TO LOAD IMG" class="img-fluid mb-3"><input type="text" placehoder="이미지 URL" class="edited-image">
+                <img id="member-image" src="" alt="FAILED TO LOAD IMG" class="img-fluid mb-3"><input type="text" placeholder="이미지 URL" class="edited-image">
                 <p id="member-text">
-                    MBTI : <input type="text" placehoder="MBTI" class="edited-mbti">
+                    MBTI : <input type="text" placeholder="MBTI" class="edited-mbti">
                     <br>
-                    자기소개 : <input type="text" placehoder="자기소개" class="edited-intro">
+                    자기소개 : <input type="text" placeholder="자기소개" class="edited-intro">
                     <br>
-                    관심사 : <input type="text" placehoder="관심사" class="edited-interest">
+                    관심사 : <input type="text" placeholder="관심사" class="edited-interest">
                     <br>
-                    좋아하는 게임 : <input type="text" placehoder="좋아하는 게임" class="edited-favGame">
+                    좋아하는 게임 : <input type="text" placeholder="좋아하는 게임" class="edited-favGame">
                     <br><br>
                     + G A M E 키워드로 표현하기 +
                     <br>
-                    G : <textarea rows="4" cols="30" class="edited-game_G" placehoder="G로 시작하는 키워드 영단어"></textarea>
+                    G : <textarea rows="4" cols="30" class="edited-game_G" placeholder="G로 시작하는 키워드 영단어"></textarea>
                     <br>
-                    A : <textarea rows="4" cols="30" class="edited-game_A" placehoder="G로 시작하는 키워드 영단어"></textarea>
+                    A : <textarea rows="4" cols="30" class="edited-game_A" placeholder="G로 시작하는 키워드 영단어"></textarea>
                     <br>
-                    M : <textarea rows="4" cols="30" class="edited-game_M" placehoder="G로 시작하는 키워드 영단어"></textarea>
+                    M : <textarea rows="4" cols="30" class="edited-game_M" placeholder="G로 시작하는 키워드 영단어"></textarea>
                     <br>
-                    E : <textarea rows="4" cols="30" class="edited-game_E" placehoder="G로 시작하는 키워드 영단어"></textarea>
+                    E : <textarea rows="4" cols="30" class="edited-game_E" placeholder="G로 시작하는 키워드 영단어"></textarea>
                     <br><br>
-                    Github Link : <input type="text" placehoder="Github Link" class="edited-linkGithub">
+                    Github Link : <input type="text" placeholder="Github Link" class="edited-linkGithub">
                     <br>
-                    Blog Link :   <input type="text" placehoder="블로그 Link" class="edited-linkBlog">
+                    Blog Link :   <input type="text" placeholder="블로그 Link" class="edited-linkBlog">
                 </p>
                 <!-- GitHub, Blog 아이콘과 링크 -->
                 <div class="modal-icons">
