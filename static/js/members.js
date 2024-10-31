@@ -2,18 +2,26 @@
 // fire base connection
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-import { collection, query, where } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-import { doc, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+import {
+  collection,
+  query,
+  where,
+} from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+import {
+  doc,
+  getDocs,
+  updateDoc,
+} from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyDz3wGRePugMYvj2U01AZQAUNxxUqxEW0g",
-    authDomain: "sparta-d16df.firebaseapp.com",
-    projectId: "sparta-d16df",
-    storageBucket: "sparta-d16df.appspot.com",
-    messagingSenderId: "705618231338",
-    appId: "1:705618231338:web:88330fae016dc81f700353",
-    measurementId: "G-G7F6HC716P"
+  apiKey: "AIzaSyDz3wGRePugMYvj2U01AZQAUNxxUqxEW0g",
+  authDomain: "sparta-d16df.firebaseapp.com",
+  projectId: "sparta-d16df",
+  storageBucket: "sparta-d16df.appspot.com",
+  messagingSenderId: "705618231338",
+  appId: "1:705618231338:web:88330fae016dc81f700353",
+  measurementId: "G-G7F6HC716P",
 };
 
 const app = initializeApp(firebaseConfig);
@@ -25,10 +33,11 @@ console.log("test log: i am memberjs");
 
 //-------------------------------------------------------------------------------------------------------------
 // firebase db의 [members]로부터 데이터 로드
-const membersRef = collection(db, 'members');
+const membersRef = collection(db, "members");
 const members = await getDocs(membersRef);
 
 // 팀원 멤버 전체: 초기화 후 불러오기
+<<<<<<< Updated upstream:static/js/members.js
 loadAllMembers();
 export function loadAllMembers() {
     $('.member-cards').empty();
@@ -51,11 +60,30 @@ export function loadAllMembers() {
 
 }
 
+=======
+$(".member-cards").empty();
+members.forEach((member) => {
+  let name = member.data().name;
+  let image = member.data().image;
+
+  let temp_html = `           
+            <div class="member-card">
+                <div class="card">
+                    <img src="${image}" class="member-image" alt="...">
+                    <h4 class="member-name">${name}</h4>
+                </div>
+            </div>
+            `;
+  $(".member-cards").append(temp_html);
+});
+
+>>>>>>> Stashed changes:static/js/memebers.js
 // 전역변수로서 필요한 멤버데이터 객체
 let memberData = null;
 let curMemberID = null;
 
 // card 클래스 클릭 시 팝업 띄우기
+<<<<<<< Updated upstream:static/js/members.js
 $(document).on('click', '.button-view', async function () {
     let targetMemberName = $(this).closest('.member-card').find('.member-name').text();
     let member = query(membersRef, where('name', '==', targetMemberName));
@@ -100,6 +128,53 @@ async function popupMembercard(member) {
 // 데이터 기반 모달창 html 생성
 function updateMemberInfos() {
     let tempHtml_sub1 = `
+=======
+$(document).on("click", ".card", async function () {
+  let targetMemberName = $(this).find(".member-name").text();
+  let member = query(membersRef, where("name", "==", targetMemberName));
+  popupMembercard(member);
+});
+// card 클래스 클릭 시 팝업 띄우기
+async function popupMembercard(member) {
+  // 해당하는 팀원 이름으로 검색
+  console.log("[func check] popupMembercard called");
+  try {
+    // 로드한 데이터 분류
+    const querySnapshot = await getDocs(member);
+    querySnapshot.forEach((member) => {
+      // 현재 선택된 멤버의 고유id값 기억
+      curMemberID = member.data().id;
+      console.log("curMemberID : " + curMemberID);
+      // 멤버의 정보 기억
+      memberData = {
+        name: member.data().name,
+        image: member.data().image,
+        mbti: member.data().mbti,
+        intro: member.data().intro,
+        interest: member.data().interest,
+        favGame: member.data().favGame,
+        game_G: member.data().game_G,
+        game_A: member.data().game_A,
+        game_M: member.data().game_M,
+        game_E: member.data().game_E,
+        linkGithub: member.data().linkGithub,
+        linkBlog: member.data().linkBlog,
+      };
+      // 멤버 정보 업데이트하기
+      updateMemberInfos();
+      // 해당 내용의 모달창 띄우기
+      let myModal = new bootstrap.Modal($("#memberModal")[0]);
+      myModal.show();
+    });
+    console.log("[Success] popupMembercard successfully!");
+  } catch (e) {
+    console.error("[Error] cannot load data ", e);
+  }
+}
+// 데이터 기반 모달창 html 생성
+function updateMemberInfos() {
+  let tempHtml = `
+>>>>>>> Stashed changes:static/js/memebers.js
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="modal-label">멤버 정보</h5>
@@ -145,26 +220,32 @@ function updateMemberInfos() {
         </div>
     </div>
     `;
+<<<<<<< Updated upstream:static/js/members.js
 
     let tempHtml = tempHtml_sub1 + tempHtml_sub2 + tempHtml_sub3;
 
     // html 초기화하고 붙여주기
     $(".member-modal").empty();
     $(".member-modal").append(tempHtml);
+=======
+  // html 초기화하고 붙여주기
+  $(".member-modal").empty();
+  $(".member-modal").append(tempHtml);
+>>>>>>> Stashed changes:static/js/memebers.js
 }
 //-------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------
 // 버튼 기능 : 수정하기, 저장하기
 // 동적으로 추가되었기 때문에 이벤트 위임 형식으로 필요
-$(document).on('click', '.button-edit', function () {
-    editMemberInfos();
+$(document).on("click", ".button-edit", function () {
+  editMemberInfos();
 });
 // 수정버튼: 수정하기
 function editMemberInfos() {
-    console.log("[func check] editMemberInfos called");
-    let modalBody = $('.modal-body');
-    modalBody.empty();
-    let tmp = `
+  console.log("[func check] editMemberInfos called");
+  let modalBody = $(".modal-body");
+  modalBody.empty();
+  let tmp = `
                 <h4 id="member-name"><input type="text" value="${memberData.name}" class="edited-name"></h4>
                 <button type="button" class="button-save button-basic"> <img src="../static/img/icon-save.png" alt="FAILED TO LOAD IMG" class="img-button-save"> 저장 </button>
                 <img id="member-image" src="${memberData.image}" alt="FAILED TO LOAD IMG" class="img-fluid mb-3"><input type="text" value="${memberData.image}" class="edited-image">
@@ -195,14 +276,15 @@ function editMemberInfos() {
                 <div class="modal-icons">
                 </div>
     `;
-    modalBody.append(tmp);
-};
+  modalBody.append(tmp);
+}
 // 동적으로 추가되었기 때문에 이벤트 위임 형식으로 필요
-$(document).on('click', '.button-save', async function () {
-    saveMemberInfos();
+$(document).on("click", ".button-save", async function () {
+  saveMemberInfos();
 });
 // 저장버튼: 수정한 내용대로 저장하기
 async function saveMemberInfos() {
+<<<<<<< Updated upstream:static/js/members.js
     console.log("[func check] saveMemberInfos called");
     console.log("[func check] curMemberID : " + curMemberID);
     let curMember = doc(db, 'members', curMemberID);
@@ -229,5 +311,42 @@ async function saveMemberInfos() {
         window.location.reload();
     } catch (e) {
         console.error("[Error] cannot updating member information: ", e);
+=======
+  console.log("[func check] saveMemberInfos called");
+  console.log("[func check] curMemberID : " + curMemberID);
+  let member = query(membersRef, where("id", "==", curMemberID));
+  try {
+    const querySnapshot = await getDocs(member);
+
+    if (!querySnapshot.empty) {
+      const memberDoc = querySnapshot.docs[0];
+      const memberDocRef = memberDoc.ref; // 해당 문서의 참조
+      // 새 데이터로 문서 업데이트
+      memberData = {
+        id: curMemberID,
+        name: $(".edited-name").val(),
+        image: $(".edited-image").val(),
+        mbti: $(".edited-mbti").val(),
+        intro: $(".edited-intro").val(),
+        interest: $(".edited-interest").val(),
+        favGame: $(".edited-favGame").val(),
+        game_G: $(".edited-game_G").val(),
+        game_A: $(".edited-game_A").val(),
+        game_M: $(".edited-game_M").val(),
+        game_E: $(".edited-game_E").val(),
+        linkGithub: $(".edited-linkGithub").val(),
+        linkBlog: $(".edited-linkBlog").val(),
+      };
+      await updateDoc(memberDocRef, memberData);
+    } else {
+      console.error("[Error] cannot find member.");
+>>>>>>> Stashed changes:static/js/memebers.js
     }
-};
+    // 멤버 정보 업데이트하기
+    updateMemberInfos();
+    console.log("[Success] Member information updated successfully!");
+    window.location.reload();
+  } catch (e) {
+    console.error("[Error] cannot updating member information: ", e);
+  }
+}
