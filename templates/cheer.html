@@ -14,7 +14,6 @@
         }
 
         .all_comments {
-            height: 500px;
             background-color: skyblue;
         }
 
@@ -78,9 +77,11 @@
 
             let temp_html = `
                 <div class="row align-items-end">
-                    <div class="col list-group-item cheer-date">${date}</div>
-                    <div class="col list-group-item">${name}</div>
-                    <div class="col-8 list-group-item">${comment}</div>
+                    <div class="col-2 list-group-item cheer-date">${date}</div>
+                    <div class="col-2 list-group-item">${name}</div>
+                    <div class="col-6 list-group-item">${comment}</div>
+                    <button class="col" disabled>수정</button>
+                    <button class="col" disabled>삭제</button>
                 </div>`;
             $(`#cheer_records`).append(temp_html);
         });
@@ -116,8 +117,10 @@
                 let temp_html = `
                 <div class="row align-items-end">
                     <div class="col list-group-item cheer-date">${date}</div>
-                    <div class="col list-group-item">${name}</div>
-                    <div class="col-8 list-group-item">${comment}</div>
+                    <div class="col-2 list-group-item">${name}</div>
+                    <div class="col-7 list-group-item">${comment}</div>
+                    <button class="col" disabled>수정</button>
+                    <button class="col" disabled>삭제</button>
                 </div>`;
                 $(`#cheer_records`).append(temp_html);
             });
