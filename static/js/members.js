@@ -41,7 +41,7 @@ export function loadAllMembers() {
                     <div class="card">
                         <img src="${image}" class="member-image" alt="...">
                         <h4 class="member-name">${name}</h4>
-                        <button class="button-view button-small"><img src="../static/img/icon-view.png" alt="FAILED TO LOAD View Icon"
+                        <button class="button-view button-small" title="Press to view Member Card"><img src="../static/img/icon-view.png" alt="FAILED TO LOAD View Icon"
                         class="icon"></button>                
                     </div>
                 </div>

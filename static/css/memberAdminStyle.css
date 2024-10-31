@@ -56,7 +56,19 @@
 
 /* 어드민 모드면 전체 배경 약간 노란빛 */
 
+/* 보안처럼 관련해서 복사 방지 */
+body {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 body.admin-mode {
     background-color: rgba(255, 255, 0, 0.2); /* 노란색 배경 */
     transition: background-color 0.3s ease; /* 부드러운 전환 효과 */
+    -webkit-user-select: auto;
+    -moz-user-select: auto;
+    -ms-user-select: auto;
+    user-select: auto;
 }
