@@ -22,15 +22,12 @@ const db = getFirestore(app);
 
 const firestoreDBName = "after_home";
 
-$(document).ready(function () {
-  if (document.referrer == "" || document.referrer == null) {
-    document.location.href = "/templates/modify_home.html";
-  }
-});
-
-// submit 버튼 누를 때 현재 데이터를 데이터베이스에 저장
-
-// Firebase에 작성한 내용 저장
+$("#hov-anim").mouseover(function () {
+  $(this).attr("src", $(this).data("animated"));
+}),
+  $("#hov-anim").mouseout(function () {
+    $(this).attr("src", $(this).data("static"));
+  });
 
 // JavaScript로 Modal 창 띄우는 스크립트
 var $button = $(".bannerbtn"),
@@ -115,11 +112,12 @@ $("#modal-container").on("click", "#closebtn", async function () {
   }
 });
 
-// home 페이지 내에서만 수정 가능한 로그인 세션
+// // home 페이지 내에서만 수정 가능한 로그인 세션
 const validUsername = "admin";
 const validPassword = "admin";
 
 // submit 버튼 눌렀을 때 Action
+// submit 버튼 누를 때 현재 데이터를 데이터베이스에 저장
 $("#submitbtn").click(async function () {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
@@ -141,9 +139,23 @@ $("#submitbtn").click(async function () {
 
     // success 알림 표시
     alert("수정 페이지로 이동합니다");
+
+    // 로그인 성공 시 세션 스토리지에 인증 정보 저장
+    sessionStorage.setItem("isAuthenticated", "true");
+
     document.location.href = "./templates/modify_home.html";
   } else {
     loginMessage.classList.remove("hidden"); // 오류 메시지 표시
+  }
+});
+
+$(document).ready(function () {
+  // 현재 페이지가 modify_home.html이고 인증되지 않은 상태라면 메인 페이지로 리다이렉트
+  if (
+    currentPath.includes("modify_home.html") &&
+    sessionStorage.getItem("isAuthenticated") !== "true"
+  ) {
+    window.location.href = mainPageUrl;
   }
 });
 

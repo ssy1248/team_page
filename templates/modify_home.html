@@ -12,13 +12,31 @@
     <link href="../static/css/homestyle.css" rel="stylesheet">   
 </header>
 
+<script>
+  // 현재 페이지의 URL을 가져오기
+  const currentPath = window.location.pathname;
+
+  // 허용된 접근 경로 목록을 정의
+  const allowedPaths = ['/main_home.html', '/', '/index.html'];
+
+  // 현재 경로가 modify_home.html이고, 세션 스토리지에 인증 정보가 없다면 main_home.html로 리다이렉트
+  if (currentPath.includes('modify_home.html') && !sessionStorage.getItem('isAuthenticated')) {
+    window.location.href = '/main_home.html';
+  }
+
+  // 페이지 로드 시 세션 스토리지의 인증 정보를 제거
+  window.onload = function() {
+    sessionStorage.removeItem('isAuthenticated');
+  }
+</script>
+
 </head>
   <body>
     <!-- Home page 처음 -->
     <div class="banner">
       <p>- Modify Page -</p>
       <h1>하던 No(m)de(ul)</h1>
-      <p>스파르타 코딩 클럽 Node.js 7기 1조</p>
+      <p>스파르타 클럽 Node.js 7기 1조</p>
         <div class="bannerbtn">
             <button class="custom-btn btn-16" id="two">팀 소개</button>
           </div>
