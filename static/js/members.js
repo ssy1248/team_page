@@ -136,8 +136,8 @@ function updateMemberInfos() {
             </p>
             <!-- GitHub, Blog 아이콘과 링크 -->
             <div class="modal-icons">
-                <button class="button-link button-basic" data-link="${memberData.linkGithub}"><img src="../static/img/github-mark.png" alt="FAILED TO LOAD GitHub Icon" class="icon"></button>
-                <button class="button-link button-basic" data-link="${memberData.linkBlog}"><img src="../static/img/icon-blog.png" alt="FAILED TO LOAD Blog Icon" class="icon"></button>
+                <button class="button-link button-basic" data-link="${memberData.linkGithub}" title="Github on New Tab"><img src="../static/img/github-mark.png" alt="FAILED TO LOAD GitHub Icon" class="icon"></button>
+                <button class="button-link button-basic" data-link="${memberData.linkBlog}" title="Blog on New Tab"><img src="../static/img/icon-blog.png" alt="FAILED TO LOAD Blog Icon" class="icon"></button>
             </div>
         </div>
         <div class="modal-footer">
