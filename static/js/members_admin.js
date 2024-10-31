@@ -243,11 +243,11 @@ function createMemberCard() {
                     <br>
                     G : <textarea rows="4" cols="30" class="edited-game_G" placeholder="G로 시작하는 키워드 영단어"></textarea>
                     <br>
-                    A : <textarea rows="4" cols="30" class="edited-game_A" placeholder="G로 시작하는 키워드 영단어"></textarea>
+                    A : <textarea rows="4" cols="30" class="edited-game_A" placeholder="A로 시작하는 키워드 영단어"></textarea>
                     <br>
-                    M : <textarea rows="4" cols="30" class="edited-game_M" placeholder="G로 시작하는 키워드 영단어"></textarea>
+                    M : <textarea rows="4" cols="30" class="edited-game_M" placeholder="M로 시작하는 키워드 영단어"></textarea>
                     <br>
-                    E : <textarea rows="4" cols="30" class="edited-game_E" placeholder="G로 시작하는 키워드 영단어"></textarea>
+                    E : <textarea rows="4" cols="30" class="edited-game_E" placeholder="E로 시작하는 키워드 영단어"></textarea>
                     <br><br>
                     Github Link : <input type="text" placeholder="Github Link" class="edited-linkGithub">
                     <br>

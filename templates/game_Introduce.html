@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게임 소개 페이지</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
     <style>
         .myTitle {
             background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQoAAAC+CAMAAAD6ObEsAAAAElBMVEXH5K7I5a/M5rrQ6bvH5a3N5rief+IMAAAA3klEQVR4nO3Yyw6CMBRFURT5/182YXBMROVRHkLXGjftvZsZzX2gfdeNH2knXDPhyNxrut6EgYdnhi81p/boHT3Ff7h9cvRQx5DiRYqQIqQIKUKKkCKkCClCipAipAgpQoqQIqSIC6UoXeGiKea71F+sshRfAp3TyAeuMsWKFj63284LZpNCiupTNBvUWPjWbgsXkSJWS/Hryo13WMkGKc5KiqgjxaTJq0gxb0kppJBCCimOHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIo8AU8xClt089oxAAAAAElFTkSuQmCC');
@@ -279,7 +281,8 @@
     <div id="card" class="row row-cols-1 row-cols-md-1 g-100">
 
     </div>
-
+    <!-- 새롭게 추가한 game_intro_alerts: swal로 대체하기 위해 -->
+    <script src="../static/js/game_intro_alerts.js"></script>
     <script type="module">
         //어드민 계정으로 사용할 임시 아이디 & 비번
         let adminId = "admin";
@@ -399,9 +402,9 @@
         }
 
         //윈도우 새로고침 시 로그인을 유지하고 싶지만 튄다
-        window.addEventListener('load', ()=>{
+        window.addEventListener('load', () => {
             updateLoginState(); // 페이지 로드 시 로그인 상태 확인
-        }); 
+        });
 
         // 로그인 버튼 클릭 시 로그인 모달 표시
         loginBtn.addEventListener('click', () => {
@@ -421,12 +424,14 @@
             if (id === adminId && pw === adminPw) {
                 isAdmin = true; // Admin 권한 부여
                 localStorage.setItem('isAdmin', JSON.stringify(isAdmin));
-                alert("로그인 성공");
+                //alert("로그인 성공");
+                alertSWAL('success', "로그인 성공","로그인에 성공했습니다.");
                 modal_three.classList.remove('on');
                 loginBtn.style.display = "none"; // 로그인 버튼 숨기기
                 logoutBtn.style.display = "inline-block"; // 로그아웃 버튼 표시
             } else {
-                alert("로그인 실패");
+                //alert("로그인 실패");
+                alertSWAL('error', "로그인 실패","잘못된 입력입니다.");
             }
         });
 
@@ -436,7 +441,8 @@
             localStorage.setItem('isAdmin', JSON.stringify(isAdmin));
             loginBtn.style.display = "inline-block"; // 로그인 버튼 표시
             logoutBtn.style.display = "none"; // 로그아웃 버튼 숨기기
-            alert("로그아웃 되었습니다.");
+            //alert("로그아웃 되었습니다.");
+            alertSWAL('info', "로그아웃","로그아웃 하셨습니다.");
         });
 
         // Firestore에서 문서 삭제 및 화면에서 카드 삭제 함수
@@ -456,7 +462,8 @@
             //https://firebase.google.com/docs/firestore/manage-data/delete-data?hl=ko -> 참고
             // each -> 선택된 요소들에 대해 하나씩 순차적으로 함수를 실행할 수 있게 합니다.
             if (!isAdmin) {
-                alert("삭제 권한이 없습니다.");
+                //alert("삭제 권한이 없습니다.");
+                alertSWAL('error', "삭제 실패","삭제 권한이 없습니다.");
                 return;
             }
 
@@ -494,20 +501,23 @@
         //데이터 베이스 수정 -> AI 도움
         $('#changeButton').click(async function () {
             if (!isAdmin) {
-                alert("수정 권한이 없습니다.");
+                //alert("수정 권한이 없습니다.");
+                alertSWAL('warning', "수정 실패","수정 권한이 없습니다.");
                 return;
             }
 
             const selectedCard = $('.card.selected'); // 선택된 카드 요소
             if (selectedCard.length === 0) {
-                alert("수정할 카드를 선택해주세요.");
+                //alert("수정할 카드를 선택해주세요.");
+                alertSWAL('info', "카드 선택","수정할 카드를 선택해주세요.");
                 return;
             }
 
             const cardId = selectedCard.data('id'); // 선택된 카드의 data-id에서 카드 ID 추출
 
             if (!cardId) {
-                alert("카드 ID가 잘못되었습니다.");
+                //alert("카드 ID가 잘못되었습니다.");
+                alertSWAL('error', "카드 검색 실패","카드 ID가 잘못되었습니다.");
                 return;
             }
 
@@ -548,16 +558,19 @@
                     // Firestore에 업데이트
                     try {
                         await updateDoc(docRef, updatedData);
-                        alert("카드 정보가 업데이트되었습니다.");
+                        //alert("카드 정보가 업데이트되었습니다.");
+                        alertSWAL('correct', "카드 정보 업데이트","카드 정보가 업데이트되었습니다.");
                         $('.modal2').removeClass('on');
                         window.location.reload(); // 페이지 새로고침하여 업데이트된 데이터 반영
                     } catch (error) {
                         console.error("Error updating document:", error);
-                        alert("문서 업데이트 중 오류가 발생했습니다.");
+                        //alert("문서 업데이트 중 오류가 발생했습니다.");
+                        alertSWAL('error', "오류 발생","문서 업데이트 중 오류가 발생했습니다.");
                     }
                 });
             } else {
-                alert("선택한 카드 정보를 가져올 수 없습니다.");
+                //alert("선택한 카드 정보를 가져올 수 없습니다.");
+                alertSWAL('warning', "정보 가져오기 실패","선택한 카드 정보를 가져올 수 없습니다.");
             }
         });
 
@@ -670,7 +683,9 @@
             // Firestore에 새로운 문서 추가
             await addDoc(collection(db, "games"), gameDoc);
 
-            alert("저장 완료!");
+            //alert("저장 완료!");
+            alertSWAL('correct', "저장 완료","정보 저장하는 데에 성공했습니다.");
+
             window.location.reload();
         }
 

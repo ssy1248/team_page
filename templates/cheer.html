@@ -15,10 +15,11 @@
 
         .all_comments {
             background-color: skyblue;
+            margin: 20px auto 30px auto;
         }
 
         .cheer-date {
-            font-size: small;
+            font-size: xx-small;
         }
     </style>
     <script type="module">
@@ -79,9 +80,7 @@
                 <div class="row align-items-end">
                     <div class="col-2 list-group-item cheer-date">${date}</div>
                     <div class="col-2 list-group-item">${name}</div>
-                    <div class="col-6 list-group-item">${comment}</div>
-                    <button class="col" disabled>수정</button>
-                    <button class="col" disabled>삭제</button>
+                    <div class="col-8 list-group-item">${comment}</div>
                 </div>`;
             $(`#cheer_records`).append(temp_html);
         });
@@ -116,11 +115,9 @@
 
                 let temp_html = `
                 <div class="row align-items-end">
-                    <div class="col list-group-item cheer-date">${date}</div>
+                    <div class="col-2 list-group-item cheer-date">${date}</div>
                     <div class="col-2 list-group-item">${name}</div>
-                    <div class="col-7 list-group-item">${comment}</div>
-                    <button class="col" disabled>수정</button>
-                    <button class="col" disabled>삭제</button>
+                    <div class="col-8 list-group-item">${comment}</div>
                 </div>`;
                 $(`#cheer_records`).append(temp_html);
             });
@@ -134,13 +131,16 @@
         <a href="../main_home.html" target="_self" class="nav justify-content-end button-home"><img
                 src="../static/img/icon-home.png" alt="FAILED TO LOAD Home Icon" class="icon" width="30"
                 height="24" /></a>
-        <span class="nav justify-content-center">방명록</span>
+        <h1 class="nav justify-content-center">방명록</h1>
     </div>
 
     <!--정렬 버튼-->
     <button id="recentSortButton">
         최신순
     </button>
+    <!--편집 버튼
+    <button class="col" disabled>수정</button>
+    <button class="col" disabled>삭제</button>-->
 
     <!--방명록 보여주는 공간-->
     <div class="container text-center all_comments" id="cheer_records">
@@ -149,7 +149,7 @@
     <!--응원 입력 칸-->
     <div class="input-group mb-3" id="cheerup">
         <input class="input-group-text" placeholder="닉네임을 입력하세요." id="cheer_user_name"></input>
-        <input type="password" class="input-group-text" placeholder="암호를 입력하세요." id="cheer_user_password"></input>
+        <!--<input type="password" class="input-group-text" placeholder="암호를 입력하세요." id="cheer_user_password"></input>-->
         <textarea class="form-control" placeholder="응원의 한 마디를 남겨주세요!" id="cheer_comment"></textarea>
         <button class="btn btn-outline-secondary" type="button" id="cheer_button">게시</button>
     </div>
