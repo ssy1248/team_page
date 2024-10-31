@@ -63,9 +63,11 @@ $("#two").click(async function () {
             <div class="card border-dark mb-3" style="max-width: auto; height:300px;">
               <div class="card-header">팀 Notion 링크</div>
               <div class="card-body" style="margin-top:40px;">
-                <h5 class="card-title">▼▼▼▼5조의 notion 링크▼▼▼▼</h5>
-                <input id="link" type="text" style="width: 100%;">
-                <input id="linkimage" type="text" style="width: 100%;">
+                <h5 class="card-title">▼▼▼▼1조 Notion 링크▼▼▼▼</h5>
+                <input id="link" type="text" style="width: 70%;">
+                <p style="float:left;">연결할 링크 :</p>
+                <input id="linkimage" type="text" style="width: 70%;">
+                <p style="float:left; align: left;">링크를 표현할 이미지 :</p>
               </div>
             </div>
           </div>
@@ -74,6 +76,7 @@ $("#two").click(async function () {
               <div class="card-header">팀 로고</div>
               <div class="card-body">
                 <h5 class="card-title"></h5>
+                <p style="float:left;">설정할 로고의 이미지 주소 :</p>
                 <input id="logoimage" type="text" style="width: 100%;">
               </div>
             </div>
