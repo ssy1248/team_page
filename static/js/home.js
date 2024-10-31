@@ -22,6 +22,12 @@ const db = getFirestore(app);
 
 const firestoreDBName = "after_home";
 
+$(document).ready(function () {
+  if (document.referrer == "" || document.referrer == null) {
+    document.location.href = "/templates/modify_home.html";
+  }
+});
+
 // submit 버튼 누를 때 현재 데이터를 데이터베이스에 저장
 
 // Firebase에 작성한 내용 저장
@@ -56,7 +62,7 @@ $(document).ready(async function () {
 
     let temp_html = `
       <div class="modal-background">
-          <div class="modal">
+          <div class="modal" style="max-height: calc(120vh - 200px); overflow-x: hidden; overflow-y: auto; display:block">
             <button id="closebtn" type="button" class="btn-close" aria-label="Close" style="float:right;"></button>
             <h2 style="font-size: 25px;">우리 팀을 소개합니다</h2>
             <div class="loginbtn">
@@ -135,50 +141,11 @@ $("#submitbtn").click(async function () {
 
     // success 알림 표시
     alert("수정 페이지로 이동합니다");
-    document.location.href = "./templates/modfiy_home.html";
+    document.location.href = "./templates/modify_home.html";
   } else {
     loginMessage.classList.remove("hidden"); // 오류 메시지 표시
   }
 });
-
-// submit 버튼 눌렀을 때 Action
-// $("#submitbtn").click(async function () {
-//   const username = document.getElementById("username").value;
-//   const password = document.getElementById("password").value;
-//   const loginMessage = document.getElementById("login-message");
-
-//   var $button = $(".bannerbtn"),
-//     $editContainer = $("#edit-container"),
-//     $exampleModal = $("#exmpleModal"),
-//     $body = $("body"),
-//     $content = $(".content"),
-//     btnId;
-
-//   //   if (btnId == "two" || btnId == "closebtn" || btnId == "submitbtn") {
-//   //     $content.addClass(btnId);
-//   //   }
-//   // 로그인 유효성 검사
-//   if (username === validUsername && password === validPassword) {
-//     alert("success");
-
-//     var modal = bootstrap.Modal.getInstance(
-//       document.getElementById("exampleModal")
-//     );
-//     modal.hide();
-
-//     $editContainer.removeAttr("class").addClass(btnId);
-//     $content.removeAttr("class").addClass("content");
-
-//     $body.addClass("modal-active");
-
-//     document.getElementById("edit-container").style.display = "block";
-//     loginMessage.classList.add("hidden"); // 오류 메시지 숨기기
-
-//     // Modal 창 닫기
-//   } else {
-//     loginMessage.classList.remove("hidden"); // 오류 메시지 표시
-//   }
-// });
 
 // 팀원 소개 페이지로 이동
 $("#movepage1").click(async function () {
@@ -192,7 +159,7 @@ $("#movepage2").click(async function () {
 
 // 메뉴 추천 페이지로 이동
 $("#movepage3").click(async function () {
-  //  document.location.href='templates/game_introduce.html';
+  window.open("https://www.dogumaster.com/select/menu");
 });
 
 // 응원의 한마디 페이지로 이동
