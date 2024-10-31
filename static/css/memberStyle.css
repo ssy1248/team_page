@@ -29,7 +29,7 @@
     box-sizing: border-box;
 }
 /* 어드민 버튼 */
-.button-admin {
+.button-admin, .button-exit-admin {
     position: absolute; 
     top: 5%; 
     right: 15%;

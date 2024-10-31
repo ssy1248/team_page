@@ -24,16 +24,24 @@
           <p class="col-md-8 fs-4">저희 팀원들을 소개합니다!</p>
         </div>
       </div>
-      <!-- 어드민 버튼 -->
-      <button class="button-admin button-basic"><img src="../static/img/icon-admin.png" alt="FAILED TO LOAD Admin Icon"
-          class="icon" title="Enter Admin mode"></button>
       <!-- 홈버튼 -->
       <a href="../main_home.html" target="_self" class="button-home"><img src="../static/img/icon-home.png"
           alt="FAILED TO LOAD Home Icon" class="button-basic" /></a>
-      <!-- 어드민 키 입력 공간 : 초기에는 숨김 -->
-      <div class="admin-access" style="display: none;">
-        <input type="text" placeholder="Enter the Admin Key .." class="admin-access-input">
-        <button class="button-admin-key-enter">Enter</button>
+      <!-- 상단 바 : 일반 모드일 때, 어드민 버튼과 공간을 보여준다 -->
+      <div class="topbar-normal only-admin">
+        <!-- 어드민 버튼 -->
+        <button class="button-admin button-basic"><img src="../static/img/icon-admin.png"
+            alt="FAILED TO LOAD Admin Icon" class="icon" title="Enter Admin mode"></button>
+        <!-- 어드민 키 입력 공간 : 초기에는 숨김 -->
+        <div class="admin-access" style="display: none;">
+          <input type="text" placeholder="Enter the Admin Key .." class="admin-access-input">
+          <button class="button-admin-key-enter">Enter</button>
+        </div>
+      </div>
+      <!-- 상단 바 : 어드민 모드일 때, 어드민 모드 탈출 버튼을 보여준다 -->
+      <div class="topbar-admin only-admin" style="display: none;">
+        <button class="button-exit-admin button-basic"><img src="../static/img/icon-exit-admin.png"
+            alt="FAILED TO LOAD Admin Exit Icon" class="icon" title="Exit Admin mode"></button>
       </div>
       <!-- 어드민 로그인 관련 토스트 메시지 -->
       <div class="admin-toast">
@@ -42,7 +50,7 @@
   </div>
 
   <!-- 어드민 모드로 진입 시 : 나타나는 CRUD 조작바 -->
-  <div class="admin-controller">
+  <div class="admin-controller only-admin" style="display: none;">
     <div class="admin-controller-panel">
       <button class="button-admin-create button-admin-controller">팀원 카드 생성</button>
       <button class="button-admin-delete button-admin-controller">팀원 카드 삭제</button>

@@ -96,7 +96,7 @@ async function popupMembercard(member) {
 }
 // 데이터 기반 모달창 html 생성
 function updateMemberInfos() {
-    let tempHtml = `
+    let tempHtml_sub1 = `
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="modal-label">멤버 정보</h5>
@@ -104,7 +104,11 @@ function updateMemberInfos() {
         </div>
         <div class="modal-body">
             <h4 id="member-name">${memberData.name}</h4>
-            <button type="button" class="button-edit button-basic"> <img src="../static/img/icon-edit.png" alt="FAILED TO LOAD IMG" class="img-button-edit"> 수정 </button>
+    `;
+    let tempHtml_sub2 = ($('body').hasClass('admin-mode') ? `
+        <button type="button" class="button-edit button-basic"> <img src="../static/img/icon-edit.png" alt="FAILED TO LOAD IMG" class="img-button-edit"> 수정 </button>
+    ` : ``);
+    let tempHtml_sub3 = `
             <img id="member-image" src="${memberData.image}" alt="FAILED TO LOAD IMG" class="img-fluid mb-3">
             <p id="member-text">
                 MBTI : ${memberData.mbti}
@@ -137,6 +141,11 @@ function updateMemberInfos() {
         </div>
     </div>
     `;
+
+    let tempHtml = tempHtml_sub1 + tempHtml_sub2 + tempHtml_sub3;
+    //let tempHtml = tempHtml_sub1 + tempHtml_sub3;
+
+
     // html 초기화하고 붙여주기
     $(".member-modal").empty();
     $(".member-modal").append(tempHtml);

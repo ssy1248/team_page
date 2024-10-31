@@ -49,3 +49,13 @@
  .button-admin-controller {
     margin: 5px;
 } 
+
+
+
+
+/* 어드민 모드면 전체 배경 약간 노란빛 */
+
+body.admin-mode {
+    background-color: rgba(255, 255, 0, 0.2); /* 노란색 배경 */
+    transition: background-color 0.3s ease; /* 부드러운 전환 효과 */
+}

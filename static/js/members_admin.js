@@ -35,10 +35,10 @@ $(document).on('click', '.button-admin', function () {
     // 플래그 변수를 통해 버튼 눌린거 비주얼화
     isAdminBtnClicked = !isAdminBtnClicked;
     if (!isAdminBtnClicked)
-        $(this).css('filter', 'brightness(1.0)'); // 활성화 시 밝게
+        $(this).css('filter', 'brightness(1.0)');
     else
-        $(this).css('filter', 'brightness(0.8)'); // 활성화 시 밝게
-
+        $(this).css('filter', 'brightness(0.8)');
+    // 어드민 키 입력창 보이기
     toggleAdminSpace();
 });
 // 어드민 키 입력창 띄우기
@@ -50,14 +50,17 @@ function toggleAdminSpace() {
 // 어드민 키값 제출 버튼
 $(document).on('click', '.button-admin-key-enter', async function () {
     console.log("[btn check] button-admin-key-enter pressed");
+    // 어드민 키값이 일치하게 되면, 어드민 모드 진입 / 불일치 시에는 틀렸음 알려주기
     let input = $('.admin-access-input').val();
     let isKeyMatched = await checkAdminKey(input);
     if (isKeyMatched) {
         showToast("correct");
+        enterAdminMode();
     }
     else {
         showToast("wrong");
     }
+    // 어드민 키 입력창 값 비우기
     $('.admin-access-input').val('');
 });
 // 토스트 메시지 띄우기
@@ -86,17 +89,31 @@ async function checkAdminKey(input) {
 
 // ======================================================================================================================
 // ======================================================================================================================
-
-// admin 모드 상태 플래그
-let isAdmin = false;
+// === ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ ===
+// +++++++ !!!!!!!!!! admin 모드인지에 대한 상태 파악 여부는, body 태그에 admin-mode가 있는지를 이용 !!!!!!!!!!!!!!
+// === ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ ===
+// ======================================================================================================================
+// ======================================================================================================================
 // admin 모드 진입
 function enterAdminMode() {
-    isAdmin = true;
+    $('body').toggleClass('admin-mode'); // admin-mode 클래스 추가/제거
+    $('.only-admin').toggle();
 };
 // admin 모드 탈출
 function exitAdminMode() {
-    isAdmin = false;
+    $('body').toggleClass('admin-mode'); // admin-mode 클래스 추가/제거
+    $('.only-admin').toggle();
 };
+
+// ======================================================================================================================
+// ======================================================================================================================
+
+// 어드민 모드 탈출 버튼
+$(document).on('click', '.button-exit-admin', function () {
+    console.log("[btn check] button-exit-admin pressed");
+    // 플래그 변수를 통해 버튼 눌린거 비주얼화
+    exitAdminMode();
+});
 
 // ======================================================================================================================
 // ======================================================================================================================
@@ -205,17 +222,19 @@ function generateRandomID(){
 // ======================================================================================================================
 // ======================================================================================================================
 let ids = [];
-
 // 카드 선택으로 select
 $(document).on('click', '.card', function (event) {
     console.log("[check] .card selection checked");
+    // 단, admin-mode에서만 가능하므로,
+    if (!($('body').hasClass('admin-mode'))) return;
+
+
     if (!$(event.target).is('button') && !$(event.target).is('img')) { // 클릭된 요소가 버튼이 아닌 경우에만 실행           
         $(this).toggleClass('selected');
         $(this).css('outline', $(this).hasClass('selected') ? '4px solid yellow' : '0px auto');
     }
     ids = getSelectedMembersID();
 });
-
 
 // 어드민 기능 : 현재 선택된 멤버들 기준으로 멤버카드 삭제
 $(document).on('click', '.button-admin-delete', async function () {
@@ -237,8 +256,6 @@ $(document).on('click', '.button-admin-delete', async function () {
     } catch (e) {
         console.error("[Error] cannot bring doc IDs : " + e);
     }
-
-    //deleteMemberCard();
 });
 
 //==============================================================
