@@ -108,6 +108,7 @@ function updateMemberInfos() {
         <div class="modal-body">
             <h4 id="member-name">${memberData.name}</h4>
     `;
+    // admin mode냐에 따라 수정 버튼 삽입 결정
     let tempHtml_sub2 = ($('body').hasClass('admin-mode') ? `
         <button type="button" class="button-edit button-basic"> <img src="../static/img/icon-edit.png" alt="FAILED TO LOAD IMG" class="img-button-edit"> 수정 </button>
     ` : ``);
@@ -135,8 +136,8 @@ function updateMemberInfos() {
             </p>
             <!-- GitHub, Blog 아이콘과 링크 -->
             <div class="modal-icons">
-                <a href="${memberData.linkGithub}" target="_blank"><img src="../static/img/github-mark.png" alt="FAILED TO LOAD GitHub Icon" class="icon"></a>
-                <a href="${memberData.linkBlog}" target="_blank"><img src="../static/img/icon-blog.png" alt="FAILED TO LOAD Blog Icon" class="icon"></a>
+                <button class="button-link button-basic" data-link="${memberData.linkGithub}"><img src="../static/img/github-mark.png" alt="FAILED TO LOAD GitHub Icon" class="icon"></button>
+                <button class="button-link button-basic" data-link="${memberData.linkBlog}"><img src="../static/img/icon-blog.png" alt="FAILED TO LOAD Blog Icon" class="icon"></button>
             </div>
         </div>
         <div class="modal-footer">
@@ -146,8 +147,6 @@ function updateMemberInfos() {
     `;
 
     let tempHtml = tempHtml_sub1 + tempHtml_sub2 + tempHtml_sub3;
-    //let tempHtml = tempHtml_sub1 + tempHtml_sub3;
-
 
     // html 초기화하고 붙여주기
     $(".member-modal").empty();

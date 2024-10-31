@@ -65,7 +65,8 @@ $(document).on('click', '.button-admin-key-enter', async function () {
     let input = $('.admin-access-input').val();
     let isKeyMatched = await checkAdminKey(input);
     if (isKeyMatched) {
-        showToast(":: ADMIN KEY MATCHED ::", 'blue');
+        //showToast(":: ADMIN KEY MATCHED ::", 'blue');
+        toastSWAL('success', ":: ADMIN KEY MATCHED ::");
         $('.button-admin').css('filter', 'brightness(1.0)');
         toggleAdminSpace();
         resetTrialCnt();
@@ -74,7 +75,9 @@ $(document).on('click', '.button-admin-key-enter', async function () {
     else {
         // 틀리면 시도 횟수 차감
         availableTrialCnt--;
-        showToast("ACCESS DENIED", 'red');
+        //showToast("ACCESS DENIED", 'red');
+        toastSWAL('error', "ACCESS DENIED");
+
         // 잔여 시도횟수 없으면 락 걸기
         if (availableTrialCnt <= 0)
             lockAdminAccess();
@@ -178,8 +181,22 @@ $(document).ready(function () {
 
 // home 버튼 눌렀을 때 세션 admin 모드 탈출
 $(".button-home").click(async function () {
-    exitAdminMode();
-    $(location).attr('href', '../main_home.html');
+    Swal.fire({
+        title: '홈 화면으로 이동하시겠습니까?',
+        text: '현재 탭에서 홈화면으로 이동합니다.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '승인',
+        cancelButtonText: '취소',
+        reverseButtons: true,   
+      }).then((result) => {
+        if (result.isConfirmed) {
+            exitAdminMode();
+            window.open('../main_home.html', '_self');
+        }
+      })
 });
 
 
@@ -190,7 +207,8 @@ $(".button-home").click(async function () {
 $(document).on('click', '.button-exit-admin', function () {
     console.log("[btn check] button-exit-admin pressed");
     // 플래그 변수를 통해 버튼 눌린거 비주얼화
-    showToast("Return to GuestMode");
+    //showToast("Return to GuestMode");
+    toastSWAL('info', "Return to GuestMode");
     exitAdminMode();
 });
 
@@ -270,13 +288,15 @@ async function enrollMemberInfos() {
         const hasEmpty = Object.values(newMember).some(value => value.trim() === '');
         if (hasEmpty) {
             console.log("[Error] 작성하지 않은 필드가 존재.");
-            alert('작성하지 않은 필드가 존재!');
+            //alert('작성하지 않은 필드가 존재!');
+            alertSWAL('warning', "올바르지 않은 작성", "작성하지 않은 필드가 존재합니다.");
             return;
         }
 
         // 새 멤버 데이터 추가
         await addDoc(collection(db, "members"), newMember);
-        alert('새 팀원 등록완료');
+        //alert('새 팀원 등록완료');
+        alertSWAL('success', "등록 완료", "새로운 팀원을 등록했습니다.");
         window.location.reload();
     } catch (e) {
         console.error("[Error] cannot enroll member", e);
@@ -285,18 +305,6 @@ async function enrollMemberInfos() {
 
 // ======================================================================================================================
 // ======================================================================================================================
-// id 생성 위한 난수 코드 생성
-
-function generateRandomID() {
-    const pool = '0123456789abcdefghijklmnopqrstuvwxyz';
-    let result = '';
-    const len = 8;  // 8자리로 생성
-    for (let i = 0; i < len; i++) {
-        const randIndex = Math.floor(Math.random() * pool.length);
-        result += pool[randIndex];
-    }
-    return result;
-}
 
 // ======================================================================================================================
 // ======================================================================================================================
@@ -330,10 +338,10 @@ $(document).on('click', '.button-admin-delete', async function () {
     try {
         const selectedCards = $('.card.selected');
         if (selectedCards.length == 0){
-            alert("선택된 카드가 없습니다.");
+            //alert("선택된 카드가 없습니다.");
+            alertSWAL('warning', "잘못된 ", "작성하지 않은 필드가 존재합니다.");
             return;
         }
-
 
         const myPromises = [];
         for (const card of selectedCards) {
@@ -354,114 +362,78 @@ $(document).on('click', '.button-admin-delete', async function () {
 
 
 
-//==============================================================
-//==============================================================
-//==============================================================
 
-// 삭제 시 드래그앤드랍
-
-$(document).on('click', '.card', function (event) {
-    if (!$(event.target).is('button')) {
-        //DragNdrop();
-    }
+// 링크 이동 버튼 : 컨펌 창 한번 주기
+$(document).on('click', '.button-link', function () {
+    console.log("[btn check] button-link pressed");
+    const myLink = $(this).data('link');
+    confirmLinkSWAL('warning', '링크로 이동하시겠습니까?', '새 탭으로 링크가 열립니다.', myLink, '_blank');
 });
 
-function DragNdrop() {
 
-    let isDragging = false;
-    let curCard = null;
-    let previewCard = null;
-    let offset = { x: 0, y: 0 };
+//==============================================================
+//==============================================================
+//==============================================================
+// SWEETALERT2 로 만들어내는 함수
 
-    // 마우스 버튼이 눌릴 때
-    $('.card').on('mousedown', function (event) {
-        isDragging = true;
-        curCard = $(this);
-
-        // 마우스 클릭 위치와 카드의 위치 오프셋 계산
-        offset.x = event.clientX - curCard.offset().left;
-        offset.y = event.clientY - curCard.offset().top;
-
-        // 카드의 클론 생성 및 스타일 설정
-        previewCard = curCard.clone().css({
-            position: 'absolute',
-            left: curCard.offset().left,
-            top: curCard.offset().top,
-            opacity: 0.7,
-            zIndex: 1005,
-        }).appendTo('body'); // 클론을 body에 추가
-
-        curCard.addClass('onDrag'); // 원래 카드에 드래그 스타일 추가
-    });
-
-    // 마우스가 움직일 때
-    $(document).on('mousemove', function (event) {
-        if (isDragging && previewCard) {
-            previewCard.css({
-                left: event.clientX - offset.x,
-                top: event.clientY - offset.y,
-            });
-        }
-    });
-
-    // 마우스 버튼이 떼어질 때
-    $(document).on('mouseup', function () {
-        if (isDragging) {
-            isDragging = false;
-            curCard.removeClass('onDrag'); // 원래 카드에서 드래그 스타일 제거
-            previewCard.remove(); // 클론 카드 제거
-            curCard = null; // 현재 카드 초기화
-            previewCard = null; // 클론 카드 초기화
-        }
-    });
-
-
+function alertSWAL(myIcon, myTitle, myText){
+    Swal.fire({
+        icon: myIcon,
+        title: myTitle,
+        text: myText,
+      });
 };
 
-
-//==============================================================
-//==============================================================
-//==============================================================
-
-
-
-
-
-//==============================================================
-//==============================================================
-//==============================================================
-// 에러 많은 레거시 코드는 이후 공부를 위해 잠시 백업
-/*
-async function deleteMemberCard() {
-    for (const id of ids) {
-        await deleteMemberData(id); // 각 ID에 대해 삭제 실행
-    }
-};
-// db로부터 현재 선택된 멤버 문서id 들 배열로 가져오기
-async function getSelectedMembersID(){
-    console.log("[func check] getSelectedMembersID");
-    try {
-        // 리턴값으로 할 id값 배열
-        const selectedCards = $('.card.selected');
-        console.log("selecteds : " + selectedCards.length);
-        const promises = [];
-        const tmpIDs = [];
-        for (const card of selectedCards) {
-            let selectedMemberName = $(card).closest('.member-card').find('.member-name').text();
-            let selectedMember = query(membersRef, where('name', '==', selectedMemberName));
-            const querySnapshot = await getDocs(selectedMember);
-            querySnapshot.forEach((member) => {
-                //promises.push(deleteDoc(doc(db, "members", member.id)));
-                promises.push(tmpIDs.push(member.id));
-            });
+function toastSWAL(myIcon, myTitle){
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'center-center',
+        showConfirmButton: false,
+        timer: 1000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
-        await Promise.all(promises);
-        return tmpIDs;
-    } catch (e) {
-        console.error("[Error] cannot bring doc IDs : " + e);
-    }
+      })
+  
+      Toast.fire({
+        icon: myIcon,
+        title: myTitle
+      })
 }
-*/
+
+function confirmLinkSWAL(myIcon, myTitle, myText, myLink = "..", myTarget='_blank'){
+    Swal.fire({
+        title: myTitle,
+        text: myText,
+        icon: myIcon,
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '승인',
+        cancelButtonText: '취소',
+        reverseButtons: true,   
+      }).then((result) => {
+        if (result.isConfirmed) {
+            // 링크로 target 방식으로 이동
+            window.open(myLink, myTarget);
+        }
+      })
+};
+
+//==============================================================
+//==============================================================
+//==============================================================
+
+
+
+
+
+//==============================================================
+//==============================================================
+//==============================================================
+
 //==============================================================
 //==============================================================
 //==============================================================
