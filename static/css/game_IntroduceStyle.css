@@ -1,0 +1,194 @@
+@font-face {
+  font-family: "NEXON Lv1 Gothic OTF";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "NEXON Lv1 Gothic OTF";
+  font-weight: normal;
+  font-style: normal;
+}
+
+.myTitle {
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQoAAAC+CAMAAAD6ObEsAAAAElBMVEXH5K7I5a/M5rrQ6bvH5a3N5rief+IMAAAA3klEQVR4nO3Yyw6CMBRFURT5/182YXBMROVRHkLXGjftvZsZzX2gfdeNH2knXDPhyNxrut6EgYdnhi81p/boHT3Ff7h9cvRQx5DiRYqQIqQIKUKKkCKkCClCipAipAgpQoqQIqSIC6UoXeGiKea71F+sshRfAp3TyAeuMsWKFj63284LZpNCiupTNBvUWPjWbgsXkSJWS/Hryo13WMkGKc5KiqgjxaTJq0gxb0kppJBCCimOHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIo8AU8xClt089oxAAAAAElFTkSuQmCC");
+  background-position: center;
+  background-size: cover;
+
+  height: 250px;
+  color: black;
+
+  /*박스 안의 내용을 정렬할땐 아래 4가지를 조절하면 된다.*/
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+header {
+  height: auto;
+  /* 자동 높이 조정 */
+}
+
+#login_btn {
+  padding: 0.375rem 0.75rem;
+  /* 버튼 패딩 조정 */
+  font-size: 1rem;
+  /* 버튼 글자 크기 조정 */
+  margin-left: auto;
+}
+
+.buttonGroup {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonGroup button {
+  margin: 10px 10px 10px 10px;
+  border: 1px solid green;
+  /* Green border */
+  color: black;
+
+  padding: 10px 24px;
+  /* Some padding */
+  cursor: pointer;
+  /* Pointer/hand icon */
+  float: left;
+  /* Float the buttons side by side */
+}
+
+.myPostingBox {
+  width: 300px;
+  margin: 20px auto 20px auto;
+
+  border: 1px solid white;
+  padding: 10px;
+  border-radius: 5px;
+  display: none;
+}
+
+.form-floating > input {
+  background-color: transparent;
+  color: black;
+}
+
+.myPostingBox > button {
+  width: 100%;
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+  margin: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* 가운데 정렬 */
+  justify-content: center;
+  /* 수직 가운데 정렬 */
+  padding: 20px;
+  width: 60%;
+  color: black;
+  text-align: center;
+  /* 텍스트 중앙 정렬 */
+}
+
+.button-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  width: 40%;
+}
+
+.card-img-top {
+  /* 일정한 이미지 크기 설정 */
+  width: 600px;
+  height: 400px;
+  object-fit: cover;
+  /* 이미지가 고정 크기 내에 꽉 차게 */
+  display: block;
+}
+
+/* 버튼 크기와 간격 조정 */
+.button-body button {
+  margin: 10px 0;
+  width: 100%;
+}
+
+.card-title,
+.card-text,
+.card-people,
+.card-date {
+  margin: 5px 0;
+}
+
+/* 선택된 카드에 빨간 테두리 */
+.card.selected {
+  outline: 2px solid red;
+}
+
+/*모달 팝업 영역 스타일링*/
+.modal,
+.modal2,
+.modal_three {
+  /*팝업 배경*/
+  display: none;
+  /*평소에는 보이지 않도록*/
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modal .modal_popup,
+.modal2 .modal2_popup,
+.modal_three .modal_three_popup {
+  /*팝업*/
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 20px;
+  z-index: 1000;
+}
+
+.modal2 .modal2_popup .close2_btn,
+.modal2 .modal2_popup .upload2_btn,
+.modal .modal_popup .close_btn,
+.modal .modal_popup .upload_btn,
+.modal_three .modal_three_popup .close3_btn,
+.modal_three .modal_three_popup .login_sel_btn {
+  display: block;
+  padding: 10px 20px;
+  background-color: rgb(116, 0, 0);
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+  z-index: 1000;
+}
+
+.modal2.on,
+.modal_three.on,
+.modal.on {
+  display: block;
+}

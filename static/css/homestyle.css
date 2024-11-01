@@ -28,11 +28,6 @@ body {
   font-style: normal;
 }
 
-/* .banner > h1 .bannerimg {
-  display: inline;
-  float: left;
-} */
-
 .banner > p {
   font-size: 20px;
 }
@@ -212,6 +207,15 @@ h1 {
 }
 
 /* Modal Style */
+/* .modal {
+  overflow-y: initial !important;
+}
+
+.modal-background {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+} */
+
 html.modal-active,
 body.modal-active {
   overflow: hidden;
@@ -225,6 +229,10 @@ body.modal-active {
   width: 100%;
   z-index: 1;
   border-color: 5px solid black;
+
+  /* max-height: calc(100vh - 200px);
+  overflow-y: auto; */
+
   /* hidden 처리 */
   transform: scale(0);
 }

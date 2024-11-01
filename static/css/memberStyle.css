@@ -1,81 +1,102 @@
+@font-face {
+  font-family: "NEXON Lv1 Gothic OTF";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "NEXON Lv1 Gothic OTF";
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* 모달 팝업창 스타일*/
 .member-modal {
-    max-width:   50% !important;
-    max-height:  75% !important;
-    overflow-y: auto;                       /* SCROLL 기능 */
+  max-width: 50% !important;
+  max-height: 75% !important;
+  overflow-y: auto; /* SCROLL 기능 */
 }
-/* 깃허브와 블로그 아이콘 *//* 찌꺼기 제거 */
+/* 깃허브와 블로그 아이콘 */
+/* 찌꺼기 제거 */
 .modal-icons {
-    font-size: 0;           
-} 
+  font-size: 0;
+}
 .icon {
-    width:  50px;
-    height: 50px;
-    margin: 10px;
+  width: 50px;
+  height: 50px;
+  margin: 10px;
 }
 /* 기본 버튼: 테두리없이 둥글기 */
 .button-basic {
-    border: none;      
-    border-radius: 10px;
-    max-width:  75px;
-    max-height: 75px;
-    box-sizing: border-box;
-    margin: 5px;
+  border: none;
+  border-radius: 10px;
+  max-width: 75px;
+  max-height: 75px;
+  box-sizing: border-box;
+  margin: 5px;
 }
 .button-small {
-    border: none;
-    border-radius: 10px; 
-    box-sizing: border-box;
-    align-items: center;
+  border: none;
+  border-radius: 10px;
+  box-sizing: border-box;
+  align-items: center;
 }
 /* 어드민 버튼 */
-.button-admin, .button-exit-admin {
-    position: absolute; 
-    top: 5%; 
-    right: 15%;
+.button-admin,
+.button-exit-admin {
+  position: absolute;
+  top: 5%;
+  right: 15%;
 }
 /* 홈 버튼 수정하기 버튼, 저장하기 버튼 */
-.button-home, .button-edit, .button-save, .button-enroll{
-    position: absolute; 
-    top: 5%; 
-    right: 5%;
+.button-home,
+.button-edit,
+.button-save,
+.button-enroll {
+  position: absolute;
+  top: 5%;
+  right: 5%;
 }
 /* 멤버카드뷰 버튼 */
 .button-view {
-    position: absolute; 
-    top: 50%; 
-    right: 5%;
-    transform: translateY(-50%);    /* 세로 중앙 맞춤 */
+  position: absolute;
+  top: 50%;
+  right: 5%;
+  transform: translateY(-50%); /* 세로 중앙 맞춤 */
 }
 /* 이미지: 수정하기 버튼, 저장하기 버튼 */
-.img-button-edit, .img-button-save, .img-button-enroll {
-    width: 50px;
-    height: 50px;
+.img-button-edit,
+.img-button-save,
+.img-button-enroll {
+  width: 50px;
+  height: 50px;
 }
 /* 멤버 카드 섹션*/
 .member-cards {
-    align-items: center;
-    text-align: center;
-    padding:    5px;
-    margin:     5%;
+  align-items: center;
+  text-align: center;
+  padding: 5px;
+  margin: 5%;
 }
 /* 멤버 카드 */
 .card {
-    display: block;
-    margin: 10px auto;
-    padding: auto;
-    max-width:  30%;
+  display: block;
+  margin: 10px auto;
+  padding: auto;
+  max-width: 30%;
 }
 /* 전체 팀원 소개의 멤버 이미지 */
 .member-image {
-    display: block;
-    margin: 0 auto;
-    max-width:  25%;
-    width: 25%;
-    height: 25%;
+  display: block;
+  margin: 0 auto;
+  max-width: 25%;
+  width: 25%;
+  height: 25%;
 }
 /* 모달창 내의 멤버 이미지 */
 #member-image {
-    max-width:  50%;
-    height: 50%;
+  max-width: 50%;
+  height: 50%;
 }

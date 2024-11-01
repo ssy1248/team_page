@@ -8,19 +8,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="../static/css/cheerStyle.css" rel="stylesheet">
     <style>
-        .justify-content-center {
-            margin-bottom: 50px;
-        }
-
-        .all_comments {
-            background-color: skyblue;
-            margin: 20px auto 30px auto;
-        }
-
-        .cheer-date {
-            font-size: xx-small;
-        }
+        
     </style>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
@@ -77,10 +67,12 @@
             let comment = row['cheer_comment'];
 
             let temp_html = `
-                <div class="row align-items-end">
-                    <div class="col-2 list-group-item cheer-date">${date}</div>
-                    <div class="col-2 list-group-item">${name}</div>
-                    <div class="col-8 list-group-item">${comment}</div>
+                <div class="cheer-container">
+                    <div class="cheer-row">
+                        <div class="cheer-date">${date}</div>
+                        <div class="cheer-name">${name}</div>
+                        <div class="cheer-comment">${comment}</div>
+                    </div>
                 </div>`;
             $(`#cheer_records`).append(temp_html);
         });
@@ -114,10 +106,12 @@
                 let comment = row['cheer_comment'];
 
                 let temp_html = `
-                <div class="row align-items-end">
-                    <div class="col-2 list-group-item cheer-date">${date}</div>
-                    <div class="col-2 list-group-item">${name}</div>
-                    <div class="col-8 list-group-item">${comment}</div>
+                <div class="cheer-container">
+                    <div class="cheer-row">
+                        <div class="cheer-date">${date}</div>
+                        <div class="cheer-name">${name}</div>
+                        <div class="cheer-comment">${comment}</div>
+                    </div>
                 </div>`;
                 $(`#cheer_records`).append(temp_html);
             });
@@ -129,15 +123,19 @@
     <div>
         <!-- 홈버튼 -->
         <a href="../main_home.html" target="_self" class="nav justify-content-end button-home"><img
-                src="../static/img/icon-home.png" alt="FAILED TO LOAD Home Icon" class="icon" width="30"
-                height="24" /></a>
-        <h1 class="nav justify-content-center">방명록</h1>
+                src="../static/img/icon-home.png" alt="FAILED TO LOAD Home Icon" class="icon" width="50"
+                height="50" style="margin-top:30px; margin-right:30px;"/></a>
+        <div class="cheerbanner">
+            <button class="custom-btn btn-16">응원의 한마디!</button>
+        </div>        
+        
     </div>
 
     <!--정렬 버튼-->
-    <button id="recentSortButton">
-        최신순
-    </button>
+        <button id="recentSortButton" class="btn btn-outline-dark" style="margin-left: 70px;">
+            최신순
+        </button>
+    
     <!--편집 버튼
     <button class="col" disabled>수정</button>
     <button class="col" disabled>삭제</button>-->
@@ -147,11 +145,17 @@
     </div>
 
     <!--응원 입력 칸-->
-    <div class="input-group mb-3" id="cheerup">
-        <input class="input-group-text" placeholder="닉네임을 입력하세요." id="cheer_user_name"></input>
-        <!--<input type="password" class="input-group-text" placeholder="암호를 입력하세요." id="cheer_user_password"></input>-->
-        <textarea class="form-control" placeholder="응원의 한 마디를 남겨주세요!" id="cheer_comment"></textarea>
-        <button class="btn btn-outline-secondary" type="button" id="cheer_button">게시</button>
+    <div class="cheerinput">
+        <div class="input-group mb-3" id="cheerup">
+            <input class="input-group-text" placeholder="닉네임을 입력하세요." id="cheer_user_name"></input>
+            <!--<input type="password" class="input-group-text" placeholder="암호를 입력하세요." id="cheer_user_password"></input>-->
+            <textarea class="form-control" placeholder="응원의 한 마디를 남겨주세요!" id="cheer_comment"></textarea>
+            <button class="btn btn-outline-dark" type="button" id="cheer_button">게시</button>
+        </div>
+    </div>
+
+    <div class="cheerimg">
+        <img src="https://media.tenor.com/G_ar9s-uj64AAAAj/psybirdb1oom.gif" alt="">
     </div>
 </body>
 
