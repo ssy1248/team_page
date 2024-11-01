@@ -153,6 +153,7 @@ header {
   height: 100vh;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
 }
 
 .modal .modal_popup,
@@ -166,6 +167,7 @@ header {
   padding: 20px;
   background: #ffffff;
   border-radius: 20px;
+  z-index: 1000;
 }
 
 .modal2 .modal2_popup .close2_btn,
@@ -182,6 +184,7 @@ header {
   color: #fff;
   cursor: pointer;
   transition: box-shadow 0.2s;
+  z-index: 1000;
 }
 
 .modal2.on,
