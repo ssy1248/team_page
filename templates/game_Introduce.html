@@ -35,6 +35,12 @@
             <button type="button" class="btn btn-light" id="login_btn">
               Login
             </button>
+            <a target="_self" class="button-home" id="home-btn" title="Return to main page"
+          ><img
+            src="../static/img/icon-home.png"
+            alt="FAILED TO LOAD Home Icon"
+            class="button-basic"
+        /></a>
           </div>
         </div>
       </div>
@@ -238,6 +244,11 @@
 
       // 좋아요, 싫어요 제한 횟수 저장 객체
       let actionLimits = JSON.parse(localStorage.getItem("actionLimits")) || {};
+
+      // 게임 추천 페이지로 이동
+      $("#home-btn").click(async function () {
+            document.location.href = "http://127.0.0.1:5500/main_home.html";
+      });
 
       // 카드 선택 기능 - https://velog.io/@leejpsd/document.on%EA%B3%BC-document.ready
       //https://developer.mozilla.org/ko/docs/Learn/CSS/Building_blocks/Selectors/Attribute_selectors

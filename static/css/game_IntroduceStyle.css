@@ -32,6 +32,21 @@ header {
   /* 자동 높이 조정 */
 }
 
+.button-home {
+  position: absolute; 
+  top: 15px;
+  right: 120px;
+  width: 30px;
+  height: 30px; 
+  cursor: pointer;
+}
+
+.button-home img {
+  width: 100%; 
+  height: auto; 
+  display: block;
+}
+
 #login_btn {
   padding: 0.375rem 0.75rem;
   /* 버튼 패딩 조정 */
