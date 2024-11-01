@@ -30,7 +30,8 @@ const firestoreDBName = "after_home";
 
 // #two 버튼 클릭 이벤트
 $("#two").click(async function () {
-  alert("수정할 내용을 입력하세요");
+  //alert("수정할 내용을 입력하세요");
+  alertSWAL('info', "페이지 이동", "수정할 내용을 입력하세요");
 
   // Firebase에서 첫 번째 데이터만 남기고 나머지 삭제
   const querySnapshot = await getDocs(collection(db, firestoreDBName));
@@ -160,20 +161,25 @@ $("#closebtn").click(async function () {
 
 // Alert 표시하기
 $("#movepage1").click(async function () {
-  alert("'팀 소개'만 수정할 수 있습니다!");
+  //alert("'팀 소개'만 수정할 수 있습니다!");
+  alertSWAL('warning', "주의", "'팀 소개'만 수정할 수 있습니다!");
 });
 
 // 게임 추천 페이지로 이동
 $("#movepage2").click(async function () {
-  alert("'팀 소개'만 수정할 수 있습니다!");
+  //alert("'팀 소개'만 수정할 수 있습니다!");
+  alertSWAL('warning', "주의", "'팀 소개'만 수정할 수 있습니다!");
+
 });
 
 // 메뉴 추천 페이지로 이동
 $("#movepage3").click(async function () {
-  alert("'팀 소개'만 수정할 수 있습니다!");
+  //alert("'팀 소개'만 수정할 수 있습니다!");
+  alertSWAL('warning', "주의", "'팀 소개'만 수정할 수 있습니다!");
 });
 
 // 응원의 한마디 페이지로 이동
 $("#movepage4").click(async function () {
-  alert("'팀 소개'만 수정할 수 있습니다!");
+  //alert("'팀 소개'만 수정할 수 있습니다!");
+  alertSWAL('warning', "주의", "'팀 소개'만 수정할 수 있습니다!");
 });

@@ -138,12 +138,27 @@ $("#submitbtn").click(async function () {
     loginModal.hide();
 
     // success 알림 표시
-    alert("수정 페이지로 이동합니다");
-
+    //alert("수정 페이지로 이동합니다");
+    Swal.fire({
+      title: "페이지 이동",
+      text: "수정 페이지로 이동합니다",
+      icon: 'success',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '승인',
+      cancelButtonText: '취소',
+      reverseButtons: true,   
+    }).then((result) => {
+      if (result.isConfirmed) {
+          // 링크로 target 방식으로 이동
+          sessionStorage.setItem("isAuthenticated", "true");
+          document.location.href = "./templates/modify_home.html";
+      }
+    })
     // 로그인 성공 시 세션 스토리지에 인증 정보 저장
-    sessionStorage.setItem("isAuthenticated", "true");
-
-    document.location.href = "./templates/modify_home.html";
+    //sessionStorage.setItem("isAuthenticated", "true");
+    //document.location.href = "./templates/modify_home.html";
   } else {
     loginMessage.classList.remove("hidden"); // 오류 메시지 표시
   }
