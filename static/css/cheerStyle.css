@@ -1,0 +1,169 @@
+@font-face {
+  font-family: "NEXON Lv1 Gothic OTF";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "NEXON Lv1 Gothic OTF";
+  font-weight: normal;
+  font-style: normal;
+}
+
+.justify-content-center {
+  margin-bottom: 50px;
+}
+
+.all_comments {
+  /* background-color: skyblue; */
+  margin: 20px auto 30px auto;
+}
+
+.cheer-date {
+  font-size: 12px;
+}
+
+.cheerinput {
+  background-color: rgba(220, 220, 220, 0.552);
+  /* width: 1000px; */
+
+  border-radius: 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  position: relative;
+
+  width: 80%; /* 또는 원하는 너비 */
+  max-width: 1000px; /* 최대 너비 설정 */
+  margin: 0 auto; /* 좌우 마진을 auto로 설정하여 가운데 정렬 */
+}
+
+.cheerbanner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  width: 100%;
+  height: 300px;
+}
+
+.cheerbanner > h1 {
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.cheerimg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+/* cheerbanner css */
+.custom-btn {
+  width: 90%;
+  height: 40%;
+  color: #fff;
+
+  border-radius: 5px;
+  padding: 10px 25px;
+  font-family: "NEXON Lv1 Gothic OTF";
+  font-size: 50px;
+  font-weight: bold;
+  background: transparent;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+.btn-16 {
+  border: none;
+  color: #000;
+}
+.btn-16:after {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 100%;
+  top: 0;
+  left: 0;
+  direction: rtl;
+  z-index: -1;
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
+  transition: all 0.3s ease;
+}
+.btn-16:hover {
+  color: #000;
+}
+.btn-16:hover:after {
+  left: auto;
+  right: 0;
+  width: 100%;
+}
+.btn-16:active {
+  top: 2px;
+}
+
+/* 댓글 창 css */
+.cheer-container {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cheer-row {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background-color: #ffffff;
+}
+
+.cheer-date {
+  flex: 0 0 20%;
+  font-size: 0.9em;
+  color: #888;
+}
+
+.cheer-name {
+  flex: 0 0 20%;
+  font-weight: bold;
+  color: #333;
+}
+
+.cheer-comment {
+  flex: 1;
+  padding-left: 15px;
+  color: #555;
+}
+
+@media (max-width: 768px) {
+  .cheer-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cheer-date,
+  .cheer-name,
+  .cheer-comment {
+    width: 100%;
+    padding: 5px 0;
+  }
+}

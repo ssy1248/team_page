@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>하던 NomDeul을 응원해주셔서 감사합니다.</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="../static/css/cheerStyle.css" rel="stylesheet">
+    <style>
+
+    </style>
+    <!-- 새롭게 추가한 game_intro_alerts: swal로 대체하기 위해 -->
+    <script src="../static/js/alertToSwal.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, collection, doc, updateDoc, addDoc, getDocs, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC8OlC6t8SQVKaZANQF-9X0h27gb7Vn0gI",
+            authDomain: "sparta-9f9c6.firebaseapp.com",
+            projectId: "sparta-9f9c6",
+            storageBucket: "sparta-9f9c6.appspot.com",
+            messagingSenderId: "215357385306",
+            appId: "1:215357385306:web:5bb59bde3e695427f8c663",
+            measurementId: "G-RZK2Q7334C"
+        };
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        //응원과 응원한 사람을 저장할 db 이름: cheer_list
+        const fireDBName = "cheer_list";
+        $("#cheer_button").click(async function () {
+            let name = $(`#cheer_user_name`).val();
+            let comment = $(`#cheer_comment`).val();
+            //console.log(name, comment);
+
+            //공란이 있으면 저장 안 함.
+            if (name == "") {
+                //alert("닉네임을 입력해주세요!");
+                alertSWAL('warning', "입력 오류", "닉네임을 입력해주세요!");
+            }
+            else if (comment == "") {
+                //alert("응원을 적어주세요!");
+                alertSWAL('warning', "입력 오류", "응원을 입력해주세요!");
+            }
+            else {
+                let doc = {
+                    createdAt: serverTimestamp(),
+                    'cheer_user_name': name,
+                    'cheer_comment': comment
+                };
+                await addDoc(collection(db, fireDBName), doc);
+                //alert("저장 완료!");
+                // alertSWAL('success', "저장 완료", "저장을 성공적으로 완료했습니다.");
+                // window.location.reload();
+                // 사용 예시
+                waitAlertSWAL('success', "저장 완료", "저장을 성공적으로 완료했습니다.").then(() => {
+                    window.location.reload();
+                });
+            }
+
+            // window.location.reload();
+        });
+
+        //방명록 전개
+        //정렬 버튼 누를 때마다 이 짓 반복하는데 함수로 묶을 수 없나?
+        let docs = await getDocs(collection(db, fireDBName));
+        docs.forEach((doc) => {
+            let row = doc.data();
+
+            let date = row.createdAt ? row.createdAt.toDate().toLocaleString() : new Date("2024-10-29").toLocaleString();
+            let name = row['cheer_user_name'];
+            let comment = row['cheer_comment'];
+
+            let temp_html = `
+                <div class="cheer-container">
+                    <div class="cheer-row">
+                        <div class="cheer-date">${date}</div>
+                        <div class="cheer-name">${name}</div>
+                        <div class="cheer-comment">${comment}</div>
+                    </div>
+                </div>`;
+            $(`#cheer_records`).append(temp_html);
+        });
+
+        //버튼 하나로 최신순, 역순으로 정렬
+        $('#recentSortButton').click(async function () {
+            const sortingQuery = query(collection(db, fireDBName), orderBy("createdAt", "desc"));
+            const reverseSortingQuery = query(collection(db, fireDBName), orderBy("createdAt"));
+            //버튼을 누를 때마다 버튼 이름이 교차로 변경
+            let querySnapshot;
+            let buttonName = document.getElementById('recentSortButton')
+            if (buttonName.innerText == '최신순') {
+                querySnapshot = await getDocs(sortingQuery);
+                buttonName.innerText = '오래된순';
+            }
+            else {
+                querySnapshot = await getDocs(reverseSortingQuery);
+                buttonName.innerText = '최신순';
+            }
+
+            $('#cheer_records').empty();
+
+            // Firestore에서 가져온 정렬된 데이터를 화면에 추가
+            querySnapshot.forEach((doc) => {
+                let row = doc.data();
+
+                // Firestore의 Timestamp를 Date 형식으로 변환 / 디폴트 값을 2024-10-29로 설정했으나 정렬을 눌렀을 때 firebase에 값이 없는 상황이 생김 그래서 firebase에서 강제로 값을 넣어놓은 상태
+                //근데 왜 디폴트 값을 줘도 정렬할 땐 사라지지?
+                let date = row.createdAt ? row.createdAt.toDate().toLocaleString() : new Date("2024-10-29").toLocaleString();
+                let name = row['cheer_user_name'];
+                let comment = row['cheer_comment'];
+
+                let temp_html = `
+                <div class="cheer-container">
+                    <div class="cheer-row">
+                        <div class="cheer-date">${date}</div>
+                        <div class="cheer-name">${name}</div>
+                        <div class="cheer-comment">${comment}</div>
+                    </div>
+                </div>`;
+                $(`#cheer_records`).append(temp_html);
+            });
+        });
+
+
+
+
+        ///
+        // home 버튼 눌렀을 때 세션 admin 모드 탈출
+        $(".button-home").click(async function () {
+            Swal.fire({
+                title: '홈 화면으로 이동하시겠습니까?',
+                text: '현재 탭에서 홈화면으로 이동합니다.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '승인',
+                cancelButtonText: '취소',
+                reverseButtons: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.open('../main_home.html', '_self');
+                }
+            })
+        });
+
+    </script>
+</head>
+
+<body>
+    <div>
+        <!-- 홈버튼 -->
+        <!-- <a href="../main_home.html" target="_self" class="nav justify-content-end button-home"><img
+                src="../static/img/icon-home.png" alt="FAILED TO LOAD Home Icon" class="icon" width="50" height="50"
+                style="margin-top:30px; margin-right:30px;" /></a> -->
+        <a target="_self" class="nav justify-content-end button-home"><img
+                src="../static/img/icon-home.png" alt="FAILED TO LOAD Home Icon" class="icon" width="50" height="50"
+                style="margin-top:30px; margin-right:30px;" /></a>
+        <div class="cheerbanner">
+            <button class="custom-btn btn-16">응원의 한마디!</button>
+        </div>
+
+    </div>
+
+    <!--정렬 버튼-->
+    <button id="recentSortButton" class="btn btn-outline-dark" style="margin-left: 70px;">
+        최신순
+    </button>
+
+    <!--편집 버튼
+    <button class="col" disabled>수정</button>
+    <button class="col" disabled>삭제</button>-->
+
+    <!--방명록 보여주는 공간-->
+    <div class="container text-center all_comments" id="cheer_records">
+    </div>
+
+    <!--응원 입력 칸-->
+    <div class="cheerinput">
+        <div class="input-group mb-3" id="cheerup">
+            <input class="input-group-text" placeholder="닉네임을 입력하세요." id="cheer_user_name"></input>
+            <!--<input type="password" class="input-group-text" placeholder="암호를 입력하세요." id="cheer_user_password"></input>-->
+            <textarea class="form-control" placeholder="응원의 한 마디를 남겨주세요!" id="cheer_comment"></textarea>
+            <button class="btn btn-outline-dark" type="button" id="cheer_button">게시</button>
+        </div>
+    </div>
+
+    <div class="cheerimg">
+        <img src="https://media.tenor.com/G_ar9s-uj64AAAAj/psybirdb1oom.gif" alt="">
+    </div>
+
+</body>
+
+</html>

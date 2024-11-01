@@ -1,0 +1,373 @@
+@font-face {
+  font-family: "NEXON Lv1 Gothic OTF";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: "NEXON Lv1 Gothic OTF";
+  font-weight: normal;
+  font-style: normal;
+}
+
+.banner {
+  height: 300px;
+  /* background-image: url(./image/background.png); */
+  background-position: center;
+  background-size: contain;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  font-family: "NEXON Lv1 Gothic OTF";
+  font-weight: normal;
+  font-style: normal;
+}
+
+.banner > p {
+  font-size: 20px;
+}
+
+h1 {
+  text-align: center;
+  font-weight: bold;
+  font-size: 60px;
+}
+
+.menucard {
+  /* background-color: green; */
+
+  width: 820px;
+  height: fit-content;
+
+  margin: 20px auto 20px auto;
+
+  border: solid 1px white;
+  padding: 20px;
+
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.col {
+  width: 400px;
+  height: 400px;
+
+  padding: 30px;
+  position: relative;
+}
+
+.inner {
+  width: 250px;
+  height: 100px;
+
+  /* 상하좌우 정중앙 정렬하기 */
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  margin: -25px 0 0 -25px;
+  /* 자식 요소 전체를 중앙 정렬하기 위해, 상단 및 왼쪽 margin을 마이너스 값으로 적용하기 */
+}
+
+.inner:hover {
+  transform: scale(1.3);
+  transition-duration: 0.5s;
+}
+
+.inner:not(:hover) {
+  transform: scale(1);
+  transition-duration: 0.5s;
+}
+
+.explaincard1 {
+  /* background-color: green; */
+  width: auto;
+  height: 300px;
+
+  text-align: center;
+
+  margin-top: 60px;
+}
+
+.explaincard2 {
+  width: auto;
+  height: 300px;
+
+  text-align: center;
+
+  margin-top: 60px;
+}
+
+.explaincard3 {
+  width: auto;
+  height: 300px;
+
+  text-align: center;
+
+  margin-top: 60px;
+}
+
+.card-header {
+  font-size: 20px;
+}
+
+.card-title {
+  font-size: 30px;
+}
+
+.hidden {
+  display: none;
+}
+
+.error {
+  color: red;
+}
+
+/*banner 버튼 CSS*/
+.custom-btn {
+  width: 400px;
+  height: 40px;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 25px;
+  font-weight: 500;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-block;
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+.btn-16 {
+  border: none;
+  color: #000;
+}
+
+.btn-16:after {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 100%;
+  top: 0;
+  left: 0;
+  direction: rtl;
+  z-index: -1;
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
+  transition: all 0.3s ease;
+}
+.btn-16:hover {
+  color: #000;
+}
+.btn-16:hover:after {
+  left: auto;
+  right: 0;
+  width: 100%;
+}
+.btn-16:active {
+  top: 2px;
+}
+
+/* Modal CSS */
+/* html {
+  min-height: 100%;
+  height: 100%;
+} */
+
+.content {
+  min-height: 100%;
+  height: 100%;
+  background: #fff;
+  position: relative;
+  z-index: 0;
+}
+
+.content h1 {
+  padding: 75px 0 30px 0;
+  text-align: center;
+  font-size: 30px;
+  line-height: 30px;
+}
+
+.content .buttons {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Modal Style */
+/* .modal {
+  overflow-y: initial !important;
+}
+
+.modal-background {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+} */
+
+html.modal-active,
+body.modal-active {
+  overflow: hidden;
+}
+#modal-container {
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: table;
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+  border-color: 5px solid black;
+
+  /* max-height: calc(100vh - 200px);
+  overflow-y: auto; */
+
+  /* hidden 처리 */
+  transform: scale(0);
+}
+#modal-container .modal-background {
+  display: table-cell;
+  background: rgba(0, 0, 0, 0.8);
+  text-align: center;
+  vertical-align: middle;
+}
+#modal-container .modal-background .modal {
+  background: #fff;
+  padding: 50px;
+  display: inline-block;
+  border-radius: 3px;
+  position: relative;
+}
+#modal-container .modal-background .modal h2 {
+  font-size: 25px;
+  line-height: 25px;
+  margin-bottom: 15px;
+}
+#modal-container .modal-background .modal p {
+  font-size: 18px;
+  line-height: 22px;
+}
+
+/* Revealing 방식 Modal Animation */
+/******** modal-container ***********/
+#modal-container.two {
+  transform: scale(1);
+}
+#modal-container.two .modal-background {
+  background: transparent;
+  animation: fadeIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+#modal-container.two .modal-background .modal {
+  /* 콘텐츠를 초기에 보여주지 않음 */
+  opacity: 0;
+  animation: scaleUp 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+.content.two {
+  /* 콘텐츠 크기를 줄임 */
+  animation: scaleBack 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+#modal-container.out {
+  /* 전체 모달 컨테이너를 숨김 처리(다른 애니메이션이 모두 끝난 0.5초 후에 처리하기 위해 0.5초 지연시킴 */
+  animation: quickScaleDown 0s 0.5s linear forwards;
+}
+#modal-container.out .modal-background {
+  animation: fadeOut 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+#modal-container.out .modal-background .modal {
+  animation: scaleDown 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+.content.out {
+  animation: scaleForward 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+/* Dimmed showing */
+@keyframes fadeIn {
+  0% {
+    background: transparent;
+  }
+  100% {
+    background: rgba(0, 0, 0, 0.7);
+  }
+}
+/* Show modal content from bottom to top */
+@keyframes scaleUp {
+  0% {
+    /* 모달 콘텐츠를 하단에 위치시킴 */
+    transform: scale(0.8) translateY(1000px);
+    opacity: 0;
+  }
+  100% {
+    /* 모달 콘텐츠를 본래 위치로 돌려놓음 */
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+/* Shrink content */
+@keyframes scaleBack {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.8);
+  }
+}
+/* Hide modal container*/
+@keyframes quickScaleDown {
+  0% {
+    transform: scale(1);
+  }
+  99.9% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+/* Dimmed hiding */
+@keyframes fadeOut {
+  0% {
+    background: rgba(0, 0, 0, 0.7);
+  }
+  100% {
+    background: transparent;
+  }
+}
+/* modal content from top to bottom */
+@keyframes scaleDown {
+  0% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8) translateY(1000px);
+    opacity: 0;
+  }
+}
+
+@keyframes scaleBack {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.85);
+  }
+}
+@keyframes scaleForward {
+  0% {
+    transform: scale(0.85);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

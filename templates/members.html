@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WHO WE ARE..</title>
+    <!-- CSS src -->
+    <link rel="stylesheet" href="../static/css/memberStyle.css" />
+    <link rel="stylesheet" href="../static/css/memberAdminStyle.css" />
+    <!-- BOOTSTRAP src -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "NEXON Lv1 Gothic OTF";
+        src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff")
+          format("woff");
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      * {
+        font-family: "NEXON Lv1 Gothic OTF";
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      body {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 멤버 카드 헤더 -->
+    <div class="member-header">
+      <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+        <!-- 헤더 메시지 -->
+        <div class="container-fluid py-5">
+          <div class="jumbotron-message">
+            <h1 class="display-5 fw-bold">팀원 소개</h1>
+            <p class="col-md-8 fs-4">저희 팀원들을 소개합니다!</p>
+          </div>
+        </div>
+        <!-- 홈버튼
+      <a href="../main_home.html" target="_self" class="button-home" title="Return to main page"><img src="../static/img/icon-home.png"
+          alt="FAILED TO LOAD Home Icon" class="button-basic" /></a> -->
+        <!-- 홈버튼 -->
+        <a target="_self" class="button-home" title="Return to main page"
+          ><img
+            src="../static/img/icon-home.png"
+            alt="FAILED TO LOAD Home Icon"
+            class="button-basic"
+        /></a>
+        <!-- 상단 바 : 일반 모드일 때, 어드민 버튼과 공간을 보여준다 -->
+        <div class="topbar-normal only-admin">
+          <!-- 어드민 버튼 -->
+          <button class="button-admin button-basic">
+            <img
+              src="../static/img/icon-admin.png"
+              alt="FAILED TO LOAD Admin Icon"
+              class="icon"
+              title="Enter Admin mode"
+            />
+          </button>
+          <!-- 어드민 키 입력 공간 : 초기에는 숨김 -->
+          <div class="admin-access" style="display: none">
+            <input
+              type="text"
+              placeholder="Enter the Admin Key .."
+              class="admin-access-input"
+            />
+            <button class="button-admin-key-enter">Enter</button>
+            <p class="text-info-admin-access"></p>
+          </div>
+        </div>
+        <!-- 상단 바 : 어드민 모드일 때, 어드민 모드 탈출 버튼을 보여준다 -->
+        <div class="topbar-admin only-admin" style="display: none">
+          <button class="button-exit-admin button-basic">
+            <img
+              src="../static/img/icon-exit-admin.png"
+              alt="FAILED TO LOAD Admin Exit Icon"
+              class="icon"
+              title="Exit Admin mode"
+            />
+          </button>
+        </div>
+        <!-- 어드민 로그인 관련 토스트 메시지 -->
+        <div class="admin-toast"></div>
+      </div>
+    </div>
+
+    <!-- 어드민 모드로 진입 시 : 나타나는 CRUD 조작바 -->
+    <div class="admin-controller only-admin" style="display: none">
+      <div class="admin-controller-panel">
+        <button class="button-admin-create button-admin-controller">
+          팀원 카드 생성
+        </button>
+        <button class="button-admin-delete button-admin-controller">
+          팀원 카드 삭제
+        </button>
+        <p class="text-info-number-selected"></p>
+      </div>
+    </div>
+
+    <!-- 멤버 카드 위치한 공간 -->
+    <div class="member-cards">
+      <div class="row row-cols-3">
+        <div class="member-card">
+          <div class="card">
+            <img src="" class="member-image" alt="..." />
+            <h4 class="member-name">손흥민</h4>
+          </div>
+        </div>
+        <div class="member-card">
+          <div class="card">
+            <img src="" class="member-image" alt="..." />
+            <h4 class="member-name">이강인</h4>
+          </div>
+        </div>
+        <div class="member-card">
+          <div class="card">
+            <img src=".." class="member-image" alt="..." />
+            <h4 class="member-name">황희찬</h4>
+          </div>
+        </div>
+        <div class="member-card">
+          <div class="card">
+            <img src=".." class="member-image" alt="..." />
+            <h4 class="member-name">마틴 외데고르</h4>
+          </div>
+        </div>
+        <div class="member-card">
+          <div class="card">
+            <img src=".." class="member-image" alt="..." />
+            <h4 class="member-name">주드 벨링엄</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL : popup window for member view -->
+    <div
+      class="modal fade"
+      id="memberModal"
+      tabindex="-1"
+      aria-labelledby="modal-label"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog member-modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modal-label">멤버 정보</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <h4 id="member-name">팀원 홍길동</h4>
+            <img
+              id="member-image"
+              src=""
+              alt="FAILED TO LOAD IMG"
+              class="img-fluid mb-3"
+            />
+            <p id="member-text">
+              MBTI : ENFP
+              <br />
+              자기소개 : HELLO WORLD!
+              <br />
+              관심사 :
+              <br />
+              좋아하는 게임 :
+              <br /><br />
+              + G A M E 키워드로 표현하기 +
+              <br />
+              G :
+              <br />
+              A :
+              <br />
+              M :
+              <br />
+              E :
+              <br /><br />
+            </p>
+            <!-- GitHub, Blog 아이콘과 링크 -->
+            <div class="modal-icons">
+              <a href="https://github.com/" target="_blank"
+                ><img
+                  src="../static/img/github-mark.png"
+                  alt="FAILED TO LOAD GitHub Icon"
+                  class="icon"
+              /></a>
+              <a href="https://velog.io" target="_blank"
+                ><img
+                  src="../static/img/icon-blog.png"
+                  alt="FAILED TO LOAD Blog Icon"
+                  class="icon"
+              /></a>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              닫기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- jquery and bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JS src -->
+    <script type="module" src="../static/js/members.js"></script>
+    <script type="module" src="../static/js/members_admin.js"></script>
+  </body>
+</html>
