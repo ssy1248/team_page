@@ -1,745 +1,717 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>게임 소개 페이지</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-    <style>
-        .myTitle {
-            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQoAAAC+CAMAAAD6ObEsAAAAElBMVEXH5K7I5a/M5rrQ6bvH5a3N5rief+IMAAAA3klEQVR4nO3Yyw6CMBRFURT5/182YXBMROVRHkLXGjftvZsZzX2gfdeNH2knXDPhyNxrut6EgYdnhi81p/boHT3Ff7h9cvRQx5DiRYqQIqQIKUKKkCKkCClCipAipAgpQoqQIqSIC6UoXeGiKea71F+sshRfAp3TyAeuMsWKFj63284LZpNCiupTNBvUWPjWbgsXkSJWS/Hryo13WMkGKc5KiqgjxaTJq0gxb0kppJBCCimOHgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIo8AU8xClt089oxAAAAAElFTkSuQmCC');
-            background-position: center;
-            background-size: cover;
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <link href="../static/css/game_IntroduceStyle.css" rel="stylesheet" />
+    <style></style>
+  </head>
 
-            height: 250px;
-            color: black;
-
-            /*박스 안의 내용을 정렬할땐 아래 4가지를 조절하면 된다.*/
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        header {
-            height: auto;
-            /* 자동 높이 조정 */
-        }
-
-        #login_btn {
-            padding: 0.375rem 0.75rem;
-            /* 버튼 패딩 조정 */
-            font-size: 1rem;
-            /* 버튼 글자 크기 조정 */
-            margin-left: auto;
-        }
-
-        .buttonGroup {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .buttonGroup button {
-            margin: 10px 10px 10px 10px;
-            border: 1px solid green;
-            /* Green border */
-            color: black;
-
-            padding: 10px 24px;
-            /* Some padding */
-            cursor: pointer;
-            /* Pointer/hand icon */
-            float: left;
-            /* Float the buttons side by side */
-        }
-
-        .myPostingBox {
-            width: 300px;
-            margin: 20px auto 20px auto;
-
-            border: 1px solid white;
-            padding: 10px;
-            border-radius: 5px;
-            display: none;
-        }
-
-        .form-floating>input {
-            background-color: transparent;
-            color: black;
-        }
-
-        .myPostingBox>button {
-            width: 100%;
-        }
-
-        .card {
-            display: flex;
-            flex-direction: row;
-            margin: 20px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .card-body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            /* 가운데 정렬 */
-            justify-content: center;
-            /* 수직 가운데 정렬 */
-            padding: 20px;
-            width: 60%;
-            color: black;
-            text-align: center;
-            /* 텍스트 중앙 정렬 */
-        }
-
-        .button-body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            width: 40%;
-        }
-
-        .card-img-top {
-            /* 일정한 이미지 크기 설정 */
-            width: 600px;
-            height: 400px;
-            object-fit: cover;
-            /* 이미지가 고정 크기 내에 꽉 차게 */
-            display: block;
-        }
-
-        /* 버튼 크기와 간격 조정 */
-        .button-body button {
-            margin: 10px 0;
-            width: 100%;
-        }
-
-        .card-title,
-        .card-text,
-        .card-people,
-        .card-date {
-            margin: 5px 0;
-        }
-
-        /* 선택된 카드에 빨간 테두리 */
-        .card.selected {
-            outline: 2px solid red;
-        }
-
-        /*모달 팝업 영역 스타일링*/
-        .modal,
-        .modal2,
-        .modal_three {
-            /*팝업 배경*/
-            display: none;
-            /*평소에는 보이지 않도록*/
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal .modal_popup,
-        .modal2 .modal2_popup,
-        .modal_three .modal_three_popup {
-            /*팝업*/
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            background: #ffffff;
-            border-radius: 20px;
-        }
-
-        .modal2 .modal2_popup .close2_btn,
-        .modal2 .modal2_popup .upload2_btn,
-        .modal .modal_popup .close_btn,
-        .modal .modal_popup .upload_btn,
-        .modal_three .modal_three_popup .close3_btn,
-        .modal_three .modal_three_popup .login_sel_btn {
-            display: block;
-            padding: 10px 20px;
-            background-color: rgb(116, 0, 0);
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            cursor: pointer;
-            transition: box-shadow 0.2s;
-        }
-
-        .modal2.on,
-        .modal_three.on,
-        .modal.on {
-            display: block;
-        }
-    </style>
-</head>
-
-<body>
+  <body>
     <header class="p-3 text-bg-dark">
-        <div class="container">
-            <div class="d-flex align-items-center justify-content-end">
-                <!-- 로그인 버튼 그룹 -->
-                <div class="login_button_group d-flex">
-                    <button type="button" id="login_btn">Login</button>
-                </div>
-            </div>
+      <div class="container">
+        <div class="d-flex align-items-center justify-content-end">
+          <!-- 로그인 버튼 그룹 -->
+          <div class="login_button_group d-flex">
+            <button type="button" class="btn btn-light" id="login_btn">
+              Login
+            </button>
+          </div>
         </div>
+      </div>
     </header>
 
     <div class="myTitle">
-        <h1>게임 소개</h1>
+      <h1>게임 소개</h1>
     </div>
 
     <div class="buttonGroup">
-        <button type="button" id="addGameButton">게임 올리기</button>
-        <button type="button" id="deleteGameButton">게임 삭제</button>
-        <button type="button" id="changeButton">게임 수정</button>
-        <button type="button" id="likeSortButton">좋아요 순으로 정렬</button>
-        <button type="button" id="recentSortButton">최신 순으로 정렬</button>
+      <button type="button" class="btn btn-outline-dark" id="addGameButton">
+        게임 올리기
+      </button>
+      <button type="button" class="btn btn-outline-dark" id="deleteGameButton">
+        게임 삭제
+      </button>
+      <button type="button" class="btn btn-outline-dark" id="changeButton">
+        게임 수정
+      </button>
+      <button type="button" class="btn btn-outline-dark" id="likeSortButton">
+        좋아요 순으로 정렬
+      </button>
+      <button type="button" class="btn btn-outline-dark" id="recentSortButton">
+        최신 순으로 정렬
+      </button>
     </div>
 
     <div class="modal">
-        <div class="modal_popup">
-            <h3>게임 등록</h3>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="image" placeholder="Game Image">
-                <label for="floatingInput">게임 이미지</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="title" placeholder="게임 이름">
-                <label for="floatingInput">게임 이름</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="comment" placeholder="게임 간단 소개">
-                <label for="floatingInput">게임 간단 소개</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="people" placeholder="추천인">
-                <label for="floatingInput">추천인</label>
-            </div>
-            <button id="postingbtn" type="button" class="upload_btn">올리기</button>
-            <button type="button" id="close_btn">닫기</button>
+      <div class="modal_popup">
+        <h3>게임 등록</h3>
+        <div class="form-floating mb-3">
+          <input
+            type="email"
+            class="form-control"
+            id="image"
+            placeholder="Game Image"
+          />
+          <label for="floatingInput">게임 이미지</label>
         </div>
+        <div class="form-floating mb-3">
+          <input
+            type="email"
+            class="form-control"
+            id="title"
+            placeholder="게임 이름"
+          />
+          <label for="floatingInput">게임 이름</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input
+            type="email"
+            class="form-control"
+            id="comment"
+            placeholder="게임 간단 소개"
+          />
+          <label for="floatingInput">게임 간단 소개</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input
+            type="email"
+            class="form-control"
+            id="people"
+            placeholder="추천인"
+          />
+          <label for="floatingInput">추천인</label>
+        </div>
+        <button id="postingbtn" type="button" class="upload_btn">올리기</button>
+        <button type="button" id="close_btn">닫기</button>
+      </div>
     </div>
 
     <div class="modal_three">
-        <div class="modal_three_popup">
-            <h3>로그인</h3>
-            <div class="form-floating mb-3">
-                <label for="floatingInput">ID</label>
-                <input type="email" class="form-control" id="id" placeholder="ID">
-            </div>
-            <div class="form-floating mb-3">
-                <label for="floatingInput">PW</label>
-                <input type="password" class="form-control" id="pw" placeholder="PW">
-            </div>
-            <button type="button" id="modal_login_btn">로그인</button>
-            <button type="button" id="close3_btn">닫기</button>
+      <div class="modal_three_popup">
+        <h3>로그인</h3>
+        <div class="form-floating mb-3">
+          <label for="floatingInput">ID</label>
+          <input type="email" class="form-control" id="id" placeholder="ID" />
         </div>
+        <div class="form-floating mb-3">
+          <label for="floatingInput">PW</label>
+          <input
+            type="password"
+            class="form-control"
+            id="pw"
+            placeholder="PW"
+          />
+        </div>
+        <button type="button" id="modal_login_btn">로그인</button>
+        <button type="button" id="close3_btn">닫기</button>
+      </div>
     </div>
 
     <div class="modal2">
-        <div class="modal2_popup">
-            <h3>게임 수정</h3>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="image" placeholder="Game Image">
-                <label for="floatingInput">게임 이미지</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="title" placeholder="게임 이름">
-                <label for="floatingInput">게임 이름</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="comment" placeholder="게임 간단 소개">
-                <label for="floatingInput">게임 간단 소개</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="people" placeholder="추천인">
-                <label for="floatingInput">추천인</label>
-            </div>
-            <button id="postingbtn" type="button" class="change_btn">수정</button>
-            <button type="button" id="close2_btn">닫기</button>
+      <div class="modal2_popup">
+        <h3>게임 수정</h3>
+        <div class="form-floating mb-3">
+          <input
+            type="email"
+            class="form-control"
+            id="image"
+            placeholder="Game Image"
+          />
+          <label for="floatingInput">게임 이미지</label>
         </div>
+        <div class="form-floating mb-3">
+          <input
+            type="email"
+            class="form-control"
+            id="title"
+            placeholder="게임 이름"
+          />
+          <label for="floatingInput">게임 이름</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input
+            type="email"
+            class="form-control"
+            id="comment"
+            placeholder="게임 간단 소개"
+          />
+          <label for="floatingInput">게임 간단 소개</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input
+            type="email"
+            class="form-control"
+            id="people"
+            placeholder="추천인"
+          />
+          <label for="floatingInput">추천인</label>
+        </div>
+        <button id="postingbtn" type="button" class="change_btn">수정</button>
+        <button type="button" id="close2_btn">닫기</button>
+      </div>
     </div>
 
-    <div id="card" class="row row-cols-1 row-cols-md-1 g-100">
-
-    </div>
+    <div id="card" class="row row-cols-1 row-cols-md-1 g-100"></div>
     <!-- 새롭게 추가한 game_intro_alerts: swal로 대체하기 위해 -->
     <script src="../static/js/game_intro_alerts.js"></script>
     <script type="module">
-        //어드민 계정으로 사용할 임시 아이디 & 비번
-        let adminId = "admin";
-        let adminPw = "1111";
-        let isAdmin = JSON.parse(localStorage.getItem('isAdmin')) || false; // Admin 권한 확인용 변수 (초기값: 저장된 값)
+      //어드민 계정으로 사용할 임시 아이디 & 비번
+      let adminId = "admin";
+      let adminPw = "1111";
+      let isAdmin = JSON.parse(localStorage.getItem("isAdmin")) || false; // Admin 권한 확인용 변수 (초기값: 저장된 값)
 
-        // 좋아요, 싫어요 카운트를 저장할 객체
-        let likeCounts = {};
-        let dislikeCounts = {};
+      // 좋아요, 싫어요 카운트를 저장할 객체
+      let likeCounts = {};
+      let dislikeCounts = {};
 
-        // 임시 firebase 
-        // Firebase SDK 모듈 import (중복 제거)
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getFirestore, collection, doc, updateDoc, addDoc, getDocs, orderBy, query, serverTimestamp, deleteDoc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+      // 임시 firebase
+      // Firebase SDK 모듈 import (중복 제거)
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        doc,
+        updateDoc,
+        addDoc,
+        getDocs,
+        orderBy,
+        query,
+        serverTimestamp,
+        deleteDoc,
+        setDoc,
+        getDoc,
+      } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-        // Firebase 구성 정보 설정
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-        const firebaseConfig = {
-            apiKey: "AIzaSyCsyFszrRmQewSW-2lTWW2bYprwm2OgGqQ",
-            authDomain: "sparta-4579e.firebaseapp.com",
-            projectId: "sparta-4579e",
-            storageBucket: "sparta-4579e.appspot.com",
-            messagingSenderId: "949246567615",
-            appId: "1:949246567615:web:0bba8c03086cd6bb5ed20a",
-            measurementId: "G-3QZH67YDVF"
+      // Firebase 구성 정보 설정
+      // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+      const firebaseConfig = {
+        apiKey: "AIzaSyCsyFszrRmQewSW-2lTWW2bYprwm2OgGqQ",
+        authDomain: "sparta-4579e.firebaseapp.com",
+        projectId: "sparta-4579e",
+        storageBucket: "sparta-4579e.appspot.com",
+        messagingSenderId: "949246567615",
+        appId: "1:949246567615:web:0bba8c03086cd6bb5ed20a",
+        measurementId: "G-3QZH67YDVF",
+      };
+
+      // Firebase 인스턴스 초기화
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+
+      // UUID 생성 함수
+      function generateUniqueId() {
+        return "xxxx-xxxx-4xxx-yxxx-xxxx".replace(/[xy]/g, function (c) {
+          const r = (Math.random() * 16) | 0,
+            v = c === "x" ? r : (r & 0x3) | 0x8;
+          return v.toString(16);
+        });
+      }
+
+      //만약 Admin이 접속하여 할때는 제한 해제
+      // 클라이언트의 고유 ID 생성 및 저장
+      //https://www.daleseo.com/nanoid/ -> 참고
+      if (!localStorage.getItem("clientUniqueId")) {
+        localStorage.setItem("clientUniqueId", generateUniqueId());
+      }
+      const clientUniqueId = localStorage.getItem("clientUniqueId");
+      console.log(clientUniqueId);
+
+      // 좋아요, 싫어요 제한 횟수 저장 객체
+      let actionLimits = JSON.parse(localStorage.getItem("actionLimits")) || {};
+
+      // 카드 선택 기능 - https://velog.io/@leejpsd/document.on%EA%B3%BC-document.ready
+      //https://developer.mozilla.org/ko/docs/Learn/CSS/Building_blocks/Selectors/Attribute_selectors
+      $(document).on("click", ".card", function (event) {
+        if (!$(event.target).is("button") && !$(event.target).is("img")) {
+          // 클릭된 요소가 버튼이 아닌 경우에만 실행
+          //selected 클래스 추가
+          $(this).toggleClass("selected");
+          //카드가 선택이 되면 아웃라인을 설정 아닐 시 기본 아웃라인을 보여줌
+          $(this).css(
+            "outline",
+            $(this).hasClass("selected") ? "2px solid red" : "auto"
+          );
+        }
+      });
+
+      // 좋아요 버튼 클릭 시 카운트 증가
+      $(document).on("click", ".goodbtn", async function () {
+        // 카드 ID를 기반으로 좋아요 카운트를 관리 -> https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes(참고)
+        //https://www.codeconcisely.com/posts/javascript-data-attributes/(참고)
+        const cardId = $(this).closest(".card").data("id");
+        actionLimits[cardId] = actionLimits[cardId] || {
+          likes: 0,
+          dislikes: 0,
+        };
+        //|| 사용한 이유는 likeCounts[cardId]가 초기에 undefined 이면 오류가 나오기에 undefined일시 초기값을 0으로 설정
+        if (isAdmin || actionLimits[cardId].likes < 5) {
+          // Admin일 경우 제한 없음
+          actionLimits[cardId].likes++;
+          likeCounts[cardId] = (likeCounts[cardId] || 0) + 1;
+          $(this).text(`좋아요 (${likeCounts[cardId]})`);
+          await updateLikeCount(cardId, likeCounts[cardId]);
+          localStorage.setItem("actionLimits", JSON.stringify(actionLimits));
+        } else {
+          alert("더 이상 좋아요를 누를 수 없습니다.");
+        }
+      });
+
+      // 싫어요 버튼 클릭 시 카운트 증가
+      $(document).on("click", ".badbtn", async function () {
+        const cardId = $(this).closest(".card").data("id");
+        actionLimits[cardId] = actionLimits[cardId] || {
+          likes: 0,
+          dislikes: 0,
         };
 
-        // Firebase 인스턴스 초기화
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        if (isAdmin || actionLimits[cardId].dislikes < 5) {
+          // Admin일 경우 제한 없음
+          actionLimits[cardId].dislikes++;
+          dislikeCounts[cardId] = (dislikeCounts[cardId] || 0) + 1;
+          $(this).text(`싫어요 (${dislikeCounts[cardId]})`);
+          await updateDislikeCount(cardId, dislikeCounts[cardId]);
+          localStorage.setItem("actionLimits", JSON.stringify(actionLimits));
+        } else {
+          alert("더 이상 싫어요를 누를 수 없습니다.");
+        }
+      });
 
-        // UUID 생성 함수
-        function generateUniqueId() {
-            return 'xxxx-xxxx-4xxx-yxxx-xxxx'.replace(/[xy]/g, function (c) {
-                const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
+      // 로그인 모달 관련 요소 참조
+      const modal_three = document.querySelector(".modal_three");
+      const loginBtn = document.getElementById("login_btn");
+      const modalThreeClose = document.querySelector(".close3_btn");
+
+      // 로그아웃 버튼 생성 및 기본 숨기기
+      const logoutBtn = document.createElement("button");
+      logoutBtn.textContent = "Logout";
+      logoutBtn.id = "logout_btn";
+      loginBtn.parentNode.appendChild(logoutBtn); // 로그인 버튼의 부모 요소에 로그아웃 버튼 추가
+
+      // 로그인 상태 확인 후 버튼 상태 업데이트
+      function updateLoginState() {
+        if (isAdmin) {
+          loginBtn.style.display = "none"; // 로그인 버튼 숨기기
+          logoutBtn.style.display = "inline-block"; // 로그아웃 버튼 표시
+        } else {
+          loginBtn.style.display = "inline-block";
+          logoutBtn.style.display = "none";
+        }
+      }
+
+      //윈도우 새로고침 시 로그인을 유지하고 싶지만 튄다
+      window.addEventListener("load", () => {
+        updateLoginState(); // 페이지 로드 시 로그인 상태 확인
+      });
+
+      // 로그인 버튼 클릭 시 로그인 모달 표시
+      loginBtn.addEventListener("click", () => {
+        modal_three.classList.add("on");
+      });
+
+      // 닫기 버튼 클릭 시 로그인 모달 숨기기
+      document.getElementById("close3_btn").addEventListener("click", () => {
+        modal_three.classList.remove("on");
+      });
+
+      //로그인 처리
+      $("#modal_login_btn").click(function () {
+        let id = document.getElementById("id").value;
+        let pw = document.getElementById("pw").value;
+
+        if (id === adminId && pw === adminPw) {
+          isAdmin = true; // Admin 권한 부여
+          localStorage.setItem("isAdmin", JSON.stringify(isAdmin));
+          //alert("로그인 성공");
+          alertSWAL("success", "로그인 성공", "로그인에 성공했습니다.");
+          modal_three.classList.remove("on");
+          loginBtn.style.display = "none"; // 로그인 버튼 숨기기
+          logoutBtn.style.display = "inline-block"; // 로그아웃 버튼 표시
+        } else {
+          //alert("로그인 실패");
+          alertSWAL("error", "로그인 실패", "잘못된 입력입니다.");
+        }
+      });
+
+      // 로그아웃 처리
+      logoutBtn.addEventListener("click", () => {
+        isAdmin = false; // Admin 권한 해제
+        localStorage.setItem("isAdmin", JSON.stringify(isAdmin));
+        loginBtn.style.display = "inline-block"; // 로그인 버튼 표시
+        logoutBtn.style.display = "none"; // 로그아웃 버튼 숨기기
+        //alert("로그아웃 되었습니다.");
+        alertSWAL("info", "로그아웃", "로그아웃 하셨습니다.");
+      });
+
+      // Firestore에서 문서 삭제 및 화면에서 카드 삭제 함수
+      async function deleteSelectedCard(cardId) {
+        try {
+          const docRef = doc(db, "games", cardId);
+          await deleteDoc(docRef);
+          $(`.card[data-id="${cardId}"]`).remove();
+          console.log(`Card with ID ${cardId} deleted successfully`);
+        } catch (error) {
+          console.error("Error deleting document:", error);
+        }
+      }
+
+      // 게임 삭제 버튼 클릭 시 선택된 카드 삭제
+      $("#deleteGameButton").click(async function () {
+        //https://firebase.google.com/docs/firestore/manage-data/delete-data?hl=ko -> 참고
+        // each -> 선택된 요소들에 대해 하나씩 순차적으로 함수를 실행할 수 있게 합니다.
+        if (!isAdmin) {
+          //alert("삭제 권한이 없습니다.");
+          alertSWAL("error", "삭제 실패", "삭제 권한이 없습니다.");
+          return;
+        }
+
+        $(".card.selected").each(async function () {
+          const cardId = $(this).data("id"); // 선택된 카드의 data-id에서 docId를 추출
+          await deleteSelectedCard(cardId);
+        });
+      });
+
+      // Firestore에 좋아요 카운트 업데이트 함수
+      //https://firebase.google.com/docs/database/admin/save-data?hl=ko#node.js 참고
+      async function updateLikeCount(cardId, newCount) {
+        const docRef = doc(db, "games", cardId);
+        await updateDoc(docRef, { likeCount: newCount });
+      }
+
+      // Firestore에 싫어요 카운트 업데이트 함수 || 싫어요 10?개 이상 받으면 자동 삭제?
+      async function updateDislikeCount(cardId, newCount) {
+        const docRef = doc(db, "games", cardId);
+        await updateDoc(docRef, { dislikeCount: newCount });
+
+        if (newCount >= 10) {
+          await deleteSelectedCard(cardId);
+        }
+      }
+
+      const modal2 = document.querySelector(".modal2");
+      const modalOpen2 = document.querySelector(".changeButton");
+      const modalClose2 = document.querySelector(".close2_btn");
+
+      $("#close2_btn").click(function () {
+        modal2.classList.remove("on");
+      });
+
+      //데이터 베이스 수정 -> AI 도움
+      $("#changeButton").click(async function () {
+        if (!isAdmin) {
+          //alert("수정 권한이 없습니다.");
+          alertSWAL("warning", "수정 실패", "수정 권한이 없습니다.");
+          return;
+        }
+
+        const selectedCard = $(".card.selected"); // 선택된 카드 요소
+        if (selectedCard.length === 0) {
+          //alert("수정할 카드를 선택해주세요.");
+          alertSWAL("info", "카드 선택", "수정할 카드를 선택해주세요.");
+          return;
+        }
+
+        const cardId = selectedCard.data("id"); // 선택된 카드의 data-id에서 카드 ID 추출
+
+        if (!cardId) {
+          //alert("카드 ID가 잘못되었습니다.");
+          alertSWAL("error", "카드 검색 실패", "카드 ID가 잘못되었습니다.");
+          return;
+        }
+
+        // Firestore에서 해당 카드 데이터 가져오기
+        const docRef = doc(db, "games", cardId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const cardData = docSnap.data();
+
+          // 모달 내 입력 필드에 데이터 채우기
+          $(".modal2")
+            .find("#image")
+            .val(cardData.image || "");
+          $(".modal2")
+            .find("#title")
+            .val(cardData.title || "");
+          $(".modal2")
+            .find("#comment")
+            .val(cardData.comment || "");
+          $(".modal2")
+            .find("#people")
+            .val(cardData.people || "");
+
+          // 수정 모달 열기
+          $(".modal2").addClass("on");
+
+          // 수정 버튼 클릭 시 데이터 업데이트
+          $(".change_btn")
+            .off("click")
+            .on("click", async function () {
+              // undefined가 아닌 값만 포함하도록 필터링
+              const updatedData = {};
+              const imageVal = $(".modal2").find("#image").val();
+              const titleVal = $(".modal2").find("#title").val();
+              const commentVal = $(".modal2").find("#comment").val();
+              const peopleVal = $(".modal2").find("#people").val();
+
+              if (imageVal !== undefined && imageVal !== "")
+                updatedData.image = imageVal;
+              if (titleVal !== undefined && titleVal !== "")
+                updatedData.title = titleVal;
+              if (commentVal !== undefined && commentVal !== "")
+                updatedData.comment = commentVal;
+              if (peopleVal !== undefined && peopleVal !== "")
+                updatedData.people = peopleVal;
+
+              // Firestore에 업데이트
+              try {
+                await updateDoc(docRef, updatedData);
+                //alert("카드 정보가 업데이트되었습니다.");
+                alertSWAL(
+                  "correct",
+                  "카드 정보 업데이트",
+                  "카드 정보가 업데이트되었습니다."
+                );
+                $(".modal2").removeClass("on");
+                window.location.reload(); // 페이지 새로고침하여 업데이트된 데이터 반영
+              } catch (error) {
+                console.error("Error updating document:", error);
+                //alert("문서 업데이트 중 오류가 발생했습니다.");
+                alertSWAL(
+                  "error",
+                  "오류 발생",
+                  "문서 업데이트 중 오류가 발생했습니다."
+                );
+              }
             });
+        } else {
+          //alert("선택한 카드 정보를 가져올 수 없습니다.");
+          alertSWAL(
+            "warning",
+            "정보 가져오기 실패",
+            "선택한 카드 정보를 가져올 수 없습니다."
+          );
         }
+      });
 
-        //만약 Admin이 접속하여 할때는 제한 해제
-        // 클라이언트의 고유 ID 생성 및 저장
-        //https://www.daleseo.com/nanoid/ -> 참고
-        if (!localStorage.getItem('clientUniqueId')) {
-            localStorage.setItem('clientUniqueId', generateUniqueId());
-        }
-        const clientUniqueId = localStorage.getItem('clientUniqueId');
-        console.log(clientUniqueId);
+      //좋아요 순으로 정렬
+      $("#likeSortButton").click(async function () {
+        // Firestore에서 likeCount 기준으로 내림차순 정렬하여 데이터 가져오기
+        //https://firebase.google.com/docs/firestore?hl=ko(참고)
+        const q = query(collection(db, "games"), orderBy("likeCount", "desc"));
+        const querySnapshot = await getDocs(q);
 
-        // 좋아요, 싫어요 제한 횟수 저장 객체
-        let actionLimits = JSON.parse(localStorage.getItem('actionLimits')) || {};
+        // 화면의 카드 요소 초기화
+        $("#card").empty();
 
-        // 카드 선택 기능 - https://velog.io/@leejpsd/document.on%EA%B3%BC-document.ready
-        //https://developer.mozilla.org/ko/docs/Learn/CSS/Building_blocks/Selectors/Attribute_selectors
-        $(document).on('click', '.card', function (event) {
-            if (!$(event.target).is('button') && !$(event.target).is('img')) { // 클릭된 요소가 버튼이 아닌 경우에만 실행
-                //selected 클래스 추가
-                $(this).toggleClass('selected');
-                //카드가 선택이 되면 아웃라인을 설정 아닐 시 기본 아웃라인을 보여줌
-                $(this).css('outline', $(this).hasClass('selected') ? '2px solid red' : 'auto');
-            }
-        });
+        // Firestore에서 가져온 정렬된 데이터를 화면에 추가
+        querySnapshot.forEach((doc) => {
+          let row = doc.data();
+          let docId = doc.id;
 
-        // 좋아요 버튼 클릭 시 카운트 증가
-        $(document).on('click', '.goodbtn', async function () {
-            // 카드 ID를 기반으로 좋아요 카운트를 관리 -> https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes(참고)
-            //https://www.codeconcisely.com/posts/javascript-data-attributes/(참고)
-            const cardId = $(this).closest('.card').data('id');
-            actionLimits[cardId] = actionLimits[cardId] || { likes: 0, dislikes: 0 };
-            //|| 사용한 이유는 likeCounts[cardId]가 초기에 undefined 이면 오류가 나오기에 undefined일시 초기값을 0으로 설정
-            if (isAdmin || actionLimits[cardId].likes < 5) { // Admin일 경우 제한 없음
-                actionLimits[cardId].likes++;
-                likeCounts[cardId] = (likeCounts[cardId] || 0) + 1;
-                $(this).text(`좋아요 (${likeCounts[cardId]})`);
-                await updateLikeCount(cardId, likeCounts[cardId]);
-                localStorage.setItem('actionLimits', JSON.stringify(actionLimits));
-            } else {
-                alert('더 이상 좋아요를 누를 수 없습니다.');
-            }
-        });
+          // Firestore의 Timestamp를 Date 형식으로 변환 / 기존에 올라간
+          let createdAt = row.createdAt
+            ? row.createdAt.toDate().toLocaleDateString()
+            : new Date("2024-10-29").toLocaleDateString();
 
-        // 싫어요 버튼 클릭 시 카운트 증가
-        $(document).on('click', '.badbtn', async function () {
-            const cardId = $(this).closest('.card').data('id');
-            actionLimits[cardId] = actionLimits[cardId] || { likes: 0, dislikes: 0 };
-
-            if (isAdmin || actionLimits[cardId].dislikes < 5) { // Admin일 경우 제한 없음
-                actionLimits[cardId].dislikes++;
-                dislikeCounts[cardId] = (dislikeCounts[cardId] || 0) + 1;
-                $(this).text(`싫어요 (${dislikeCounts[cardId]})`);
-                await updateDislikeCount(cardId, dislikeCounts[cardId]);
-                localStorage.setItem('actionLimits', JSON.stringify(actionLimits));
-            } else {
-                alert('더 이상 싫어요를 누를 수 없습니다.');
-            }
-        });
-
-        // 로그인 모달 관련 요소 참조
-        const modal_three = document.querySelector('.modal_three');
-        const loginBtn = document.getElementById('login_btn');
-        const modalThreeClose = document.querySelector('.close3_btn');
-
-        // 로그아웃 버튼 생성 및 기본 숨기기
-        const logoutBtn = document.createElement('button');
-        logoutBtn.textContent = "Logout";
-        logoutBtn.id = "logout_btn";
-        loginBtn.parentNode.appendChild(logoutBtn); // 로그인 버튼의 부모 요소에 로그아웃 버튼 추가
-
-        // 로그인 상태 확인 후 버튼 상태 업데이트
-        function updateLoginState() {
-            if (isAdmin) {
-                loginBtn.style.display = "none"; // 로그인 버튼 숨기기
-                logoutBtn.style.display = "inline-block"; // 로그아웃 버튼 표시
-            } else {
-                loginBtn.style.display = "inline-block";
-                logoutBtn.style.display = "none";
-            }
-        }
-
-        //윈도우 새로고침 시 로그인을 유지하고 싶지만 튄다
-        window.addEventListener('load', () => {
-            updateLoginState(); // 페이지 로드 시 로그인 상태 확인
-        });
-
-        // 로그인 버튼 클릭 시 로그인 모달 표시
-        loginBtn.addEventListener('click', () => {
-            modal_three.classList.add('on');
-        });
-
-        // 닫기 버튼 클릭 시 로그인 모달 숨기기
-        document.getElementById('close3_btn').addEventListener('click', () => {
-            modal_three.classList.remove('on');
-        });
-
-        //로그인 처리
-        $('#modal_login_btn').click(function () {
-            let id = document.getElementById('id').value;
-            let pw = document.getElementById('pw').value;
-
-            if (id === adminId && pw === adminPw) {
-                isAdmin = true; // Admin 권한 부여
-                localStorage.setItem('isAdmin', JSON.stringify(isAdmin));
-                //alert("로그인 성공");
-                alertSWAL('success', "로그인 성공","로그인에 성공했습니다.");
-                modal_three.classList.remove('on');
-                loginBtn.style.display = "none"; // 로그인 버튼 숨기기
-                logoutBtn.style.display = "inline-block"; // 로그아웃 버튼 표시
-            } else {
-                //alert("로그인 실패");
-                alertSWAL('error', "로그인 실패","잘못된 입력입니다.");
-            }
-        });
-
-        // 로그아웃 처리
-        logoutBtn.addEventListener('click', () => {
-            isAdmin = false; // Admin 권한 해제
-            localStorage.setItem('isAdmin', JSON.stringify(isAdmin));
-            loginBtn.style.display = "inline-block"; // 로그인 버튼 표시
-            logoutBtn.style.display = "none"; // 로그아웃 버튼 숨기기
-            //alert("로그아웃 되었습니다.");
-            alertSWAL('info', "로그아웃","로그아웃 하셨습니다.");
-        });
-
-        // Firestore에서 문서 삭제 및 화면에서 카드 삭제 함수
-        async function deleteSelectedCard(cardId) {
-            try {
-                const docRef = doc(db, "games", cardId);
-                await deleteDoc(docRef);
-                $(`.card[data-id="${cardId}"]`).remove();
-                console.log(`Card with ID ${cardId} deleted successfully`);
-            } catch (error) {
-                console.error("Error deleting document:", error);
-            }
-        }
-
-        // 게임 삭제 버튼 클릭 시 선택된 카드 삭제
-        $('#deleteGameButton').click(async function () {
-            //https://firebase.google.com/docs/firestore/manage-data/delete-data?hl=ko -> 참고
-            // each -> 선택된 요소들에 대해 하나씩 순차적으로 함수를 실행할 수 있게 합니다.
-            if (!isAdmin) {
-                //alert("삭제 권한이 없습니다.");
-                alertSWAL('error', "삭제 실패","삭제 권한이 없습니다.");
-                return;
-            }
-
-            $('.card.selected').each(async function () {
-                const cardId = $(this).data('id'); // 선택된 카드의 data-id에서 docId를 추출
-                await deleteSelectedCard(cardId);
-            });
-        });
-
-        // Firestore에 좋아요 카운트 업데이트 함수
-        //https://firebase.google.com/docs/database/admin/save-data?hl=ko#node.js 참고
-        async function updateLikeCount(cardId, newCount) {
-            const docRef = doc(db, "games", cardId);
-            await updateDoc(docRef, { likeCount: newCount });
-        }
-
-        // Firestore에 싫어요 카운트 업데이트 함수 || 싫어요 10?개 이상 받으면 자동 삭제?
-        async function updateDislikeCount(cardId, newCount) {
-            const docRef = doc(db, "games", cardId);
-            await updateDoc(docRef, { dislikeCount: newCount });
-
-            if (newCount >= 10) {
-                await deleteSelectedCard(cardId);
-            }
-        }
-
-        const modal2 = document.querySelector('.modal2');
-        const modalOpen2 = document.querySelector('.changeButton');
-        const modalClose2 = document.querySelector('.close2_btn');
-
-        $('#close2_btn').click(function () {
-            modal2.classList.remove('on');
-        });
-
-        //데이터 베이스 수정 -> AI 도움
-        $('#changeButton').click(async function () {
-            if (!isAdmin) {
-                //alert("수정 권한이 없습니다.");
-                alertSWAL('warning', "수정 실패","수정 권한이 없습니다.");
-                return;
-            }
-
-            const selectedCard = $('.card.selected'); // 선택된 카드 요소
-            if (selectedCard.length === 0) {
-                //alert("수정할 카드를 선택해주세요.");
-                alertSWAL('info', "카드 선택","수정할 카드를 선택해주세요.");
-                return;
-            }
-
-            const cardId = selectedCard.data('id'); // 선택된 카드의 data-id에서 카드 ID 추출
-
-            if (!cardId) {
-                //alert("카드 ID가 잘못되었습니다.");
-                alertSWAL('error', "카드 검색 실패","카드 ID가 잘못되었습니다.");
-                return;
-            }
-
-            // Firestore에서 해당 카드 데이터 가져오기
-            const docRef = doc(db, "games", cardId);
-            const docSnap = await getDoc(docRef);
-
-            if (docSnap.exists()) {
-                const cardData = docSnap.data();
-
-                // 모달 내 입력 필드에 데이터 채우기
-                $('.modal2').find('#image').val(cardData.image || '');
-                $('.modal2').find('#title').val(cardData.title || '');
-                $('.modal2').find('#comment').val(cardData.comment || '');
-                $('.modal2').find('#people').val(cardData.people || '');
-
-                // 수정 모달 열기
-                $('.modal2').addClass('on');
-
-                // 수정 버튼 클릭 시 데이터 업데이트
-                $('.change_btn').off('click').on('click', async function () {
-                    // undefined가 아닌 값만 포함하도록 필터링
-                    const updatedData = {};
-                    const imageVal = $('.modal2').find('#image').val();
-                    const titleVal = $('.modal2').find('#title').val();
-                    const commentVal = $('.modal2').find('#comment').val();
-                    const peopleVal = $('.modal2').find('#people').val();
-
-                    if (imageVal !== undefined && imageVal !== '')
-                        updatedData.image = imageVal;
-                    if (titleVal !== undefined && titleVal !== '')
-                        updatedData.title = titleVal;
-                    if (commentVal !== undefined && commentVal !== '')
-                        updatedData.comment = commentVal;
-                    if (peopleVal !== undefined && peopleVal !== '')
-                        updatedData.people = peopleVal;
-
-                    // Firestore에 업데이트
-                    try {
-                        await updateDoc(docRef, updatedData);
-                        //alert("카드 정보가 업데이트되었습니다.");
-                        alertSWAL('correct', "카드 정보 업데이트","카드 정보가 업데이트되었습니다.");
-                        $('.modal2').removeClass('on');
-                        window.location.reload(); // 페이지 새로고침하여 업데이트된 데이터 반영
-                    } catch (error) {
-                        console.error("Error updating document:", error);
-                        //alert("문서 업데이트 중 오류가 발생했습니다.");
-                        alertSWAL('error', "오류 발생","문서 업데이트 중 오류가 발생했습니다.");
-                    }
-                });
-            } else {
-                //alert("선택한 카드 정보를 가져올 수 없습니다.");
-                alertSWAL('warning', "정보 가져오기 실패","선택한 카드 정보를 가져올 수 없습니다.");
-            }
-        });
-
-        //좋아요 순으로 정렬
-        $('#likeSortButton').click(async function () {
-            // Firestore에서 likeCount 기준으로 내림차순 정렬하여 데이터 가져오기
-            //https://firebase.google.com/docs/firestore?hl=ko(참고)
-            const q = query(collection(db, "games"), orderBy("likeCount", "desc"));
-            const querySnapshot = await getDocs(q);
-
-            // 화면의 카드 요소 초기화
-            $('#card').empty();
-
-            // Firestore에서 가져온 정렬된 데이터를 화면에 추가
-            querySnapshot.forEach((doc) => {
-                let row = doc.data();
-                let docId = doc.id;
-
-                // Firestore의 Timestamp를 Date 형식으로 변환 / 기존에 올라간 
-                let createdAt = row.createdAt ? row.createdAt.toDate().toLocaleDateString() : new Date("2024-10-29").toLocaleDateString();
-
-                //최신 정렬과 같이 likecount가 값이 있어야 정렬이 되는데 처음 좋아요를 받기 전까지 firebase에서 likeCount가 안 생겨서 강제로 생성해 놓은 상태
-                let card = `
+          //최신 정렬과 같이 likecount가 값이 있어야 정렬이 되는데 처음 좋아요를 받기 전까지 firebase에서 likeCount가 안 생겨서 강제로 생성해 놓은 상태
+          let card = `
                     <div class="col">
                         <div class="card" data-id="${docId}" style="width: auto; height: auto;">
                             <img src="${row.image}"
                                 class="card-img-top" alt="...">
                             <div class="card-body">
-                                <h3 class="card-title">게임 이름 : ${row.title}</h3>
-                                <p class="card-text">게임 소개 : ${row.comment}</p>
-                                <p class="card-people">추천인 : ${row.people}</p>
+                                <h3 class="card-title">게임 이름 : ${
+                                  row.title
+                                }</h3>
+                                <p class="card-text">게임 소개 : ${
+                                  row.comment
+                                }</p>
+                                <p class="card-people">추천인 : ${
+                                  row.people
+                                }</p>
                                 <p class="card-date">등록 날짜 : ${createdAt}</p>
                             </div>
                             <div class="button-body">
-                                <button type="button" class="btn btn-danger goodbtn" style="height: 60px; width: 200px;">좋아요 (${row.likeCount || 0})</button>
-                                <button type="button" class="btn btn-primary badbtn" style="height: 60px; width: 200px;">싫어요 (${row.dislikeCount || 0})</button>
+                                <button type="button" class="btn btn-danger goodbtn" style="height: 60px; width: 200px;">좋아요 (${
+                                  row.likeCount || 0
+                                })</button>
+                                <button type="button" class="btn btn-primary badbtn" style="height: 60px; width: 200px;">싫어요 (${
+                                  row.dislikeCount || 0
+                                })</button>
                             </div>
                         </div>
                     </div>`;
-                $('#card').append(card);
-            });
+          $("#card").append(card);
         });
+      });
 
-        //최신 순으로 정렬 - 등록 날짜 순으로 정렬
-        $('#recentSortButton').click(async function () {
-            const q = query(collection(db, "games"), orderBy("createdAt", "desc"));
-            const querySnapshot = await getDocs(q);
+      //최신 순으로 정렬 - 등록 날짜 순으로 정렬
+      $("#recentSortButton").click(async function () {
+        const q = query(collection(db, "games"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(q);
 
-            $('#card').empty();
+        $("#card").empty();
 
-            // Firestore에서 가져온 정렬된 데이터를 화면에 추가
-            querySnapshot.forEach((doc) => {
-                let row = doc.data();
-                let docId = doc.id;
+        // Firestore에서 가져온 정렬된 데이터를 화면에 추가
+        querySnapshot.forEach((doc) => {
+          let row = doc.data();
+          let docId = doc.id;
 
-                // Firestore의 Timestamp를 Date 형식으로 변환 / 디폴트 값을 2024-10-29로 설정했으나 정렬을 눌렀을 때 firebase에 값이 없는 상황이 생김 그래서 firebase에서 강제로 값을 넣어놓은 상태
-                let createdAt = row.createdAt ? row.createdAt.toDate().toLocaleDateString() : "2024-10-29";
+          // Firestore의 Timestamp를 Date 형식으로 변환 / 디폴트 값을 2024-10-29로 설정했으나 정렬을 눌렀을 때 firebase에 값이 없는 상황이 생김 그래서 firebase에서 강제로 값을 넣어놓은 상태
+          let createdAt = row.createdAt
+            ? row.createdAt.toDate().toLocaleDateString()
+            : "2024-10-29";
 
-                let card = `
+          let card = `
                     <div class="col">
                         <div class="card" data-id="${docId}" style="width: auto; height: auto;">
                             <img src="${row.image}"
                                 class="card-img-top" alt="...">
                             <div class="card-body">
-                                <h3 class="card-title">게임 이름 : ${row.title}</h3>
-                                <p class="card-text">게임 소개 : ${row.comment}</p>
-                                <p class="card-people">추천인 : ${row.people}</p>
+                                <h3 class="card-title">게임 이름 : ${
+                                  row.title
+                                }</h3>
+                                <p class="card-text">게임 소개 : ${
+                                  row.comment
+                                }</p>
+                                <p class="card-people">추천인 : ${
+                                  row.people
+                                }</p>
                                 <p class="card-date">등록 날짜 : ${createdAt}</p>
                             </div>
                             <div class="button-body">
-                                <button type="button" class="btn btn-danger goodbtn" style="height: 60px; width: 200px;">좋아요 (${row.likeCount || 0})</button>
-                                <button type="button" class="btn btn-primary badbtn" style="height: 60px; width: 200px;">싫어요 (${row.dislikeCount || 0})</button>
+                                <button type="button" class="btn btn-danger goodbtn" style="height: 60px; width: 200px;">좋아요 (${
+                                  row.likeCount || 0
+                                })</button>
+                                <button type="button" class="btn btn-primary badbtn" style="height: 60px; width: 200px;">싫어요 (${
+                                  row.dislikeCount || 0
+                                })</button>
                             </div>
                         </div>
                     </div>`;
-                $('#card').append(card);
-            });
+          $("#card").append(card);
         });
+      });
 
-        // Firebase에 문서 추가할 때 count 관리
-        async function incrementAndAddDocument() {
-            const counterRef = doc(db, "counters", "gameCount");
+      // Firebase에 문서 추가할 때 count 관리
+      async function incrementAndAddDocument() {
+        const counterRef = doc(db, "counters", "gameCount");
 
-            // Firestore에서 count 가져오기 및 증가
-            let count = 0;
-            try {
-                const counterDoc = await getDoc(counterRef);
-                if (counterDoc.exists()) {
-                    count = counterDoc.data().count;
-                }
-            } catch (error) {
-                console.error("Error fetching count:", error);
-            }
-
-            // count 증가 및 Firestore에 업데이트
-            count++;
-            await setDoc(counterRef, { count: count }, { merge: true });
-
-            // 게임 문서에 추가할 데이터
-            const gameDoc = {
-                image: $('#image').val(),
-                title: $('#title').val(),
-                comment: $('#comment').val(),
-                people: $('#people').val(),
-                createdAt: serverTimestamp(),
-                likeCount: 0,
-                count: count // count 필드 추가
-            };
-
-            // Firestore에 새로운 문서 추가
-            await addDoc(collection(db, "games"), gameDoc);
-
-            //alert("저장 완료!");
-            alertSWAL('correct', "저장 완료","정보 저장하는 데에 성공했습니다.");
-
-            window.location.reload();
+        // Firestore에서 count 가져오기 및 증가
+        let count = 0;
+        try {
+          const counterDoc = await getDoc(counterRef);
+          if (counterDoc.exists()) {
+            count = counterDoc.data().count;
+          }
+        } catch (error) {
+          console.error("Error fetching count:", error);
         }
 
-        //firebase 에 게임 추가 데이터 값 저장
-        $('#postingbtn').click(async function () {
-            await incrementAndAddDocument();
-        });
+        // count 증가 및 Firestore에 업데이트
+        count++;
+        await setDoc(counterRef, { count: count }, { merge: true });
 
-        // 모달 사용을 위한 버튼 & 팝업 창 찾기
-        const modal1 = document.querySelector('.modal');
-        const modalOpen1 = document.querySelector('.addGameButton');
-        const modalClose1 = document.querySelector('.close_btn');
+        // 게임 문서에 추가할 데이터
+        const gameDoc = {
+          image: $("#image").val(),
+          title: $("#title").val(),
+          comment: $("#comment").val(),
+          people: $("#people").val(),
+          createdAt: serverTimestamp(),
+          likeCount: 0,
+          count: count, // count 필드 추가
+        };
 
-        //모달을 이용해서
-        //https://velog.io/@seungmimi/javascript%EB%AA%A8%EB%8B%AC-%ED%8C%9D%EC%97%85-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0
-        $('#addGameButton').click(async function () {
-            modal1.classList.add('on');
-        });
+        // Firestore에 새로운 문서 추가
+        await addDoc(collection(db, "games"), gameDoc);
 
-        $('#close_btn').click(function () {
-            modal1.classList.remove('on');
-        });
+        //alert("저장 완료!");
+        alertSWAL("correct", "저장 완료", "정보 저장하는 데에 성공했습니다.");
 
-        //게임 이미지 클릭 하면 링크
-        $(document).on('click', '.card-img-top', function () {
-            // 클릭한 카드에서 제목을 추출
-            let gameTitle = $(this).closest('.card').find('.card-title').text().replace("게임 이름 : ", "").trim();
+        window.location.reload();
+      }
 
-            // Google 검색 URL 생성
-            let searchUrl = `https://www.google.com/search?q=${encodeURIComponent(gameTitle)}`;
+      //firebase 에 게임 추가 데이터 값 저장
+      $("#postingbtn").click(async function () {
+        await incrementAndAddDocument();
+      });
 
-            // 새 창으로 링크 열기
-            window.open(searchUrl, "_blank");
-        });
+      // 모달 사용을 위한 버튼 & 팝업 창 찾기
+      const modal1 = document.querySelector(".modal");
+      const modalOpen1 = document.querySelector(".addGameButton");
+      const modalClose1 = document.querySelector(".close_btn");
 
-        //db에 저장된 데이터 값 가져오기
-        let docs = await getDocs(collection(db, "games"));
-        docs.forEach(doc => {
-            let row = doc.data();
-            let docId = doc.id; // Firebase 문서 ID를 고유 ID로 사용
+      //모달을 이용해서
+      //https://velog.io/@seungmimi/javascript%EB%AA%A8%EB%8B%AC-%ED%8C%9D%EC%97%85-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0
+      $("#addGameButton").click(async function () {
+        modal1.classList.add("on");
+      });
 
-            // Firestore에서 가져온 likeCount와 dislikeCount 값을 화면에 적용
-            likeCounts[docId] = row.likeCount || 0;
-            dislikeCounts[docId] = row.dislikeCount || 0;
+      $("#close_btn").click(function () {
+        modal1.classList.remove("on");
+      });
 
-            // Firestore에서 등록 날짜 가져오기 및 변환
-            let createdAt = row.createdAt ? row.createdAt.toDate().toLocaleDateString() : new Date("2024-10-29").toLocaleDateString();
+      //게임 이미지 클릭 하면 링크
+      $(document).on("click", ".card-img-top", function () {
+        // 클릭한 카드에서 제목을 추출
+        let gameTitle = $(this)
+          .closest(".card")
+          .find(".card-title")
+          .text()
+          .replace("게임 이름 : ", "")
+          .trim();
 
-            let image = row['image'];
-            let title = row['title'];
-            let comment = row['comment'];
-            let people = row['people'];
+        // Google 검색 URL 생성
+        let searchUrl = `https://www.google.com/search?q=${encodeURIComponent(
+          gameTitle
+        )}`;
 
-            let card = `
+        // 새 창으로 링크 열기
+        window.open(searchUrl, "_blank");
+      });
+
+      //db에 저장된 데이터 값 가져오기
+      let docs = await getDocs(collection(db, "games"));
+      docs.forEach((doc) => {
+        let row = doc.data();
+        let docId = doc.id; // Firebase 문서 ID를 고유 ID로 사용
+
+        // Firestore에서 가져온 likeCount와 dislikeCount 값을 화면에 적용
+        likeCounts[docId] = row.likeCount || 0;
+        dislikeCounts[docId] = row.dislikeCount || 0;
+
+        // Firestore에서 등록 날짜 가져오기 및 변환
+        let createdAt = row.createdAt
+          ? row.createdAt.toDate().toLocaleDateString()
+          : new Date("2024-10-29").toLocaleDateString();
+
+        let image = row["image"];
+        let title = row["title"];
+        let comment = row["comment"];
+        let people = row["people"];
+
+        let card = `
             <div class="col">
                 <div class="card" data-id="${docId}" style="width: auto; height: auto;">
                     <img src="${image}"
@@ -755,10 +727,9 @@
                         <button type="button" class="btn btn-primary badbtn" style="height: 60px; width: 200px;">싫어요 ${dislikeCounts[docId]}</button>
                     </div>
                 </div>
-            </div>`
-            $('#card').append(card);
-        });
+            </div>`;
+        $("#card").append(card);
+      });
     </script>
-</body>
-
+  </body>
 </html>
