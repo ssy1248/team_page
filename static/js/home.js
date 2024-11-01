@@ -79,7 +79,7 @@ $(document).ready(async function () {
               <div class="card border-dark mb-3" style="max-width: auto; height:300px;">
                 <div class="card-header">팀 Notion 링크</div>
                 <div class="card-body" style="margin-top:40px;">
-                  <h5 class="card-title">▼▼▼▼5조의 notion 링크▼▼▼▼</h5>
+                  <h5 class="card-title">▼▼▼▼1조의 notion 링크▼▼▼▼</h5>
                   <a href="${data.link}">
                     <img src="${data.linkimage}" alt="">
                   </a>
@@ -142,20 +142,20 @@ $("#submitbtn").click(async function () {
     Swal.fire({
       title: "페이지 이동",
       text: "수정 페이지로 이동합니다",
-      icon: 'success',
+      icon: "success",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: '승인',
-      cancelButtonText: '취소',
-      reverseButtons: true,   
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "승인",
+      cancelButtonText: "취소",
+      reverseButtons: true,
     }).then((result) => {
       if (result.isConfirmed) {
-          // 링크로 target 방식으로 이동
-          sessionStorage.setItem("isAuthenticated", "true");
-          document.location.href = "./templates/modify_home.html";
+        // 링크로 target 방식으로 이동
+        sessionStorage.setItem("isAuthenticated", "true");
+        document.location.href = "./templates/modify_home.html";
       }
-    })
+    });
     // 로그인 성공 시 세션 스토리지에 인증 정보 저장
     //sessionStorage.setItem("isAuthenticated", "true");
     //document.location.href = "./templates/modify_home.html";
