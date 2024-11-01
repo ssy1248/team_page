@@ -1,17 +1,3 @@
-@font-face {
-  font-family: "NEXON Lv1 Gothic OTF";
-  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
-}
-
-body {
-  font-family: "NEXON Lv1 Gothic OTF";
-  font-weight: normal;
-  font-style: normal;
-}
-
 /* 모달 팝업창 스타일*/
 .member-modal {
   max-width: 50% !important;
@@ -62,7 +48,7 @@ body {
 /* 멤버카드뷰 버튼 */
 .button-view {
   position: absolute;
-  top: 50%;
+  top: 0%;
   right: 5%;
   transform: translateY(-50%); /* 세로 중앙 맞춤 */
 }
@@ -99,4 +85,78 @@ body {
 #member-image {
   max-width: 50%;
   height: 50%;
+}
+
+/* 카드 뒤집기 애니메이션 */
+.hover__wrap {
+  /* background-color: green; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+}
+.hover__wrap > div {
+  max-width: 400px;
+  margin: 3%;
+  position: relative;
+  perspective: 1000px;
+}
+.hover__wrap > div img {
+  width: 100%;
+  border: 10px solid #f0f8ff;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  vertical-align: top;
+}
+.hover__wrap > div .front {
+  transition: transform 1s;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+.hover__wrap > div .back {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: -1;
+  transition: transform 1s;
+  /* transform-style: preserve-3d; */
+}
+.hover__wrap > div figcaption {
+  background: rgba(0, 0, 0, 0.4);
+  color: #f8f8ff;
+  padding: 10px;
+  text-align: center;
+  line-height: 1.5;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) translateZ(100px);
+  width: 60%;
+  backface-visibility: hidden;
+}
+
+/* hover effect */
+.hover__updown .front {
+  transform: rotateX(0deg);
+}
+.hover__updown:hover .front {
+  transform: rotateX(180deg);
+}
+.hover__updown .back {
+  transform: rotateX(-180deg);
+}
+.hover__updown:hover .back {
+  transform: rotateX(0deg);
+}
+.hover__leftright .front {
+  transform: rotateY(0deg);
+}
+.hover__leftright:hover .front {
+  transform: rotateY(180deg);
+}
+.hover__leftright .back {
+  transform: rotateY(-180deg);
+}
+.hover__leftright:hover .back {
+  transform: rotateY(0deg);
 }
